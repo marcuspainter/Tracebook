@@ -37,12 +37,14 @@ struct ContentView: View {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
 
                     // https://stackoverflow.com/questions/64269873/how-can-i-push-a-view-from-a-toolbaritem
+                    
+                    /*
                     NavigationLink {
-                        // ProfileView(profile: traceListViewModel.profile)
+                        //ProfileView(profile: traceListViewModel.profile)
                     } label: {
                         Label("Profile", systemImage: "person")
                     }
-
+                    */
                     NavigationLink {
                         SettingsView()
                     } label: {
