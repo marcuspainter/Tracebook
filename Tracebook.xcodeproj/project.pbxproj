@@ -88,7 +88,6 @@
 		1927F6552B33C18300B1C474 /* MicrophoneListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneListResponse.swift; sourceTree = "<group>"; };
 		1927F6572B33C87500B1C474 /* InterfaceListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceListResponse.swift; sourceTree = "<group>"; };
 		1927F6592B33F85200B1C474 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
-		1927F65B2B351E3500B1C474 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../MPAudioAnalyzer/MPAudioAnalyzer/Info.plist; sourceTree = "<group>"; };
 		19776B7E2B30849000DB0E1B /* measurementcontent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurementcontent.json; sourceTree = "<group>"; };
 		19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementContentResponse.swift; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
@@ -155,7 +154,6 @@
 		191C76CC2B214CA800406EAD /* Tracebook */ = {
 			isa = PBXGroup;
 			children = (
-				1927F65B2B351E3500B1C474 /* Info.plist */,
 				19C8F73D2B23FF420072ED04 /* Data */,
 				19C8F7212B23E7BA0072ED04 /* Utilities */,
 				19C8F72B2B23E8240072ED04 /* Settings */,
@@ -619,7 +617,6 @@
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Tracebook/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tracebook;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -652,7 +649,6 @@
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Tracebook/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tracebook;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
