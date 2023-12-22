@@ -64,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		191BF15A2B352FF10008FEBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		191C76CA2B214CA800406EAD /* Tracebook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracebook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		191C76CD2B214CA800406EAD /* TracebookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracebookApp.swift; sourceTree = "<group>"; };
 		191C76CF2B214CA800406EAD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -154,6 +155,7 @@
 		191C76CC2B214CA800406EAD /* Tracebook */ = {
 			isa = PBXGroup;
 			children = (
+				191BF15A2B352FF10008FEBC /* Info.plist */,
 				19C8F73D2B23FF420072ED04 /* Data */,
 				19C8F7212B23E7BA0072ED04 /* Utilities */,
 				19C8F72B2B23E8240072ED04 /* Settings */,
@@ -617,6 +619,7 @@
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tracebook;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -649,6 +652,7 @@
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tracebook;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
