@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		191BF15D2B353A9D0008FEBC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19F4FEE22B2A1DE80065B2E2 /* Launch Screen.storyboard */; };
 		191C76CE2B214CA800406EAD /* TracebookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C76CD2B214CA800406EAD /* TracebookApp.swift */; };
 		191C76D02B214CA800406EAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C76CF2B214CA800406EAD /* ContentView.swift */; };
 		191C76D22B214CAB00406EAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 191C76D12B214CAB00406EAD /* Assets.xcassets */; };
@@ -395,6 +396,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				191BF15D2B353A9D0008FEBC /* Launch Screen.storyboard in Resources */,
 				19C8F7362B23F9100072ED04 /* speakers.json in Resources */,
 				1927F6482B308FAE00B1C474 /* measurementcontent.json in Resources */,
 				19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */,
