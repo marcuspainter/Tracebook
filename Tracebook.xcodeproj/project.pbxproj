@@ -88,6 +88,7 @@
 		1927F6552B33C18300B1C474 /* MicrophoneListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneListResponse.swift; sourceTree = "<group>"; };
 		1927F6572B33C87500B1C474 /* InterfaceListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceListResponse.swift; sourceTree = "<group>"; };
 		1927F6592B33F85200B1C474 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		1927F65B2B351E3500B1C474 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../MPAudioAnalyzer/MPAudioAnalyzer/Info.plist; sourceTree = "<group>"; };
 		19776B7E2B30849000DB0E1B /* measurementcontent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurementcontent.json; sourceTree = "<group>"; };
 		19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementContentResponse.swift; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
@@ -154,6 +155,7 @@
 		191C76CC2B214CA800406EAD /* Tracebook */ = {
 			isa = PBXGroup;
 			children = (
+				1927F65B2B351E3500B1C474 /* Info.plist */,
 				19C8F73D2B23FF420072ED04 /* Data */,
 				19C8F7212B23E7BA0072ED04 /* Utilities */,
 				19C8F72B2B23E8240072ED04 /* Settings */,
@@ -630,7 +632,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -663,7 +665,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
