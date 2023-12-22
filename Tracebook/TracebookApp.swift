@@ -12,6 +12,10 @@ struct TracebookApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    ColorSchemeManager.shared.applyColorScheme()
+                    // disableUIConstraintBasedLayoutLogUnsatisfiable()
+                }
         }
     }
 }
