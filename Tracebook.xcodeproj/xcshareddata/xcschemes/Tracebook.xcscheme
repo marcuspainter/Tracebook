@@ -77,7 +77,7 @@
          <EnvironmentVariable
             key = "CORESVG_VERBOSE"
             value = ""
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>

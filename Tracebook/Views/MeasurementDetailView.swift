@@ -151,6 +151,8 @@ struct MeasurementDetailView: View {
                         .frame(height: 200)
                     }
                     .navigationTitle(measurement.loudspeakerModel)
+                //.toolbarBackground(Color("tracebookColor"), for: .navigationBar)
+                 //   .toolbarColorScheme(.light, for: .tabBar)
 
                     HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)

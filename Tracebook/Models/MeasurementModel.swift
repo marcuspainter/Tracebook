@@ -22,7 +22,7 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var loudspeakerBrand: String = ""
     var category: String = ""
     var delayLocator: Double = 0.0
-    var distance: Double = 0.0
+    @Published var distance: Double = 0.0
     var dspPreset: String = ""
     var photoSetup: String = ""
     var fileAdditional: [String] = []
@@ -47,7 +47,7 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var splGroundPlane: Bool = false
     var responseLoudspeakerModel: String = ""
     var systemLatency: Double = 0.0
-    var microphone: String = ""
+    @Published var microphone: String = ""
     var measurement: String = ""
     var interface: String = ""
     var micCorrectionCurve: String = ""
@@ -83,7 +83,12 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
         let newMagnitudeData = self.tfMagnitude.enumerated().map {
             let index = $0
             let f = self.tfFrequency[index]
-            let c = self.tfCoherence[index]
+            
+            var c = 100.0
+            // Check coherence data exists
+            if self.tfCoherence.count > 0 {
+                c = self.tfCoherence[index]
+            }
             let m = $1
             if c < threshold {
                 return (f, Double.nan)
@@ -99,7 +104,12 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
         let newPhaseData = self.tfPhase.enumerated().map {
             let index = $0
             let f = self.tfFrequency[index]
-            let c = self.tfCoherence[index]
+            
+            var c = 100.0
+            // Check coherence data exists
+            if self.tfCoherence.count > 0 {
+                c = self.tfCoherence[index]
+            }
             if c < threshold {
                 return (f, Double.nan)
             }
@@ -123,7 +133,7 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
             if c < threshold {
                 return (f, Double.nan)
             } else {
-                return (f, (c / 3.33))
+                return (f, (c / 3.33)) // Scale to fit graph axis
             }
         }
         return newCoherenceData

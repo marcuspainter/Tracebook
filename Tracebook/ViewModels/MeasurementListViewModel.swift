@@ -9,8 +9,13 @@ import Foundation
 
 @MainActor
 class MeasurementListViewModel: ObservableObject {
+    
+    @Published var searchText: String = ""
 
     @Published var measurements: [MeasurementModel] = []
+    
+    
+    @Published var measurementViewModels: [MeasurementViewModel] = []
 
     private var apiClient = TracebookAPIClient()
     private var measurementStore: [MeasurementModel] = []
@@ -23,6 +28,56 @@ class MeasurementListViewModel: ObservableObject {
         } else {
             measurements = measurementStore
         }
+    }
+
+    func getMeasurementList() async {
+
+        measurements.removeAll()
+        measurementStore.removeAll()
+        
+        //await self.getMicrophones()
+        //await self.getInterfaces()
+
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                await self.getMicrophones()
+            }
+            group.addTask {
+                await self.getInterfaces()
+            }
+        }
+
+        var cursor: Int = 0
+        while true {
+            let measurementListResponse = await apiClient.getMeasurementList(cursor: cursor)
+        
+            if let measurementList = measurementListResponse?.response.results {
+                for measurementItem in measurementList {
+                    let model = convertListToModel(measurement: measurementItem)
+                    measurementStore.append(model)
+                }
+            }
+            
+            cursor = cursor + (measurementListResponse?.response.count)!
+            if measurementListResponse?.response.remaining == 0 {
+                break
+            }
+        }
+            
+        measurements = measurementStore
+
+        for model in measurementStore {
+            if let content = await apiClient.getMeasurementContent(id: model.additionalContent) {
+                convertContentToModel(model: model, content: content.response)
+                model.microphone = microphones[model.microphone] ?? model.microphone
+                model.interface = interfaces[model.interface] ?? model.interface
+            }
+            else {
+                print("No content")
+            }
+        }
+        
+        measurements = measurementStore
     }
 
     private func getMicrophones() async {
@@ -46,47 +101,7 @@ class MeasurementListViewModel: ObservableObject {
             }
         }
     }
-
-    func getMeasurementList() async {
-
-        measurements.removeAll()
-        measurementStore.removeAll()
-
-        // await getMicrophones()
-        // await getInterfaces()
-
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.getMicrophones()
-            }
-            group.addTask {
-                await self.getInterfaces()
-            }
-        }
-
-        var cursor: Int = 0
-        let measurementListResponse = await apiClient.getMeasurementList(cursor: cursor)
-        if let measurementList = measurementListResponse?.response.results {
-
-            for measurementItem in measurementList {
-                let model = convertListToModel(measurement: measurementItem)
-                measurementStore.append(model)
-            }
-
-            measurements = measurementStore
-
-            for model in measurementStore {
-                let content = await apiClient.getMeasurementContent(id: model.additionalContent)
-                convertContentToModel(model: model, content: content!.response)
-                model.microphone = microphones[model.microphone] ?? model.microphone
-                model.interface = interfaces[model.interface] ?? model.interface
-            }
-        }
-
-        // Update view
-        measurements = measurementStore
-    }
-
+    
     private func convertListToModel(measurement: MeasurementItem) -> MeasurementModel {
         let model = MeasurementModel()
 
@@ -158,72 +173,13 @@ class MeasurementListViewModel: ObservableObject {
 
         // Scale to 0...100
         model.tfCoherence = model.tfCoherence.map { $0 * 100.0}
-
     }
 
     private func convertDataArray(dataText: String?) -> [Double] {
         let array = dataText?.components(separatedBy: ",") ?? []
         let text = array.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-        let reseult = text.map { Double($0) ?? 0.0 }
-        return reseult
-    }
-
-    func processMagnitude(model: MeasurementModel, delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
-        let newMagnitudeData = model.tfMagnitude.enumerated().map {
-            let index = $0
-            let f = model.tfFrequency[index]
-            let c = model.tfCoherence[index]
-            let m = $1
-            if c < threshold {
-                return (f, Double.nan)
-            } else {
-                return (f, m)
-            }
-        }
-        return newMagnitudeData
-    }
-
-    func processPhase(model: MeasurementModel, delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
-
-        let newPhaseData = model.tfPhase.enumerated().map {
-            let index = $0
-            let f = model.tfFrequency[index]
-            let c = model.tfCoherence[index]
-            if c < threshold {
-                return (f, Double.nan)
-            }
-
-            var p = $1
-            p = p + (f * 360.0 * (delay * -1 / 1000))
-            if isPolarityInverted {
-                p = p + 180.0
-            }
-            p = wrapTo180(p)
-            return (f, p)
-        }
-        return newPhaseData
-    }
-
-    func processCoherence(model: MeasurementModel, delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
-        let newCoherenceData = model.tfCoherence.enumerated().map {
-            let index = $0
-            let f = model.tfFrequency[index]
-            let c = $1
-            if c < threshold {
-                return (f, Double.nan)
-            } else {
-                return (f, (c / 3.33))
-            }
-        }
-        return newCoherenceData
-    }
-
-    private func wrapTo180(_ x: Double) -> Double {
-        var y = (x + 180.0).truncatingRemainder(dividingBy: 360.0)
-        if y < 0.0 {
-            y += 360.0
-        }
-        return y - 180.0
+        let result = text.map { Double($0) ?? 0.0 }
+        return result
     }
 
 }

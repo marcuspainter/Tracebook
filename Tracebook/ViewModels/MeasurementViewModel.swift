@@ -9,6 +9,10 @@ import Foundation
 
 @MainActor
 class MeasurementViewModel: ObservableObject {
+    
+    @Published var isPolarityInverted: Bool = false
+    @Published var delay: Double = 0.0
+    @Published var threshold: Double = 0.0
 
     var firmwareVersion: String = ""
     var loudspeakerBrand: String = ""
@@ -39,7 +43,7 @@ class MeasurementViewModel: ObservableObject {
     var splGroundPlane: Bool = false
     var responseLoudspeakerModel: String = ""
     var systemLatency: Double = 0.0
-    var microphone: String = ""
+    @Published var microphone: String = ""
     var measurement: String = ""
     var interface: String = ""
     var micCorrectionCurve: String = ""
@@ -48,7 +52,12 @@ class MeasurementViewModel: ObservableObject {
     var tfPhase: [Double] = []
     var tfCoherence: [Double] = []
     var id: String = ""
-
+    
+    @Published var magitudeData: [(Double, Double)] = []
+    @Published var phaseData: [(Double, Double)] = []
+    @Published var coherenceData: [(Double, Double)] = []
+    @Published var originalPhaseData: [(Double, Double)] = []
+    
     func processMagnitude(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
         let newMagnitudeData = self.tfMagnitude.enumerated().map {
             let index = $0

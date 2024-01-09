@@ -15,6 +15,18 @@ struct ContentView: View {
 
     @State var username: String = ""
     @State var password: String = ""
+    
+    init() {
+        //UISearchBar.appearance().backgroundColor = UIColor.white
+        //UISearchBar.appearance().tintColor = UIColor.white
+        //UISearchBar.appearance().barTintColor = UIColor.white
+        
+        // https://stackoverflow.com/questions/69511960/customize-searchable-search-field-swiftui-ios-15
+        //UISearchBar.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setImage(<your search image, e.g., magnifyingGlassImage>, for: .search, state: .normal)
+        //    UISearchBar.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setImage(<your clear image, e.g., closeImage>, for: .clear, state: .normal)
+
+        
+    }
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -32,6 +44,9 @@ struct ContentView: View {
             }
             .navigationTitle("Tracebook")
             .navigationBarTitleDisplayMode(.inline)
+            //.toolbarBackground(Color("tracebookColor"), for: .navigationBar)
+            //.toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
 
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -65,6 +80,11 @@ struct ContentView: View {
             .presentationDetents([.medium, .large])
         }
         .onAppear {
+            //UISearchBar.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.tintColor
+            //UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.label
+            //UISearchTextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor.black
+           // UISearchTextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search", attributes: [.foregroundColor: UIColor.red])
+            
             Task {
                 await measurementListViewModel.getMeasurementList()
             }
