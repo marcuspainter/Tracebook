@@ -22,7 +22,6 @@
 		191C77182B2234D600406EAD /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C77172B2234D600406EAD /* ProfileModel.swift */; };
 		191C771E2B22929600406EAD /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C771D2B22929600406EAD /* DismissButton.swift */; };
 		1927F6472B30885900B1C474 /* MeasurementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6462B30885900B1C474 /* MeasurementModel.swift */; };
-		1927F6482B308FAE00B1C474 /* measurementcontent.json in Resources */ = {isa = PBXBuildFile; fileRef = 19776B7E2B30849000DB0E1B /* measurementcontent.json */; };
 		1927F64C2B30948800B1C474 /* MeasurementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F64B2B30948800B1C474 /* MeasurementViewModel.swift */; };
 		1927F64E2B325BF800B1C474 /* TracebookAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F64D2B325BF800B1C474 /* TracebookAPIClient.swift */; };
 		1927F6502B327FF300B1C474 /* MeasurementListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F64F2B327FF300B1C474 /* MeasurementListModel.swift */; };
@@ -30,7 +29,7 @@
 		1927F6562B33C18300B1C474 /* MicrophoneListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6552B33C18300B1C474 /* MicrophoneListResponse.swift */; };
 		1927F6582B33C87500B1C474 /* InterfaceListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6572B33C87500B1C474 /* InterfaceListResponse.swift */; };
 		1927F65A2B33F85200B1C474 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6592B33F85200B1C474 /* ErrorResponse.swift */; };
-		19776B7F2B30849000DB0E1B /* measurementcontent.json in Sources */ = {isa = PBXBuildFile; fileRef = 19776B7E2B30849000DB0E1B /* measurementcontent.json */; };
+		1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */ = {isa = PBXBuildFile; fileRef = 19776B7E2B30849000DB0E1B /* measurementcontent.json */; };
 		19776B812B3084EA00DB0E1B /* MeasurementContentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */; };
 		19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7142B23661C0072ED04 /* PasswordStore.swift */; };
 		19C8F71C2B23C8A60072ED04 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F71B2B23C8A60072ED04 /* Authenticator.swift */; };
@@ -396,9 +395,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */,
 				191BF1602B3661510008FEBC /* Launch Screen.storyboard in Resources */,
 				19C8F7362B23F9100072ED04 /* speakers.json in Resources */,
-				1927F6482B308FAE00B1C474 /* measurementcontent.json in Resources */,
 				19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */,
 				191C76D52B214CAB00406EAD /* Preview Assets.xcassets in Resources */,
 				191C76D22B214CAB00406EAD /* Assets.xcassets in Resources */,
@@ -432,7 +431,6 @@
 				1927F6562B33C18300B1C474 /* MicrophoneListResponse.swift in Sources */,
 				19C8F73C2B23FC770072ED04 /* asyncImageContent.swift in Sources */,
 				19776B812B3084EA00DB0E1B /* MeasurementContentResponse.swift in Sources */,
-				19776B7F2B30849000DB0E1B /* measurementcontent.json in Sources */,
 				191C77182B2234D600406EAD /* ProfileModel.swift in Sources */,
 				19C8F72A2B23E7EA0072ED04 /* ColorSchemePicker.swift in Sources */,
 				19C8F73A2B23FB5F0072ED04 /* SpeakerList.swift in Sources */,
@@ -636,7 +634,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -671,7 +669,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

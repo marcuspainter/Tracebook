@@ -112,7 +112,7 @@ class TracebookAPIClient {
         print(url)
 
         do {
-            let (jsonData, response) = try await URLSession.shared.data(for: request)
+            let (jsonData, _ /* response */) = try await URLSession.shared.data(for: request)
             let measurementListResponse = try JSONDecoder().decode(MeasurementListResponse.self, from: jsonData)
             return measurementListResponse
 
