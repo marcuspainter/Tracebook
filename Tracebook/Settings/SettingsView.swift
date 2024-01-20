@@ -29,7 +29,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .toolbar {
-                DismissButton()
+               // DismissButton()
             }
         }
     }

@@ -56,6 +56,13 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var tfPhase: [Double] = []
     var tfCoherence: [Double] = []
     var id: String = ""
+    var medal: String? = ""
+    var fileIRWAV: String? = ""
+    var windscreen: String = ""
+    var presetNA: Bool? = false
+    var presetVersionNA: Bool? = false
+    var firmwareVersionNA: Bool? = false
+    var inputMeter: Double? = 0.0
 
     // Measurement Item
     var additionalContent: String = ""

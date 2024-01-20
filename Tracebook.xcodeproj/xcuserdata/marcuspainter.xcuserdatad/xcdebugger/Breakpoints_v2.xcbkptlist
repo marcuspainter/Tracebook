@@ -14,10 +14,57 @@
             filePath = "Tracebook/ViewModels/MeasurementListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "getMeasurementList()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1B8F1961-C90E-4E77-9D58-8563EAA88BE5 - 899290a8ccd7f9bf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for Tracebook.MeasurementListViewModel.getMeasurementList() async -&gt; ()"
+                  moduleName = "Tracebook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcuspainter/Work/Tracebook/Tracebook/ViewModels/MeasurementListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "1540">
+               </Location>
+               <Location
+                  uuid = "1B8F1961-C90E-4E77-9D58-8563EAA88BE5 - 899290a8ccd7f95c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for Tracebook.MeasurementListViewModel.getMeasurementList() async -&gt; ()"
+                  moduleName = "Tracebook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcuspainter/Work/Tracebook/Tracebook/ViewModels/MeasurementListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "1540">
+               </Location>
+               <Location
+                  uuid = "1B8F1961-C90E-4E77-9D58-8563EAA88BE5 - 899290a8ccd7fad0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for Tracebook.MeasurementListViewModel.getMeasurementList() async -&gt; ()"
+                  moduleName = "Tracebook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcuspainter/Work/Tracebook/Tracebook/ViewModels/MeasurementListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "1540">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

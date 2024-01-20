@@ -27,11 +27,12 @@ struct MeasurementItemView: View {
                 }.frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
                 HStack {
-                    TraceBadge(text: "TF", color: .red, isEnabled: true)
-                    TraceBadge(text: "IR", color: .yellow, isEnabled: true)
-                    TraceBadge(text: "WAV", color: .green, isEnabled: true)
+                    TraceBadge(text: "TF", color: .red, isEnabled: measurement.fileTFCSV != "")
+                    TraceBadge(text: "IR", color: .yellow, isEnabled: measurement.fileIRWAV != "")
+                    TraceBadge(text: "WAV", color: .green, isEnabled: measurement.fileIRWAV != "")
                     TraceBadge(text: "SPL", color: .blue, isEnabled: false)
-                    TraceSymbol(symbol: "trophy.fill", colors: [.yellow, .gray], index: 0)
+                    TraceSymbol(symbol: "trophy.fill", colors: [Color(.systemGray), .gray, .yellow],
+                                index: measurement.medal == "Gold" ? 2 : measurement.medal == "Silver" ? 1 : 0)
                     TraceSymbol(symbol: "checkmark.circle.fill", colors: [.blue, Color(.systemGray3)], index: measurement.approved == "Approved" ? 0 : 1)
                 }.font(.caption)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)

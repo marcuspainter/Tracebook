@@ -5,10 +5,10 @@
 //  Created by Marcus Painter on 01/12/2023.
 //
 
+// https://sarunw.com/posts/how-to-define-custom-environment-values-in-swiftui/
+
 import Foundation
 import SwiftUI
-
-// https://sarunw.com/posts/how-to-define-custom-environment-values-in-swiftui/
 
 private struct AppVersionKey: EnvironmentKey {
     static let defaultValue: String = appVersion()

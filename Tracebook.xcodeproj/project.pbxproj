@@ -30,6 +30,10 @@
 		1927F6582B33C87500B1C474 /* InterfaceListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6572B33C87500B1C474 /* InterfaceListResponse.swift */; };
 		1927F65A2B33F85200B1C474 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6592B33F85200B1C474 /* ErrorResponse.swift */; };
 		1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */ = {isa = PBXBuildFile; fileRef = 19776B7E2B30849000DB0E1B /* measurementcontent.json */; };
+		1949FE352B56E967000D94A8 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1949FE342B56E967000D94A8 /* Settings.plist */; };
+		1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1949FE362B56EA21000D94A8 /* AppConfig.swift */; };
+		19552D392B585F3200412266 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D382B585F3200412266 /* UserModel.swift */; };
+		1956C16A2B585D4100A63AB4 /* UserRresponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1956C1692B585D4100A63AB4 /* UserRresponse.swift */; };
 		19776B812B3084EA00DB0E1B /* MeasurementContentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */; };
 		19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7142B23661C0072ED04 /* PasswordStore.swift */; };
 		19C8F71C2B23C8A60072ED04 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F71B2B23C8A60072ED04 /* Authenticator.swift */; };
@@ -89,6 +93,10 @@
 		1927F6552B33C18300B1C474 /* MicrophoneListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneListResponse.swift; sourceTree = "<group>"; };
 		1927F6572B33C87500B1C474 /* InterfaceListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceListResponse.swift; sourceTree = "<group>"; };
 		1927F6592B33F85200B1C474 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		1949FE342B56E967000D94A8 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
+		1949FE362B56EA21000D94A8 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		19552D382B585F3200412266 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		1956C1692B585D4100A63AB4 /* UserRresponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRresponse.swift; sourceTree = "<group>"; };
 		19776B7E2B30849000DB0E1B /* measurementcontent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurementcontent.json; sourceTree = "<group>"; };
 		19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementContentResponse.swift; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
@@ -209,6 +217,7 @@
 				19D5073F2B2A8FA000DBB25D /* MeasurementListResponse.swift */,
 				19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */,
 				1927F6592B33F85200B1C474 /* ErrorResponse.swift */,
+				1956C1692B585D4100A63AB4 /* UserRresponse.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -219,6 +228,7 @@
 				191C77172B2234D600406EAD /* ProfileModel.swift */,
 				1927F6462B30885900B1C474 /* MeasurementModel.swift */,
 				1927F64F2B327FF300B1C474 /* MeasurementListModel.swift */,
+				19552D382B585F3200412266 /* UserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -259,6 +269,7 @@
 				19C8F7142B23661C0072ED04 /* PasswordStore.swift */,
 				19C8F73B2B23FC770072ED04 /* asyncImageContent.swift */,
 				19C8F7232B23E7BA0072ED04 /* LogControl.swift */,
+				1949FE362B56EA21000D94A8 /* AppConfig.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -275,6 +286,7 @@
 		19C8F72B2B23E8240072ED04 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				1949FE342B56E967000D94A8 /* Settings.plist */,
 				19C8F72C2B23E8240072ED04 /* SettingsView.swift */,
 				19C8F72D2B23E8240072ED04 /* Settings.swift */,
 			);
@@ -398,6 +410,7 @@
 				1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */,
 				191BF1602B3661510008FEBC /* Launch Screen.storyboard in Resources */,
 				19C8F7362B23F9100072ED04 /* speakers.json in Resources */,
+				1949FE352B56E967000D94A8 /* Settings.plist in Resources */,
 				19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */,
 				191C76D52B214CAB00406EAD /* Preview Assets.xcassets in Resources */,
 				191C76D22B214CAB00406EAD /* Assets.xcassets in Resources */,
@@ -432,6 +445,7 @@
 				19C8F73C2B23FC770072ED04 /* asyncImageContent.swift in Sources */,
 				19776B812B3084EA00DB0E1B /* MeasurementContentResponse.swift in Sources */,
 				191C77182B2234D600406EAD /* ProfileModel.swift in Sources */,
+				1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */,
 				19C8F72A2B23E7EA0072ED04 /* ColorSchemePicker.swift in Sources */,
 				19C8F73A2B23FB5F0072ED04 /* SpeakerList.swift in Sources */,
 				1927F6582B33C87500B1C474 /* InterfaceListResponse.swift in Sources */,
@@ -444,6 +458,7 @@
 				1927F64C2B30948800B1C474 /* MeasurementViewModel.swift in Sources */,
 				191C770D2B21679900406EAD /* MeasurementDetailView.swift in Sources */,
 				19C8F71C2B23C8A60072ED04 /* Authenticator.swift in Sources */,
+				19552D392B585F3200412266 /* UserModel.swift in Sources */,
 				19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */,
 				19C8F7252B23E7BA0072ED04 /* LogControl.swift in Sources */,
 				1927F64E2B325BF800B1C474 /* TracebookAPIClient.swift in Sources */,
@@ -452,6 +467,7 @@
 				191C77142B22126500406EAD /* LoginView.swift in Sources */,
 				191C77162B22313A00406EAD /* ProfileView.swift in Sources */,
 				19C8F72F2B23E8240072ED04 /* SettingsView.swift in Sources */,
+				1956C16A2B585D4100A63AB4 /* UserRresponse.swift in Sources */,
 				1927F6472B30885900B1C474 /* MeasurementModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,7 +650,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -669,7 +685,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

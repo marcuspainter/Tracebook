@@ -13,8 +13,6 @@ class MeasurementListViewModel: ObservableObject {
     @Published var searchText: String = ""
 
     @Published var measurements: [MeasurementModel] = []
-    
-    
     @Published var measurementViewModels: [MeasurementViewModel] = []
 
     private var apiClient = TracebookAPIClient()
@@ -35,9 +33,6 @@ class MeasurementListViewModel: ObservableObject {
         measurements.removeAll()
         measurementStore.removeAll()
         
-        //await self.getMicrophones()
-        //await self.getInterfaces()
-
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
                 await self.getMicrophones()
@@ -165,6 +160,13 @@ class MeasurementListViewModel: ObservableObject {
         model.measurement = content.measurement ?? ""
         model.interface = content.interface ?? ""
         model.micCorrectionCurve = content.micCorrectionCurve ?? ""
+        model.medal = content.medal ?? ""
+        model.fileIRWAV = content.fileIRWAV ?? ""
+        model.windscreen = content.windscreen ?? ""
+        model.presetNA = content.presetNA ?? false
+        model.presetVersionNA = content.presetVersionNA ?? false
+        model.firmwareVersionNA = content.firmwareVersionNA ?? false
+        model.inputMeter = content.inputMeter ?? 0.0
 
         model.tfFrequency = convertDataArray(dataText: content.tfJSONFrequency)
         model.tfMagnitude = convertDataArray(dataText: content.tfJSONMagnitude)

@@ -52,6 +52,8 @@ class MeasurementViewModel: ObservableObject {
     var tfPhase: [Double] = []
     var tfCoherence: [Double] = []
     var id: String = ""
+    var medal: String = ""
+    var windscreen: String = ""
     
     @Published var magitudeData: [(Double, Double)] = []
     @Published var phaseData: [(Double, Double)] = []

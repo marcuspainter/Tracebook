@@ -45,6 +45,13 @@ struct MeasurementContent: Codable {
     let tfJSONPhase: String?
     let tfJSONCoherence: String?
     let id: String
+    let medal: String?
+    let fileIRWAV: String?
+    let windscreen: String?
+    let presetNA: Bool?
+    let presetVersionNA: Bool?
+    let firmwareVersionNA: Bool?
+    let inputMeter: Double?
 
     enum CodingKeys: String, CodingKey {
         case firmwareVersion = "Firmware Version"
@@ -85,5 +92,12 @@ struct MeasurementContent: Codable {
         case tfJSONPhase = "TF JSON phase"
         case tfJSONCoherence = "TF JSON coherence"
         case id = "_id"
+        case medal = "Medal"
+        case fileIRWAV =  "File IR WAV"
+        case windscreen =  "Windscreen"
+        case presetNA = "Preset NA"
+        case presetVersionNA = "Preset Version NA"
+        case firmwareVersionNA = "Firmware Version NA"
+        case inputMeter = "Input Meter"
     }
 }

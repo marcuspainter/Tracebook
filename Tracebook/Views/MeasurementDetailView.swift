@@ -224,7 +224,7 @@ struct MeasurementDetailView: View {
                     TextLine(text: "Microphone interface:", value: measurement.interface)
                     TextLine(text: "Microphone interface settings:", value: "?")
                     TextLine(text: "Microphone correction curve:", value: measurement.micCorrectionCurve)
-                    TextLine(text: "Windscreen:", value: "?")
+                    TextLine(text: "Windscreen:", value: measurement.windscreen)
                     TextLine(text: "Analyzer:", value: measurement.analyzer)
                     TextLine(text: "Coherence:", value: measurement.coherenceScale)
 
