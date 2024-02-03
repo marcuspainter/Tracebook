@@ -43,7 +43,7 @@ class MeasurementViewModel: ObservableObject {
     var splGroundPlane: Bool = false
     var responseLoudspeakerModel: String = ""
     var systemLatency: Double = 0.0
-    @Published var microphone: String = ""
+    var microphone: String = ""
     var measurement: String = ""
     var interface: String = ""
     var micCorrectionCurve: String = ""
@@ -104,7 +104,7 @@ class MeasurementViewModel: ObservableObject {
             if c < threshold {
                 return (f, Double.nan)
             } else {
-                return (f, (c / 3.33))
+                return (f, (c / 2))
             }
         }
         return newCoherenceData

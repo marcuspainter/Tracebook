@@ -11,6 +11,7 @@ import SwiftUI
 struct MeasurementDetailView: View {
     @ObservedObject var measurement: MeasurementModel
 
+    @StateObject var user = UserViewModel()
     @State var magitudeData: [(Double, Double)] = []
     @State var phaseData: [(Double, Double)] = []
     @State var coherenceData: [(Double, Double)] = []
@@ -20,11 +21,17 @@ struct MeasurementDetailView: View {
     @State var delay: Double = 0.0
     @State var coherence: Double = 0.0
 
+    private let frequencyXAxisValues = [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
+    private let dbYAxisValues = [-30, -20, -10, 0, 10, 20, 30]
+    private let phaseYAxisValues = [-180, -135, -90, -45, 0, 45, 90, 135, 180]
+
     var body: some View {
         GeometryReader { _ in
             ScrollView {
                 VStack {
                     Group {
+                        Text(user.name)
+                        Link("View on Tracebook", destination: URL(string: measurement.tracebookURL ?? "")!)
                         Text("Magnitude")
                         Chart {
                             ForEach(coherenceData, id: \.0) { data in
@@ -49,13 +56,9 @@ struct MeasurementDetailView: View {
                         }
                         // .chartForegroundStyleScale(["1":.blue, "2":.red])
                         .chartXAxis {
-                            AxisMarks(values: [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]) { value in
+                            AxisMarks(values: frequencyXAxisValues) { value in
 
                                 AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
-                                //    .foregroundStyle(Color.cyan)
-                                // AxisTick(centered: true, stroke: StrokeStyle(lineWidth: 2))
-                                //    .foregroundStyle(Color.red)
-
                                 AxisValueLabel {
                                     if let intValue = value.as(Int.self) {
                                         let textValue = intValue < 999 ? "\(intValue)" : "\(intValue / 1000)k"
@@ -66,7 +69,7 @@ struct MeasurementDetailView: View {
                             }
                         }
                         .chartYAxis {
-                            AxisMarks(position: .leading, values: [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30]) { value in
+                            AxisMarks(position: .leading, values: dbYAxisValues) { value in
                                 AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
                                 AxisValueLabel {
                                     if let intValue = value.as(Int.self) {
@@ -74,19 +77,6 @@ struct MeasurementDetailView: View {
                                     }
                                 }
                             }
-                            /*
-                             AxisMarks(position: .trailing, values: [0, 30]) { value in
-                                 AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
-                                 AxisValueLabel {
-                                     var textValue = switch value.index {
-                                         case 0: "0%"
-                                         //case 1: "100%"
-                                         default: ""
-                                     }
-                                     Text(textValue)
-                                 }
-                             }
-                              */
                         }
                         .chartXAxisLabel(position: .bottom, alignment: .center) {
                             Text("Frequency (Hz)")
@@ -95,7 +85,7 @@ struct MeasurementDetailView: View {
                         .chartYAxisLabel(position: .trailing, alignment: .center) {
                             Text("Power (dB)")
                         }
-                        .chartYScale(domain: -60 ... 35, type: .linear)
+                        .chartYScale(domain: -35 ... 35, type: .linear)
                         .clipped()
                         .frame(height: 200)
                     }
@@ -124,7 +114,7 @@ struct MeasurementDetailView: View {
                             }
                         }
                         .chartXAxis {
-                            AxisMarks(values: [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]) { value in
+                            AxisMarks(values: frequencyXAxisValues) { value in
                                 AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
                                 AxisValueLabel {
                                     if let intValue = value.as(Int.self) {
@@ -140,7 +130,7 @@ struct MeasurementDetailView: View {
                         }
                         .chartXScale(domain: 20 ... 20000, type: .log)
                         .chartYAxis {
-                            AxisMarks(position: .leading, values: [-180, -135, -90, -45, 0, 45, 90, 135, 180])
+                            AxisMarks(position: .leading, values: phaseYAxisValues)
                         }
                         .chartYAxisLabel(position: .trailing, alignment: .center) {
                             Text("Phase (°)")
@@ -151,8 +141,6 @@ struct MeasurementDetailView: View {
                         .frame(height: 200)
                     }
                     .navigationTitle(measurement.loudspeakerModel)
-                //.toolbarBackground(Color("tracebookColor"), for: .navigationBar)
-                 //   .toolbarColorScheme(.light, for: .tabBar)
 
                     HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)
@@ -165,7 +153,6 @@ struct MeasurementDetailView: View {
                             isPolarityInverted = false
                         }
                         .padding(5)
-                        // .foregroundColor(Color(.systemGray))
                         .overlay( // apply a rounded border
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(.tint, lineWidth: 1))
@@ -247,10 +234,15 @@ struct MeasurementDetailView: View {
                     self.phaseData = measurement.processPhase(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
                     self.coherenceData = measurement.processCoherence(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
 
+                    // Gray reference trace
                     self.originalPhaseData = measurement.processPhase(delay: 0.0, threshold: coherence, isPolarityInverted: false)
                 }
-
                 .padding()
+            }
+        }
+        .onAppear {
+            Task {
+                await user.getUser(id: measurement.createdBy)
             }
         }
     }

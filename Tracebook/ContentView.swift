@@ -17,15 +17,7 @@ struct ContentView: View {
     @State var password: String = ""
     
     init() {
-        //UISearchBar.appearance().backgroundColor = UIColor.white
-        //UISearchBar.appearance().tintColor = UIColor.white
-        //UISearchBar.appearance().barTintColor = UIColor.white
-        
         // https://stackoverflow.com/questions/69511960/customize-searchable-search-field-swiftui-ios-15
-        //UISearchBar.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setImage(<your search image, e.g., magnifyingGlassImage>, for: .search, state: .normal)
-        //    UISearchBar.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setImage(<your clear image, e.g., closeImage>, for: .clear, state: .normal)
-
-        
     }
 
     var body: some View {
@@ -44,26 +36,22 @@ struct ContentView: View {
             }
             .navigationTitle("Tracebook")
             .navigationBarTitleDisplayMode(.inline)
-            //.toolbarBackground(Color("tracebookColor"), for: .navigationBar)
-            //.toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
 
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
 
                     // https://stackoverflow.com/questions/64269873/how-can-i-push-a-view-from-a-toolbaritem
-                    
-                    /*
-                    NavigationLink {
-                        //ProfileView(profile: traceListViewModel.profile)
-                    } label: {
-                        Label("Profile", systemImage: "person")
-                    }
-                    */
+
                     NavigationLink {
                         SettingsView()
                     } label: {
-                        Label("Settings", systemImage: "gearshape")
+                        Image(systemName: "info.circle")
+                    }
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "gearshape")
                     }
                 }
             }

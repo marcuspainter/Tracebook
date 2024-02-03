@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		191BF1602B3661510008FEBC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19F4FEE22B2A1DE80065B2E2 /* Launch Screen.storyboard */; };
+		191BF1602B3661510008FEBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */; };
 		191C76CE2B214CA800406EAD /* TracebookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C76CD2B214CA800406EAD /* TracebookApp.swift */; };
 		191C76D02B214CA800406EAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C76CF2B214CA800406EAD /* ContentView.swift */; };
 		191C76D22B214CAB00406EAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 191C76D12B214CAB00406EAD /* Assets.xcassets */; };
@@ -33,7 +33,10 @@
 		1949FE352B56E967000D94A8 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1949FE342B56E967000D94A8 /* Settings.plist */; };
 		1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1949FE362B56EA21000D94A8 /* AppConfig.swift */; };
 		19552D392B585F3200412266 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D382B585F3200412266 /* UserModel.swift */; };
+		19552D3D2B5C3C2C00412266 /* Snapfile in Resources */ = {isa = PBXBuildFile; fileRef = 19552D3B2B5C3C2C00412266 /* Snapfile */; };
+		19552D3F2B5DD2E100412266 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */; };
 		1956C16A2B585D4100A63AB4 /* UserRresponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1956C1692B585D4100A63AB4 /* UserRresponse.swift */; };
+		1966EC972B6D55F4004246C2 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1966EC962B6D55F4004246C2 /* UserViewModel.swift */; };
 		19776B812B3084EA00DB0E1B /* MeasurementContentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */; };
 		19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7142B23661C0072ED04 /* PasswordStore.swift */; };
 		19C8F71C2B23C8A60072ED04 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F71B2B23C8A60072ED04 /* Authenticator.swift */; };
@@ -42,9 +45,7 @@
 		19C8F7292B23E7EA0072ED04 /* ColorSchemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7272B23E7E90072ED04 /* ColorSchemeManager.swift */; };
 		19C8F72A2B23E7EA0072ED04 /* ColorSchemePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7282B23E7E90072ED04 /* ColorSchemePicker.swift */; };
 		19C8F72F2B23E8240072ED04 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F72C2B23E8240072ED04 /* SettingsView.swift */; };
-		19C8F7302B23E8240072ED04 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F72D2B23E8240072ED04 /* Settings.swift */; };
 		19C8F7362B23F9100072ED04 /* speakers.json in Resources */ = {isa = PBXBuildFile; fileRef = 19C8F7352B23F9100072ED04 /* speakers.json */; };
-		19C8F73A2B23FB5F0072ED04 /* SpeakerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7392B23FB5E0072ED04 /* SpeakerList.swift */; };
 		19C8F73C2B23FC770072ED04 /* asyncImageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F73B2B23FC770072ED04 /* asyncImageContent.swift */; };
 		19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D5073D2B2A8F6400DBB25D /* measurement.json */; };
 		19D507402B2A8FA000DBB25D /* MeasurementListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D5073F2B2A8FA000DBB25D /* MeasurementListResponse.swift */; };
@@ -96,7 +97,11 @@
 		1949FE342B56E967000D94A8 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		1949FE362B56EA21000D94A8 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		19552D382B585F3200412266 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		19552D3B2B5C3C2C00412266 /* Snapfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; };
+		19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		1956C1692B585D4100A63AB4 /* UserRresponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRresponse.swift; sourceTree = "<group>"; };
+		1966EC962B6D55F4004246C2 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		1966EC982B6DF728004246C2 /* Tracebook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tracebook.entitlements; sourceTree = "<group>"; };
 		19776B7E2B30849000DB0E1B /* measurementcontent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurementcontent.json; sourceTree = "<group>"; };
 		19776B802B3084EA00DB0E1B /* MeasurementContentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementContentResponse.swift; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
@@ -106,13 +111,11 @@
 		19C8F7272B23E7E90072ED04 /* ColorSchemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSchemeManager.swift; sourceTree = "<group>"; };
 		19C8F7282B23E7E90072ED04 /* ColorSchemePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSchemePicker.swift; sourceTree = "<group>"; };
 		19C8F72C2B23E8240072ED04 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		19C8F72D2B23E8240072ED04 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		19C8F7352B23F9100072ED04 /* speakers.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = speakers.json; sourceTree = "<group>"; };
-		19C8F7392B23FB5E0072ED04 /* SpeakerList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakerList.swift; sourceTree = "<group>"; };
 		19C8F73B2B23FC770072ED04 /* asyncImageContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = asyncImageContent.swift; path = Tracebook/Controls/asyncImageContent.swift; sourceTree = SOURCE_ROOT; };
 		19D5073D2B2A8F6400DBB25D /* measurement.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurement.json; sourceTree = "<group>"; };
 		19D5073F2B2A8FA000DBB25D /* MeasurementListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementListResponse.swift; sourceTree = "<group>"; };
-		19F4FEE22B2A1DE80065B2E2 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +166,8 @@
 		191C76CC2B214CA800406EAD /* Tracebook */ = {
 			isa = PBXGroup;
 			children = (
+				1966EC982B6DF728004246C2 /* Tracebook.entitlements */,
+				19552D3B2B5C3C2C00412266 /* Snapfile */,
 				191BF15A2B352FF10008FEBC /* Info.plist */,
 				19C8F73D2B23FF420072ED04 /* Data */,
 				19C8F7212B23E7BA0072ED04 /* Utilities */,
@@ -176,8 +181,7 @@
 				191C76CF2B214CA800406EAD /* ContentView.swift */,
 				191C76D12B214CAB00406EAD /* Assets.xcassets */,
 				191C76D32B214CAB00406EAD /* Preview Content */,
-				19F4FEE22B2A1DE80065B2E2 /* Launch Screen.storyboard */,
-				19C8F7392B23FB5E0072ED04 /* SpeakerList.swift */,
+				19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */,
 				19C8F71B2B23C8A60072ED04 /* Authenticator.swift */,
 			);
 			path = Tracebook;
@@ -204,6 +208,7 @@
 			children = (
 				191C76E82B214CAB00406EAD /* TracebookUITests.swift */,
 				191C76EA2B214CAB00406EAD /* TracebookUITestsLaunchTests.swift */,
+				19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */,
 			);
 			path = TracebookUITests;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 			children = (
 				1927F64B2B30948800B1C474 /* MeasurementViewModel.swift */,
 				1927F6512B32828600B1C474 /* MeasurementListViewModel.swift */,
+				1966EC962B6D55F4004246C2 /* UserViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -288,7 +294,6 @@
 			children = (
 				1949FE342B56E967000D94A8 /* Settings.plist */,
 				19C8F72C2B23E8240072ED04 /* SettingsView.swift */,
-				19C8F72D2B23E8240072ED04 /* Settings.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -408,7 +413,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */,
-				191BF1602B3661510008FEBC /* Launch Screen.storyboard in Resources */,
+				191BF1602B3661510008FEBC /* LaunchScreen.storyboard in Resources */,
+				19552D3D2B5C3C2C00412266 /* Snapfile in Resources */,
 				19C8F7362B23F9100072ED04 /* speakers.json in Resources */,
 				1949FE352B56E967000D94A8 /* Settings.plist in Resources */,
 				19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */,
@@ -447,9 +453,7 @@
 				191C77182B2234D600406EAD /* ProfileModel.swift in Sources */,
 				1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */,
 				19C8F72A2B23E7EA0072ED04 /* ColorSchemePicker.swift in Sources */,
-				19C8F73A2B23FB5F0072ED04 /* SpeakerList.swift in Sources */,
 				1927F6582B33C87500B1C474 /* InterfaceListResponse.swift in Sources */,
-				19C8F7302B23E8240072ED04 /* Settings.swift in Sources */,
 				19D507402B2A8FA000DBB25D /* MeasurementListResponse.swift in Sources */,
 				191C76D02B214CA800406EAD /* ContentView.swift in Sources */,
 				1927F6502B327FF300B1C474 /* MeasurementListModel.swift in Sources */,
@@ -465,6 +469,7 @@
 				19C8F7242B23E7BA0072ED04 /* AppVersionKey.swift in Sources */,
 				191C76CE2B214CA800406EAD /* TracebookApp.swift in Sources */,
 				191C77142B22126500406EAD /* LoginView.swift in Sources */,
+				1966EC972B6D55F4004246C2 /* UserViewModel.swift in Sources */,
 				191C77162B22313A00406EAD /* ProfileView.swift in Sources */,
 				19C8F72F2B23E8240072ED04 /* SettingsView.swift in Sources */,
 				1956C16A2B585D4100A63AB4 /* UserRresponse.swift in Sources */,
@@ -486,6 +491,7 @@
 			files = (
 				191C76E92B214CAB00406EAD /* TracebookUITests.swift in Sources */,
 				191C76EB2B214CAB00406EAD /* TracebookUITestsLaunchTests.swift in Sources */,
+				19552D3F2B5DD2E100412266 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +636,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Tracebook/Tracebook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tracebook/Preview Content\"";
@@ -641,7 +648,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -650,7 +657,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -665,6 +672,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Tracebook/Tracebook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tracebook/Preview Content\"";
@@ -676,7 +684,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -685,7 +693,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

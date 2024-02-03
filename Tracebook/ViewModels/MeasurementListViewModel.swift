@@ -16,7 +16,9 @@ class MeasurementListViewModel: ObservableObject {
     @Published var measurementViewModels: [MeasurementViewModel] = []
 
     private var apiClient = TracebookAPIClient()
+    private var measuremenViewModeltStore: [MeasurementViewModel] = []
     private var measurementStore: [MeasurementModel] = []
+    
     private var microphones: [String: String] = [:]
     private var interfaces: [String: String] = [:]
 
@@ -27,7 +29,7 @@ class MeasurementListViewModel: ObservableObject {
             measurements = measurementStore
         }
     }
-
+    
     func getMeasurementList() async {
 
         measurements.removeAll()
@@ -120,6 +122,9 @@ class MeasurementListViewModel: ObservableObject {
         model.id = measurement.id ?? ""
         model.loudspeakerTags = measurement.loudspeakerTags  ?? []
         model.emailSent = measurement.emailSent  ?? false
+        
+        // Link to Tracebook website
+        model.tracebookURL = "https://trace-book.org/measurement/\(measurement.slug ?? "")"
 
         return model
     }
@@ -175,6 +180,8 @@ class MeasurementListViewModel: ObservableObject {
 
         // Scale to 0...100
         model.tfCoherence = model.tfCoherence.map { $0 * 100.0}
+        
+  
     }
 
     private func convertDataArray(dataText: String?) -> [Double] {

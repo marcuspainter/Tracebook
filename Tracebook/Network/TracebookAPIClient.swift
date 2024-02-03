@@ -6,11 +6,36 @@ class TracebookAPIClient {
     init() {
     }
     
-    func getMicrophoneList() async -> MicrophoneListResponse? {
+    func getUser(id: String) async -> UserResponse? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "trace-book.org"
-        components.path = "/api/1.1/obj/microphone"
+        components.path = "/api/1.1/obj/user/\(id)"
+
+        if let url = components.url {
+            var request = URLRequest(url: url)
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            //request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            request.addValue("gzip, deflate, br", forHTTPHeaderField: "Accept-Encoding")
+            request.httpMethod = "GET"
+
+            do {
+                let (jsonData, _ /* response */ ) = try await URLSession.shared.data(for: request)
+                let userResponse = try JSONDecoder().decode(UserResponse.self, from: jsonData)
+                return userResponse
+            } catch {
+                print(error)
+            }
+        }
+
+        return nil
+    }
+    
+    func buildRequest(entity: String) -> URLRequest {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "trace-book.org"
+        components.path = "/api/1.1/obj/\(entity)"
 
         let url = components.url!
         var request = URLRequest(url: url)
@@ -18,15 +43,18 @@ class TracebookAPIClient {
         //request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.addValue("gzip, deflate, br", forHTTPHeaderField: "Accept-Encoding")
         request.httpMethod = "GET"
-
-        print(url)
-
+        
+        return request
+    }
+    
+    func getMicrophoneList() async -> MicrophoneListResponse? {
+        let request = buildRequest(entity: "microphone")
+        
         do {
             let (jsonData, _ /* response */ ) = try await URLSession.shared.data(for: request)
             let microphoneListResponse = try JSONDecoder().decode(MicrophoneListResponse.self, from: jsonData)
             return microphoneListResponse
         } catch {
-            print("")
             print(error)
         }
 
@@ -34,26 +62,13 @@ class TracebookAPIClient {
     }
 
     func getInterfaceList() async -> InterfaceListResponse? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "trace-book.org"
-        components.path = "/api/1.1/obj/interface"
-
-        let url = components.url!
-        var request = URLRequest(url: url)
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        //request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.addValue("gzip, deflate, br", forHTTPHeaderField: "Accept-Encoding")
-        request.httpMethod = "GET"
-
-        print(url)
+        let request = buildRequest(entity: "interface")
 
         do {
             let (jsonData, _ /* response */ ) = try await URLSession.shared.data(for: request)
             let interfaceListResponse = try JSONDecoder().decode(InterfaceListResponse.self, from: jsonData)
             return interfaceListResponse
         } catch {
-            print("")
             print(error)
         }
 
@@ -66,8 +81,6 @@ class TracebookAPIClient {
         components.host = "trace-book.org"
         components.path = "/api/1.1/obj/measurementcontent/\(id)"
 
-        print(id)
-
         if let url = components.url {
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -75,15 +88,11 @@ class TracebookAPIClient {
             request.addValue("gzip, deflate, br", forHTTPHeaderField: "Accept-Encoding")
             request.httpMethod = "GET"
 
-            print(url)
-
             do {
                 let (jsonData, _ /* response */ ) = try await URLSession.shared.data(for: request)
                 let measurementContentResponse = try JSONDecoder().decode(MeasurementContentResponse.self, from: jsonData)
-                print(measurementContentResponse.response.medal?.debugDescription ?? "none")
                 return measurementContentResponse
             } catch {
-                print("")
                 print(error)
             }
         }
@@ -110,8 +119,6 @@ class TracebookAPIClient {
         request.addValue("gzip, deflate, br", forHTTPHeaderField: "Accept-Encoding")
         request.httpMethod = "GET"
 
-        print(url)
-
         do {
             let (jsonData, _ /* response */) = try await URLSession.shared.data(for: request)
             let measurementListResponse = try JSONDecoder().decode(MeasurementListResponse.self, from: jsonData)
@@ -133,7 +140,7 @@ class TracebookAPIClient {
                 let jsonData = try Data(contentsOf: fileURL)
                 result = try JSONDecoder().decode(MeasurementListResponse.self, from: jsonData)
             } catch {
-                print("loading file error", error)
+                print("Loading file error", error)
             }
         }
         return result
@@ -148,7 +155,7 @@ class TracebookAPIClient {
                 let jsonData = try Data(contentsOf: fileURL)
                 result = try JSONDecoder().decode(MeasurementContentResponse.self, from: jsonData)
             } catch {
-                print("loading file error", error)
+                print("Loading file error", error)
             }
         }
         return result

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MeasurementListModel: ObservableObject, Codable {
+class MeasurementListModel: Codable {
 
     var additionalContent: String = ""
     var approved: String = ""
