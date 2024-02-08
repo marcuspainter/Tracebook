@@ -9,32 +9,37 @@ import Foundation
 
 @MainActor
 class MeasurementListViewModel: ObservableObject {
-    
+
     @Published var searchText: String = ""
-
     @Published var measurements: [MeasurementModel] = []
-    @Published var measurementViewModels: [MeasurementViewModel] = []
+    @Published var isDownloading: Bool = false
 
-    private var apiClient = TracebookAPIClient()
-    private var measuremenViewModeltStore: [MeasurementViewModel] = []
-    private var measurementStore: [MeasurementModel] = []
-    
+    private var tracebookAPI = TracebookAPI()
+    public var measurementStore = MeasurementStore()
+
+    // Local dictonaries
     private var microphones: [String: String] = [:]
     private var interfaces: [String: String] = [:]
+    private var analyzers: [String: String] = [:]
 
     func search(searchText: String) async {
         if !searchText.isEmpty {
-            measurements = measurementStore.filter { $0.title.uppercased().contains(searchText.uppercased()) }
+            measurements = measurementStore.models.filter { $0.title.uppercased().contains(searchText.uppercased()) }
         } else {
-            measurements = measurementStore
+            measurements = measurementStore.models
         }
     }
     
-    func getMeasurementList() async {
-
-        measurements.removeAll()
-        measurementStore.removeAll()
+    func loadMeasurements() async {
         
+        guard !isDownloading else {
+            print("Waiting.. Try again later")
+            return
+        }
+        print("Downloading")
+        
+        self.isDownloading = true
+
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
                 await self.getMicrophones()
@@ -42,63 +47,140 @@ class MeasurementListViewModel: ObservableObject {
             group.addTask {
                 await self.getInterfaces()
             }
+            group.addTask {
+                await self.getAnalyzers()
+            }
+        }
+        
+        let dateString = measurementStore.models.isEmpty ? "2000-01-01" : (measurementStore.models.first?.createdDate ?? "2001-01-01")
+        
+        print("Start from: \(dateString)")
+        
+        var newMeasurementModels: [MeasurementModel] = []
+
+        var cursor: Int = 0
+        while true {
+            guard let measurementListResponse = await tracebookAPI.getMeasurementListbyDate(cursor: cursor, dateString: dateString) else { break }
+
+            let measurementList = measurementListResponse.response.results
+            for measurementItem in measurementList {
+                let model = convertListToModel(measurement: measurementItem)
+                
+                if let i = self.measurementStore.models.firstIndex(where: { $0.id == model.id }) {
+                    print("Duplicate: \(model.title)")
+                }
+                else {
+                    newMeasurementModels.append(model)
+                }
+            }
+            
+            cursor += measurementListResponse.response.count
+            if measurementListResponse.response.remaining == 0 {
+                break
+            }
+        }
+        
+        self.measurementStore.models = newMeasurementModels + self.measurementStore.models
+        self.measurements = measurementStore.models
+
+        for model in newMeasurementModels {
+            if let content = await tracebookAPI.getMeasurementContent(id: model.additionalContent) {
+                convertContentToModel(model: model, content: content.response)
+                model.microphone = microphones[model.microphone] ?? model.microphone
+                model.interface = interfaces[model.interface] ?? model.interface
+                model.analyzer = analyzers[model.analyzer] ?? model.analyzer
+            } else {
+                print("No content")
+            }
+        }
+
+        self.measurements = self.measurementStore.models
+        self.isDownloading = false
+    }
+
+    func getMeasurementList() async {
+
+        measurements.removeAll()
+        measurementStore.models.removeAll()
+
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                await self.getMicrophones()
+            }
+            group.addTask {
+                await self.getInterfaces()
+            }
+            group.addTask {
+                await self.getAnalyzers()
+            }
         }
 
         var cursor: Int = 0
         while true {
-            let measurementListResponse = await apiClient.getMeasurementList(cursor: cursor)
-        
+            let measurementListResponse = await tracebookAPI.getMeasurementList(cursor: cursor)
+
             if let measurementList = measurementListResponse?.response.results {
                 for measurementItem in measurementList {
                     let model = convertListToModel(measurement: measurementItem)
-                    measurementStore.append(model)
+                    measurementStore.models.append(model)
                 }
             }
-            
-            cursor = cursor + (measurementListResponse?.response.count)!
+
+            cursor += (measurementListResponse?.response.count)!
             if measurementListResponse?.response.remaining == 0 {
                 break
             }
         }
-            
-        measurements = measurementStore
 
-        for model in measurementStore {
-            if let content = await apiClient.getMeasurementContent(id: model.additionalContent) {
+        measurements = measurementStore.models
+
+        for model in measurementStore.models {
+            if let content = await tracebookAPI.getMeasurementContent(id: model.additionalContent) {
                 convertContentToModel(model: model, content: content.response)
                 model.microphone = microphones[model.microphone] ?? model.microphone
                 model.interface = interfaces[model.interface] ?? model.interface
-            }
-            else {
+                model.analyzer = analyzers[model.analyzer] ?? model.analyzer
+            } else {
                 print("No content")
             }
         }
-        
-        measurements = measurementStore
+
+        measurements = measurementStore.models
     }
 
     private func getMicrophones() async {
-        let microphoneResponse = await apiClient.getMicrophoneList()
+        let microphoneResponse = await tracebookAPI.getMicrophoneList()
         if let microphoneList = microphoneResponse?.response.results {
             for microphone in microphoneList {
                 if let id = microphone.id, let brand = microphone.micBrandModel {
-                    microphones[id] = brand
+                    self.microphones[id] = brand
                 }
             }
         }
     }
 
     private func getInterfaces() async {
-        let interfaceResponse = await apiClient.getInterfaceList()
+        let interfaceResponse = await tracebookAPI.getInterfaceList()
         if let interfaceList = interfaceResponse?.response.results {
             for interface in interfaceList {
                 if let id = interface.id, let brand = interface.brandModel {
-                    interfaces[id] = brand
+                    self.interfaces[id] = brand
                 }
             }
         }
     }
-    
+
+    private func getAnalyzers() async {
+        let analyzerResponse = await tracebookAPI.getAnalyzerList()
+        if let analyzerList = analyzerResponse?.response.results {
+            for analyzer in analyzerList {
+                if let id = analyzer.id, let name = analyzer.name {
+                    self.analyzers[id] = name
+                }
+            }
+        }
+    }
+
     private func convertListToModel(measurement: MeasurementItem) -> MeasurementModel {
         let model = MeasurementModel()
 
@@ -108,7 +190,7 @@ class MeasurementListViewModel: ObservableObject {
         model.productLaunchDateText = measurement.productLaunchDateText ?? ""
         model.thumbnailImage = measurement.thumbnailImage ?? ""
         model.upvotes = measurement.upvotes ?? []
-        // model.createdDate = ISO8601DateFormatter().date(from: measurement.createdDate ?? "")
+        model.createdDate = measurement.createdDate ?? ""
         model.createdBy = measurement.createdBy ?? ""
         model.modifiedDate = measurement.modifiedDate ?? ""
         model.slug = measurement.slug ?? ""
@@ -120,9 +202,9 @@ class MeasurementListViewModel: ObservableObject {
         model.moderator2 = measurement.moderator2 ?? ""
         model.admin2Approved = measurement.admin2Approved ?? ""
         model.id = measurement.id ?? ""
-        model.loudspeakerTags = measurement.loudspeakerTags  ?? []
+        model.loudspeakerTags = measurement.loudspeakerTags ?? []
         model.emailSent = measurement.emailSent  ?? false
-        
+
         // Link to Tracebook website
         model.tracebookURL = "https://trace-book.org/measurement/\(measurement.slug ?? "")"
 
@@ -135,14 +217,14 @@ class MeasurementListViewModel: ObservableObject {
         model.firmwareVersion = content.firmwareVersion ?? ""
         model.loudspeakerBrand = content.loudspeakerBrand ?? ""
         model.category = content.category ?? ""
-        model.delayLocator = content.delayLocator ?? 0.0
-        model.distance = content.distance ?? 0.0
+        model.delayLocator = content.delayLocator
+        model.distance = content.distance         // Nilable
         model.dspPreset = content.dspPreset ?? ""
         model.photoSetup = content.photoSetup ?? ""
         model.fileAdditional = content.fileAdditional ?? []
         model.fileTFCSV = content.fileTFCSV ?? ""
         model.notes = content.notes ?? ""
-        model.createdDate = content.createdDate ?? ""
+        //model.createdDate = content.createdDate ?? ""
         model.createdBy = content.createdBy ?? ""
         model.modifiedDate = content.modifiedDate ?? ""
         model.distanceUnits = content.distanceUnits ?? ""
@@ -152,7 +234,7 @@ class MeasurementListViewModel: ObservableObject {
         model.calibrator = content.calibrator ?? ""
         model.measurementType = content.measurementType ?? ""
         model.presetVersion = content.presetVersion ?? ""
-        model.temperature = content.temperature ?? 0.0
+        model.temperature = content.temperature         // Nilable
         model.tempUnits = content.tempUnits ?? ""
         model.responseLoudspeakerBrand = content.responseLoudspeakerBrand ?? ""
         model.coherenceScale = content.coherenceScale ?? ""
@@ -160,7 +242,7 @@ class MeasurementListViewModel: ObservableObject {
         model.fileTFNative = content.fileTFNative ?? ""
         model.splGroundPlane = content.splGroundPlane ?? false
         model.responseLoudspeakerModel = content.responseLoudspeakerModel ?? ""
-        model.systemLatency = content.systemLatency ?? 0.0
+        model.systemLatency = content.systemLatency         // Nilable
         model.microphone = content.microphone ?? ""
         model.measurement = content.measurement ?? ""
         model.interface = content.interface ?? ""
@@ -180,8 +262,6 @@ class MeasurementListViewModel: ObservableObject {
 
         // Scale to 0...100
         model.tfCoherence = model.tfCoherence.map { $0 * 100.0}
-        
-  
     }
 
     private func convertDataArray(dataText: String?) -> [Double] {

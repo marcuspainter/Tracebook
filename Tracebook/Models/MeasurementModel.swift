@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MeasurementModel: ObservableObject, Identifiable, Hashable {
+final class MeasurementModel: ObservableObject, Identifiable, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -21,8 +21,8 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var firmwareVersion: String = ""
     var loudspeakerBrand: String = ""
     var category: String = ""
-    var delayLocator: Double = 0.0
-    @Published var distance: Double = 0.0
+    var delayLocator: Double?       // Nilable
+    var distance: Double?           // Nilable
     var dspPreset: String = ""
     var photoSetup: String = ""
     var fileAdditional: [String] = []
@@ -38,7 +38,7 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var calibrator: String = ""
     var measurementType: String = ""
     var presetVersion: String = ""
-    var temperature: Double = 0.0
+    var temperature: Double?       // Nilable
     var tempUnits: String = ""
     var responseLoudspeakerBrand: String = ""
     var coherenceScale: String = ""
@@ -46,7 +46,7 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var fileTFNative: String = ""
     var splGroundPlane: Bool = false
     var responseLoudspeakerModel: String = ""
-    var systemLatency: Double = 0.0
+    var systemLatency: Double?      // Nilable
     @Published var microphone: String = ""
     var measurement: String = ""
     var interface: String = ""
@@ -64,7 +64,7 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var firmwareVersionNA: Bool? = false
     var inputMeter: Double? = 0.0
 
-    // Measurement Item
+    // Measurement
     var additionalContent: String = ""
     var approved: String = ""
     var commentCreator: String? = ""
@@ -85,76 +85,67 @@ class MeasurementModel: ObservableObject, Identifiable, Hashable {
     // var id: String = ""
     var loudspeakerTags: [String]? = []
     var emailSent: Bool? = false
-    
+
     // Generated from slug
     var tracebookURL: String?
 
     func processMagnitude(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
-        let newMagnitudeData = self.tfMagnitude.enumerated().map {
-            let index = $0
-            let f = self.tfFrequency[index]
+        let newMagnitudeData = self.tfFrequency.enumerated().map { index, frequency in
+            guard index < self.tfMagnitude.count else { return (frequency, Double.nan) }
+            let magnitude = self.tfMagnitude[index]
             
-            var c = 100.0
-            // Check coherence data exists
-            if self.tfCoherence.count > 0 {
-                c = self.tfCoherence[index]
+            if index < self.tfCoherence.count {
+                let coherence = self.tfCoherence[index]
+                if coherence < threshold {
+                    return (frequency, Double.nan)
+                }
             }
-            let m = $1
-            if c < threshold {
-                return (f, Double.nan)
-            } else {
-                return (f, m)
-            }
+            return (frequency, magnitude)
         }
         return newMagnitudeData
     }
 
     func processPhase(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
 
-        let newPhaseData = self.tfPhase.enumerated().map {
-            let index = $0
-            let f = self.tfFrequency[index]
+        let newPhaseData = self.tfFrequency.enumerated().map { index, frequency in
+            guard index < self.tfPhase.count else { return (frequency, Double.nan) }
+            var phase = self.tfPhase[index]
             
-            var c = 100.0
-            // Check coherence data exists
-            if self.tfCoherence.count > 0 {
-                c = self.tfCoherence[index]
+            if index < self.tfCoherence.count {
+                let coherence = self.tfCoherence[index]
+                if coherence < threshold {
+                    return (frequency, Double.nan)
+                }
             }
-            if c < threshold {
-                return (f, Double.nan)
-            }
-
-            var p = $1
-            p = p + (f * 360.0 * (delay * -1 / 1000))
+            phase += (frequency * 360.0 * (delay * -1.0 / 1000.0))
             if isPolarityInverted {
-                p = p + 180.0
+                phase += 180.0
             }
-            p = wrapTo180(p)
-            return (f, p)
+            phase = wrapTo180(phase)
+            return (frequency, phase)
         }
         return newPhaseData
     }
 
     func processCoherence(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
-        let newCoherenceData = self.tfCoherence.enumerated().map {
-            let index = $0
-            let f = self.tfFrequency[index]
-            let c = $1
-            if c < threshold {
-                return (f, Double.nan)
-            } else {
-                return (f, (c / 3.33)) // Scale to fit graph axis
+        let newCoherenceData = self.tfFrequency.enumerated().map { index, frequency in
+            guard index < self.tfCoherence.count else { return (frequency, Double.nan) }
+            let coherence = self.tfCoherence[index]
+            
+            if coherence < threshold {
+                return (frequency, Double.nan)
             }
+            return (frequency, (coherence / 3.333)) // Scale to fit graph axis at 30dB = 100%
         }
         return newCoherenceData
     }
 
-    private func wrapTo180(_ x: Double) -> Double {
-        var y = (x + 180.0).truncatingRemainder(dividingBy: 360.0)
-        if y < 0.0 {
-            y += 360.0
+    private func wrapTo180(_ phase: Double) -> Double {
+        var newPhase = (phase + 180.0).truncatingRemainder(dividingBy: 360.0)
+        if newPhase < 0.0 {
+            newPhase += 360.0
         }
-        return y - 180.0
+        return newPhase - 180.0
     }
 
 }

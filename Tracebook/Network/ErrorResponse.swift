@@ -15,5 +15,6 @@ struct ErrorResponse: Codable {
 
 // MARK: - ErrorBody
 struct ErrorBody: Codable {
-    let status, message: String
+    let status: String
+    let message: String
 }

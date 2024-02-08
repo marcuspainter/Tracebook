@@ -11,9 +11,11 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.appVersion) var appVersion
+    @Environment(\.appBuild) var appBuild
 
     let supportURL: String
     let privacyPolicyURL: String
+    let tracebookURL: String
 
     init() {
         let pList = getSettingsPList()
@@ -29,6 +31,12 @@ struct SettingsView: View {
         } else {
             privacyPolicyURL = ""
         }
+
+        if let tracebookURL = pList["TracebookURL"] as? String {
+            self.tracebookURL = tracebookURL
+        } else {
+            tracebookURL = ""
+        }
     }
 
     var body: some View {
@@ -40,7 +48,7 @@ struct SettingsView: View {
 
                 Section(header: Text("About")) {
                     LabeledContent {
-                        Text(appVersion)
+                        Text("\(appVersion) (\(appBuild))")
                     } label: {
                         Text("Version")
                     }
@@ -49,6 +57,13 @@ struct SettingsView: View {
                 Section(header: Text("Links")) {
                     Link("Support", destination: URL(string: supportURL)!)
                     Link("Privacy Policy", destination: URL(string: privacyPolicyURL)!)
+                }
+
+                Section(header: Text("Tracebook"),
+                        footer: Text(
+                            "Sign up Tracebook to download/upload measurements, comment, " +
+                            "and join the forum at trace-book.org.")) {
+                    Link("Tracebook Website", destination: URL(string: tracebookURL)!)
                 }
             }
             .navigationTitle("Settings")
@@ -66,16 +81,19 @@ struct SettingsView: View {
     }
 }
 
-func getSettingsPList() -> Dictionary<String, AnyObject> {
+func getSettingsPList() -> [String: AnyObject] {
     // Property List file name = regions.plist
     let pListFileURL = Bundle.main.url(forResource: "Settings", withExtension: "plist", subdirectory: "")
     if let pListPath = pListFileURL?.path,
        let pListData = FileManager.default.contents(atPath: pListPath) {
         do {
-            let pListObject = try PropertyListSerialization.propertyList(from: pListData, options: PropertyListSerialization.ReadOptions(), format: nil)
+            let pListObject = try PropertyListSerialization.propertyList(
+                from: pListData,
+                 options: PropertyListSerialization.ReadOptions(),
+                format: nil)
 
             // Cast pListObject - If expected data type is Dictionary
-            guard let pListDictionary = pListObject as? Dictionary<String, AnyObject> else {
+            guard let pListDictionary = pListObject as? [String: AnyObject] else {
                 return [:]
             }
 

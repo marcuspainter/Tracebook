@@ -11,14 +11,16 @@ import Foundation
 
 class AppConfig {
     var config: [String: Any]?
-    
+
     init() {
         if let infoPlistPath = Bundle.main.url(forResource: "Config", withExtension: "plist") {
             do {
                 let infoPlistData = try Data(contentsOf: infoPlistPath)
-                
-                if let dict = try PropertyListSerialization.propertyList(from: infoPlistData, options: [], format: nil) as? [String: Any] {
-                    config = dict
+
+                if let dictionary = try PropertyListSerialization.propertyList(from: infoPlistData,
+                                                                         options: [],
+                                                                         format: nil) as? [String: Any] {
+                    config = dictionary
                 }
             } catch {
                 print(error)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserModel: Codable {
+final class UserModel: Codable {
     var name: String
     var photo: String
     let location: String
@@ -18,8 +18,8 @@ class UserModel: Codable {
     var following: [String]
     var measurementsCreated: [String]
     var referralCode: String
-    var pseudonym: String?
+    var pseudonym: String
     var measurementsCreatedCount: Int
-    var userSignedUp: Bool 
+    var userSignedUp: Bool
     var id: String
 }

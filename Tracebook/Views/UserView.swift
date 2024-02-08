@@ -7,33 +7,33 @@
 
 import SwiftUI
 
-struct ProfileView: View {
-    var profile: ProfileModel
+struct UserView: View {
+    var user: UserViewModel
 
     var body: some View {
         Group {
-            AsyncImage(url: URL(string: profile.image), content: asyncImageContent)
+            AsyncImage(url: URL(string: user.photo), content: asyncImageContent)
                 .frame(width: 96, height: 96)
 
-            Text(profile.name)
+            Text(user.name)
                 .font(.title)
 
-            Text(profile.location)
+            Text(user.location)
                 .font(.body)
                 .padding(.bottom)
 
-            Text(profile.company)
+            Text(user.headline)
                 .padding(.bottom)
 
             HStack {
                 VStack {
                     Text("Followers")
-                    Text(profile.followers.formatted()).monospacedDigit()
+                    Text(user.followers.formatted()).monospacedDigit()
                 }
                 Divider()
                 VStack {
                     Text("Following")
-                    Text(profile.following.formatted()).monospacedDigit()
+                    Text(user.following.formatted()).monospacedDigit()
                 }
             }
             .fixedSize(horizontal: false, vertical: true)
@@ -42,7 +42,7 @@ struct ProfileView: View {
 
             VStack {
                 Text("Uploads")
-                Text(profile.uploads.formatted()).monospacedDigit()
+                Text(user.measurementsCreatedCount.formatted()).monospacedDigit()
             }
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
@@ -51,6 +51,6 @@ struct ProfileView: View {
 }
 
 #Preview {
-    let profile = ProfileModel()
-    return ProfileView(profile: profile)
+    let user = UserViewModel()
+    return UserView(user: user)
 }

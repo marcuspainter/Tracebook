@@ -78,7 +78,7 @@ struct MeasurementContent: Codable {
         case tempUnits = "Temp Units"
         case responseLoudspeakerBrand = "_Loudspeaker Brand"
         case coherenceScale = "Coherence Scale"
-        case analyzer = "Analyzer"
+        case analyzer = "_Analyzer"
         case fileTFNative = "File TF native"
         case splGroundPlane = "SPL ground-plane"
         case responseLoudspeakerModel = "_Loudspeaker Model"

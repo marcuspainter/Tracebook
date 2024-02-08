@@ -35,10 +35,10 @@ struct LoginView: View {
 
             Button(action: {
 
-            }) {
+            }, label: {
                 Text("Log In")
                     .frame(maxWidth: .infinity)
-            }
+            })
             .buttonStyle(.borderedProminent)
             .tint(.blue)
             .padding(.bottom)

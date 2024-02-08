@@ -25,3 +25,19 @@ func appVersion() -> String {
     let version = dictionary["CFBundleShortVersionString"] ?? ""
     return "\(version)"
 }
+
+private struct AppBuildKey: EnvironmentKey {
+    static let defaultValue: String = appBuild()
+}
+
+extension EnvironmentValues {
+    var appBuild: String {
+        { self[AppBuildKey.self] }()
+    }
+}
+
+func appBuild() -> String {
+    let dictionary = Bundle.main.infoDictionary!
+    let build = dictionary["CFBundleVersion"] ?? ""
+    return "\(build)"
+}

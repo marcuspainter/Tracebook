@@ -33,12 +33,13 @@ struct MeasurementItemView: View {
                     TraceBadge(text: "SPL", color: .blue, isEnabled: false)
                     TraceSymbol(symbol: "trophy.fill", colors: [Color(.systemGray), .gray, .yellow],
                                 index: measurement.medal == "Gold" ? 2 : measurement.medal == "Silver" ? 1 : 0)
-                    TraceSymbol(symbol: "checkmark.circle.fill", colors: [.blue, Color(.systemGray3)], index: measurement.approved == "Approved" ? 0 : 1)
+                    TraceSymbol(symbol: "checkmark.circle.fill", colors: [.blue, Color(.systemGray3)],
+                                index: measurement.approved == "Approved" ? 0 : 1)
                 }.font(.caption)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
                 HStack {
-                    Text(measurement.commentCreator ?? "Hello")
+                    Text(measurement.commentCreator ?? "")
                         .font(.caption)
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                         // .border(.green)

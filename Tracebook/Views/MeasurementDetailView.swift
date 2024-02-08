@@ -30,8 +30,8 @@ struct MeasurementDetailView: View {
             ScrollView {
                 VStack {
                     Group {
-                        Text(user.name)
-                        Link("View on Tracebook", destination: URL(string: measurement.tracebookURL ?? "")!)
+                        // Text(user.name)
+
                         Text("Magnitude")
                         Chart {
                             ForEach(coherenceData, id: \.0) { data in
@@ -57,7 +57,6 @@ struct MeasurementDetailView: View {
                         // .chartForegroundStyleScale(["1":.blue, "2":.red])
                         .chartXAxis {
                             AxisMarks(values: frequencyXAxisValues) { value in
-
                                 AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
                                 AxisValueLabel {
                                     if let intValue = value.as(Int.self) {
@@ -83,7 +82,7 @@ struct MeasurementDetailView: View {
                         }
                         .chartXScale(domain: 20 ... 20000, type: .log)
                         .chartYAxisLabel(position: .trailing, alignment: .center) {
-                            Text("Power (dB)")
+                            Text("Magnitude (dB)")
                         }
                         .chartYScale(domain: -35 ... 35, type: .linear)
                         .clipped()
@@ -130,7 +129,14 @@ struct MeasurementDetailView: View {
                         }
                         .chartXScale(domain: 20 ... 20000, type: .log)
                         .chartYAxis {
-                            AxisMarks(position: .leading, values: phaseYAxisValues)
+                            AxisMarks(position: .leading, values: phaseYAxisValues) { value in
+                                AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
+                                AxisValueLabel {
+                                    if let intValue = value.as(Int.self) {
+                                        Text("\(intValue)")
+                                    }
+                                }
+                            }
                         }
                         .chartYAxisLabel(position: .trailing, alignment: .center) {
                             Text("Phase (°)")
@@ -140,12 +146,18 @@ struct MeasurementDetailView: View {
                         .clipped()
                         .frame(height: 200)
                     }
-                    .navigationTitle(measurement.loudspeakerModel)
+                    .navigationTitle(measurement.title)
+
+                    HStack {
+                        Link("View on Tracebook", destination: URL(string: measurement.tracebookURL ?? "")!)
+                            .font(.footnote)
+                    }
 
                     HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)
                             .onChange(of: isPolarityInverted) { _ in
-                                self.phaseData = measurement.processPhase(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                                self.phaseData = measurement.processPhase(
+                                    delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
                             }.frame(width: 100, alignment: .leading)
                         Button("Reset") {
                             delay = 0.0
@@ -161,7 +173,9 @@ struct MeasurementDetailView: View {
 
                     HStack {
                         Text("Delay").frame(maxWidth: .infinity, alignment: .leading)
-                        Text("\(delay, specifier: "%.1f") ms").monospacedDigit().frame(maxWidth: .infinity, alignment: .center)
+                        Text("\(delay, specifier: "%.1f") ms")
+                            .monospacedDigit()
+                            .frame(maxWidth: .infinity, alignment: .center)
                         Color.clear.frame(maxWidth: .infinity)
                     }
                     Slider(
@@ -176,12 +190,15 @@ struct MeasurementDetailView: View {
                         Text("20").font(.footnote)
                     }
                     .onChange(of: delay) { _ in
-                        self.phaseData = measurement.processPhase(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                        self.phaseData = measurement.processPhase(
+                            delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
                     }
 
                     HStack {
                         Text("Coherence").frame(maxWidth: .infinity, alignment: .leading)
-                        Text("\(coherence, specifier: "%.0f")%").monospacedDigit().frame(maxWidth: .infinity, alignment: .center)
+                        Text("\(coherence, specifier: "%.0f")%")
+                            .monospacedDigit()
+                            .frame(maxWidth: .infinity, alignment: .center)
                         Color.clear.frame(maxWidth: .infinity)
                     }
 
@@ -196,20 +213,24 @@ struct MeasurementDetailView: View {
                         Text("100").font(.footnote)
                     }
                     .onChange(of: coherence) { _ in
-                        self.magitudeData = measurement.processMagnitude(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
-                        self.phaseData = measurement.processPhase(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
-                        self.coherenceData = measurement.processCoherence(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
-                        self.originalPhaseData = measurement.processPhase(delay: 0.0, threshold: coherence, isPolarityInverted: false)
+                        self.magitudeData = measurement.processMagnitude(
+                            delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                        self.phaseData = measurement.processPhase(
+                            delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                        self.coherenceData = measurement.processCoherence(
+                            delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                        self.originalPhaseData = measurement.processPhase(
+                            delay: 0.0, threshold: coherence, isPolarityInverted: false)
                     }
 
                     TextLine(text: "Calibrator Reference:", value: measurement.calibrator)
                     TextLine(text: "Microphone:", value: measurement.microphone)
-                    TextLine(text: "Distance:", value: measurement.distance.formatted() + " " + measurement.distanceUnits)
-                    TextLine(text: "Delay locator:", value: measurement.delayLocator.formatted() + "ms")
-                    TextLine(text: "System latency:", value: measurement.systemLatency.formatted() + "ms")
-                    TextLine(text: "Temperature:", value: measurement.temperature.formatted() + measurement.tempUnits)
+                    TextLine(text: "Distance:", value: valueUnit(measurement.distance, measurement.distanceUnits))
+                    TextLine(text: "Delay locator:", value: valueUnit(measurement.delayLocator, "ms"))
+                    TextLine(text: "System latency:", value: valueUnit(measurement.systemLatency, "ms"))
+                    TextLine(text: "Temperature:", value: valueUnit(measurement.temperature, measurement.tempUnits))
                     TextLine(text: "Microphone interface:", value: measurement.interface)
-                    TextLine(text: "Microphone interface settings:", value: "?")
+                    TextLine(text: "Microphone interface settings:", value: "")
                     TextLine(text: "Microphone correction curve:", value: measurement.micCorrectionCurve)
                     TextLine(text: "Windscreen:", value: measurement.windscreen)
                     TextLine(text: "Analyzer:", value: measurement.analyzer)
@@ -218,33 +239,45 @@ struct MeasurementDetailView: View {
                     Divider()
 
                     TextLine(text: "Preset:", value: measurement.dspPreset)
-                    TextLine(text: "Processing preset:", value: "?")
+                    TextLine(text: "Processing preset:", value: measurement.category)
                     TextLine(text: "Preset version:", value: measurement.presetVersion)
                     TextLine(text: "Firmware version:", value: measurement.firmwareVersion)
-                    TextLine(text: "User Definable Settings:", value: "?")
+                    TextLine(text: "User Definable Settings:", value: measurement.notes)
 
-                    // TextLine(text: "Comments:", value: "?")
-                    // TextLine(text: "Tags:", value: measurement.loudspeakerTags)
+                    Divider()
 
-                    // AsyncImage(url: URL(string: "https:\(measurement.photoSetup)"), content: asyncImageContent)
-                    //    .frame(width: 200, height: 200)
+                    TextLine(text: "Comments:", value: measurement.commentCreator ?? "")
+
+                    Divider()
+
+                    VStack {
+                        Text("Setup").multilineTextAlignment(.leading)
+                        AsyncImage(url: URL(string: "https:\(measurement.photoSetup)"), content: asyncImageContent)
+                            .frame(maxWidth: 400)
+                    }
                 }
                 .onAppear {
-                    self.magitudeData = measurement.processMagnitude(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
-                    self.phaseData = measurement.processPhase(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
-                    self.coherenceData = measurement.processCoherence(delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                    self.magitudeData = measurement.processMagnitude(
+                        delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                    self.phaseData = measurement.processPhase(
+                        delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
+                    self.coherenceData = measurement.processCoherence(
+                        delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
 
                     // Gray reference trace
-                    self.originalPhaseData = measurement.processPhase(delay: 0.0, threshold: coherence, isPolarityInverted: false)
+                    self.originalPhaseData = measurement.processPhase(
+                        delay: 0.0, threshold: coherence, isPolarityInverted: false)
                 }
                 .padding()
             }
         }
-        .onAppear {
-            Task {
-                await user.getUser(id: measurement.createdBy)
-            }
-        }
+        /*
+         .onAppear {
+             Task {
+                 await user.getUser(id: measurement.createdBy)
+             }
+         }
+          */
     }
 }
 
@@ -263,4 +296,11 @@ struct TextLine: View {
             Text(value)
         }.frame(maxWidth: .infinity, alignment: .leading)
     }
+}
+
+func valueUnit(_ value: Double?, _ unitString: String) -> String {
+    if let value {
+        return value.formatted() + " " + unitString
+    }
+    return ""
 }

@@ -9,7 +9,8 @@ struct MeasurementListResponse: Codable {
 struct MeasurementListResult: Codable {
     let cursor: Int
     let results: [MeasurementItem]
-    let count, remaining: Int
+    let count: Int
+    let remaining: Int
 }
 
 // MARK: - MeasurementItem
@@ -58,10 +59,12 @@ struct MeasurementItem: Codable {
     }
 }
 
+/*
 enum Approved: String, Codable {
     case approved = "Approved"
     case incomplete = "Incomplete"
 }
+*/
 
 enum LoudspeakerTag: String, Codable {
     case activeSystem = "Active System"

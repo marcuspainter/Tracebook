@@ -20,7 +20,7 @@ func asyncImageContent(for phase: AsyncImagePhase) -> some View {
         image
             .resizable()
             .aspectRatio(contentMode: .fit)
-        case .failure:
+    case .failure:
         Image(systemName: "photo")
             .imageScale(.large)
             .foregroundColor(.gray)
