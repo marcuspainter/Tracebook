@@ -13,29 +13,21 @@ struct SettingsView: View {
     @Environment(\.appVersion) var appVersion
     @Environment(\.appBuild) var appBuild
 
-    let supportURL: String
-    let privacyPolicyURL: String
-    let tracebookURL: String
+    var supportURL: String = ""
+    var privacyPolicyURL: String = ""
+    var tracebookURL: String = ""
 
     init() {
         let pList = getSettingsPList()
 
         if let supportURL = pList["AppSupportURL"] as? String {
             self.supportURL = supportURL
-        } else {
-            supportURL = ""
         }
-
         if let privacyPolicyURL = pList["AppPrivacyPolicyURL"] as? String {
             self.privacyPolicyURL = privacyPolicyURL
-        } else {
-            privacyPolicyURL = ""
         }
-
         if let tracebookURL = pList["TracebookURL"] as? String {
             self.tracebookURL = tracebookURL
-        } else {
-            tracebookURL = ""
         }
     }
 
@@ -55,15 +47,20 @@ struct SettingsView: View {
                 }
 
                 Section(header: Text("Links")) {
-                    Link("Support", destination: URL(string: supportURL)!)
-                    Link("Privacy Policy", destination: URL(string: privacyPolicyURL)!)
+                    if let url = URL(string: supportURL) {
+                        Link("Support", destination: url)
+                    }
+                    if let url = URL(string: privacyPolicyURL) {
+                        Link("Privacy Policy", destination: url)
+                    }
                 }
 
                 Section(header: Text("Tracebook"),
-                        footer: Text(
-                            "Sign up Tracebook to download/upload measurements, comment, " +
-                            "and join the forum at trace-book.org.")) {
-                    Link("Tracebook Website", destination: URL(string: tracebookURL)!)
+                        footer: Text("Sign up Tracebook to download/upload measurements, comment, " +
+                                "and join the forum at trace-book.org.")) {
+                    if let url = URL(string: tracebookURL) {
+                        Link("Tracebook Website", destination: url)
+                    }
                 }
             }
             .navigationTitle("Settings")
@@ -89,7 +86,7 @@ func getSettingsPList() -> [String: AnyObject] {
         do {
             let pListObject = try PropertyListSerialization.propertyList(
                 from: pListData,
-                 options: PropertyListSerialization.ReadOptions(),
+                options: PropertyListSerialization.ReadOptions(),
                 format: nil)
 
             // Cast pListObject - If expected data type is Dictionary

@@ -87,7 +87,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var emailSent: Bool? = false
 
     // Generated from slug
-    var tracebookURL: String?
+    var tracebookURL: String = ""
 
     func processMagnitude(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
         let newMagnitudeData = self.tfFrequency.enumerated().map { index, frequency in

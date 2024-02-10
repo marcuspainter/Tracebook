@@ -149,8 +149,10 @@ struct MeasurementDetailView: View {
                     .navigationTitle(measurement.title)
 
                     HStack {
-                        Link("View on Tracebook", destination: URL(string: measurement.tracebookURL ?? "")!)
-                            .font(.footnote)
+                            if let url = URL(string: measurement.tracebookURL) {
+                                Link("View on Tracebook", destination: url)
+                                    .font(.footnote)
+                            }
                     }
 
                     HStack {
