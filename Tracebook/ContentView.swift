@@ -5,6 +5,8 @@
 //  Created by Marcus Painter on 07/12/2023.
 //
 
+// https://stackoverflow.com/questions/69511960/customize-searchable-search-field-swiftui-ios-15
+
 import SwiftUI
 
 struct ContentView: View {
@@ -14,10 +16,7 @@ struct ContentView: View {
 
     @State var username: String = ""
     @State var password: String = ""
-
-    init() {
-        // https://stackoverflow.com/questions/69511960/customize-searchable-search-field-swiftui-ios-15
-    }
+    @State var isDownloading: Bool = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -30,12 +29,13 @@ struct ContentView: View {
             }
             .listStyle(.plain)
             .refreshable {
+                // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
                 print("Pull")
-                if !measurementListViewModel.isDownloading {
-                    Task {
+                await Task {
+                    if !isDownloading {
                         await measurementListViewModel.loadMeasurements()
                     }
-                }
+                 }.value
 
             }
             .navigationTitle("Tracebook")
@@ -82,11 +82,11 @@ struct ContentView: View {
         }
         .onAppear {
             Task {
-                //await measurementListViewModel.getMeasurementList()
+                isDownloading = true
                 await measurementListViewModel.loadMeasurements()
-                //measurementListViewModel.measurementStore.models.removeFirst()
-                //measurementListViewModel.measurements.removeFirst()
+                isDownloading = false
                 print("Done")
+ 
             }
         }
     }

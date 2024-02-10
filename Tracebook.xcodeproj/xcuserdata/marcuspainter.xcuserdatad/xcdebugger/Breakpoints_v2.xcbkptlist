@@ -20,5 +20,100 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BFE72732-979B-41A9-996F-3F950D07310B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tracebook/ViewModels/MeasurementListViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "loadMeasurements()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BFE72732-979B-41A9-996F-3F950D07310B - a53bd948ced70ff7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for Tracebook.MeasurementListViewModel.loadMeasurements() async -&gt; ()"
+                  moduleName = "Tracebook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcuspainter/Work/Tracebook/Tracebook/ViewModels/MeasurementListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "1176">
+               </Location>
+               <Location
+                  uuid = "BFE72732-979B-41A9-996F-3F950D07310B - a53bd948ced70ff7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for Tracebook.MeasurementListViewModel.loadMeasurements() async -&gt; ()"
+                  moduleName = "Tracebook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcuspainter/Work/Tracebook/Tracebook/ViewModels/MeasurementListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "1424">
+               </Location>
+               <Location
+                  uuid = "BFE72732-979B-41A9-996F-3F950D07310B - ada67d7f87cd920f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Tracebook.MeasurementModel) -&gt; Swift.Bool in Tracebook.MeasurementListViewModel.loadMeasurements() async -&gt; ()"
+                  moduleName = "Tracebook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcuspainter/Work/Tracebook/Tracebook/ViewModels/MeasurementListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "90F77103-ED4E-426F-96F0-9C08C302E123"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tracebook/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F6821E4E-4EAA-44E0-8476-57591B7AAE31"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tracebook/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

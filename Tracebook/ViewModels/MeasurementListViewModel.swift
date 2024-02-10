@@ -12,7 +12,6 @@ class MeasurementListViewModel: ObservableObject {
 
     @Published var searchText: String = ""
     @Published var measurements: [MeasurementModel] = []
-    @Published var isDownloading: Bool = false
 
     private var tracebookAPI = TracebookAPI()
     public var measurementStore = MeasurementStore()
@@ -32,14 +31,6 @@ class MeasurementListViewModel: ObservableObject {
     
     func loadMeasurements() async {
         
-        guard !isDownloading else {
-            print("Waiting.. Try again later")
-            return
-        }
-        print("Downloading")
-        
-        self.isDownloading = true
-
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
                 await self.getMicrophones()
@@ -53,20 +44,22 @@ class MeasurementListViewModel: ObservableObject {
         }
         
         let dateString = measurementStore.models.isEmpty ? "2000-01-01" : (measurementStore.models.first?.createdDate ?? "2001-01-01")
-        
+
         print("Start from: \(dateString)")
         
         var newMeasurementModels: [MeasurementModel] = []
 
         var cursor: Int = 0
         while true {
-            guard let measurementListResponse = await tracebookAPI.getMeasurementListbyDate(cursor: cursor, dateString: dateString) else { break }
+            guard let measurementListResponse = await tracebookAPI.getMeasurementListbyDate(cursor: cursor, dateString: dateString) else {
+                break
+            }
 
             let measurementList = measurementListResponse.response.results
             for measurementItem in measurementList {
                 let model = convertListToModel(measurement: measurementItem)
                 
-                if let i = self.measurementStore.models.firstIndex(where: { $0.id == model.id }) {
+                if self.measurementStore.models.first(where: { $0.id == model.id }) != nil {
                     print("Duplicate: \(model.title)")
                 }
                 else {
@@ -95,10 +88,11 @@ class MeasurementListViewModel: ObservableObject {
         }
 
         self.measurements = self.measurementStore.models
-        self.isDownloading = false
     }
 
     func getMeasurementList() async {
+        
+      
 
         measurements.removeAll()
         measurementStore.models.removeAll()
