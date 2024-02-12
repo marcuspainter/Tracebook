@@ -62,7 +62,7 @@ struct MeasurementDetailView: View {
                                     if let intValue = value.as(Int.self) {
                                         let textValue = intValue < 999 ? "\(intValue)" : "\(intValue / 1000)k"
                                         Text(textValue)
-                                            .font(.system(size: 10))
+                                            .font(.caption2)
                                     }
                                 }
                             }
@@ -119,7 +119,7 @@ struct MeasurementDetailView: View {
                                     if let intValue = value.as(Int.self) {
                                         let textValue = intValue < 999 ? "\(intValue)" : "\(intValue / 1000)k"
                                         Text(textValue)
-                                            .font(.system(size: 10))
+                                            .font(.caption2)
                                     }
                                 }
                             }
@@ -160,7 +160,7 @@ struct MeasurementDetailView: View {
                             .onChange(of: isPolarityInverted) { _ in
                                 self.phaseData = measurement.processPhase(
                                     delay: delay, threshold: coherence, isPolarityInverted: isPolarityInverted)
-                            }.frame(width: 100, alignment: .leading)
+                            }.frame(width: 130, alignment: .leading)
                         Button("Reset") {
                             delay = 0.0
                             coherence = 0.0

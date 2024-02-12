@@ -13,10 +13,12 @@ struct MeasurementItemView: View {
 
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: "https:\(measurement.thumbnailImage ?? "")"), content: asyncImageContent)
-                .padding(.top, 0)
-                .frame(width: 75, height: 75, alignment: .top)
-
+            VStack {
+                AsyncImage(url: URL(string: "https:\(measurement.thumbnailImage ?? "")"), content: asyncImageContent)
+                    .padding(.top, 0)
+                    .frame(width: 75, height: 75, alignment: .center)
+                Spacer()
+            }
             VStack {
                 Group {
                     Text(measurement.title)
@@ -42,7 +44,7 @@ struct MeasurementItemView: View {
                     Text(measurement.commentCreator ?? "")
                         .font(.caption)
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        // .border(.green)
+                        .lineLimit(2)
 
                 }
             }
