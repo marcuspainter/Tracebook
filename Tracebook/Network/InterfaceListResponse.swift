@@ -29,7 +29,7 @@ struct InterfaceItem: Codable {
     let id: String?
     let selectableVoltageRange: Bool?
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case brandModel = "Brand+Model"
         case createdBy = "Created By"
         case createdDate = "Created Date"

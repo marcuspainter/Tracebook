@@ -16,6 +16,7 @@ struct SettingsView: View {
     var supportURL: String = ""
     var privacyPolicyURL: String = ""
     var tracebookURL: String = ""
+    var facebookGroupURL: String = ""
 
     init() {
         let pList = getSettingsPList()
@@ -28,6 +29,12 @@ struct SettingsView: View {
         }
         if let tracebookURL = pList["TracebookURL"] as? String {
             self.tracebookURL = tracebookURL
+        }
+        if let tracebookURL = pList["TracebookURL"] as? String {
+            self.tracebookURL = tracebookURL
+        }
+        if let facebookGroupURL = pList["FacebookGroupURL"] as? String {
+            self.facebookGroupURL = facebookGroupURL
         }
     }
 
@@ -48,18 +55,34 @@ struct SettingsView: View {
 
                 Section(header: Text("Links")) {
                     if let url = URL(string: supportURL) {
-                        Link("Support", destination: url)
+                        HStack {
+                            Link("Support", destination: url)
+                        }
                     }
                     if let url = URL(string: privacyPolicyURL) {
-                        Link("Privacy Policy", destination: url)
+                        HStack {
+                            Link("Privacy Policy", destination: url)
+                        }
                     }
                 }
 
                 Section(header: Text("Tracebook"),
                         footer: Text("Sign up Tracebook to download/upload measurements, comment, " +
-                                "and join the forum at trace-book.org.")) {
+                                     "and join the forum at trace-book.org.")) {
                     if let url = URL(string: tracebookURL) {
-                        Link("Tracebook Website", destination: url)
+                        HStack {
+                            Link("Tracebook Website", destination: url)
+                        }
+                    }
+                }
+
+                Section(header: Text("Facebook"),
+                        footer: Text("The Official group on Facebook for connecting, sharing, and learning " +
+                                     "with people that have an interest in Tracebook.")) {
+                    if let url = URL(string: facebookGroupURL) {
+                        HStack {
+                            Link("Facebook Group", destination: url)
+                        }
                     }
                 }
             }

@@ -53,7 +53,7 @@ struct MeasurementContent: Codable {
     let firmwareVersionNA: Bool?
     let inputMeter: Double?
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case firmwareVersion = "Firmware Version"
         case loudspeakerBrand = "Loudspeaker Brand"
         case category = "Category"

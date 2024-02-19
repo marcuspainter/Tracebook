@@ -27,6 +27,7 @@
 		1927F6582B33C87500B1C474 /* InterfaceListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6572B33C87500B1C474 /* InterfaceListResponse.swift */; };
 		1927F65A2B33F85200B1C474 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6592B33F85200B1C474 /* ErrorResponse.swift */; };
 		1930562E2B71C6B300FB6E07 /* MeasurementStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */; };
+		193E412C2B81597E00109B91 /* DownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193E412B2B81597E00109B91 /* DownloadView.swift */; };
 		19410E002B7433A400F4AA26 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19410DFF2B7433A400F4AA26 /* Bubble.swift */; };
 		1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */ = {isa = PBXBuildFile; fileRef = 19776B7E2B30849000DB0E1B /* measurementcontent.json */; };
 		1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1949FE362B56EA21000D94A8 /* AppConfig.swift */; };
@@ -96,6 +97,7 @@
 		1927F6572B33C87500B1C474 /* InterfaceListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceListResponse.swift; sourceTree = "<group>"; };
 		1927F6592B33F85200B1C474 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementStore.swift; sourceTree = "<group>"; };
+		193E412B2B81597E00109B91 /* DownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadView.swift; sourceTree = "<group>"; };
 		19410DFF2B7433A400F4AA26 /* Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
 		1949FE342B56E967000D94A8 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		1949FE362B56EA21000D94A8 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				191C770C2B21679900406EAD /* MeasurementDetailView.swift */,
 				191C77132B22126400406EAD /* LoginView.swift */,
 				191C77152B22313A00406EAD /* UserView.swift */,
+				193E412B2B81597E00109B91 /* DownloadView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				191C771E2B22929600406EAD /* DismissButton.swift in Sources */,
+				193E412C2B81597E00109B91 /* DownloadView.swift in Sources */,
 				191C77032B215DDF00406EAD /* MeasurementItemView.swift in Sources */,
 				19C8F7292B23E7EA0072ED04 /* ColorSchemeManager.swift in Sources */,
 				1927F6562B33C18300B1C474 /* MicrophoneListResponse.swift in Sources */,
@@ -691,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -727,7 +731,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

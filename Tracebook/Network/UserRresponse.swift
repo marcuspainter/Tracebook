@@ -29,7 +29,7 @@ struct UserContent: Codable {
     let userSignedUp: Bool?
     let id: String
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case name = "Name"
         case photo = "Photo"
         case location = "Location"

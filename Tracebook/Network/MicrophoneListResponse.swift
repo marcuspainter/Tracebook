@@ -28,7 +28,7 @@ struct MicrophoneItem: Codable {
     let modifiedDate: String?
     let id: String?
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case micBrandModel = "Mic brand+model"
         case createdBy = "Created By"
         case createdDate = "Created Date"

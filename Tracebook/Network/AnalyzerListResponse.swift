@@ -23,7 +23,7 @@ struct AnalyzerItem: Codable {
     let name, createdBy, createdDate, modifiedDate: String?
     let id: String?
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case name = "Name"
         case createdBy = "Created By"
         case createdDate = "Created Date"

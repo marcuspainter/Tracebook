@@ -35,7 +35,7 @@ struct MeasurementItem: Codable {
     let loudspeakerTags: [String]?
     let emailSent: Bool?
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case additionalContent = "Additional content"
         case approved = "Approved"
         case commentCreator = "Comment Creator"

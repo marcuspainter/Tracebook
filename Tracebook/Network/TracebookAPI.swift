@@ -37,9 +37,7 @@ class TracebookAPI {
 
     func getUser(id: String) async -> UserResponse? {
         let request = buildRequest(entity: "user")
-        
-        let userResponse =  await getResponse(UserResponse.self, for: request)
-
+    
         do {
             let (jsonData, _ /* response */ ) = try await URLSession.shared.data(for: request)
             let userResponse = try JSONDecoder().decode(UserResponse.self, from: jsonData)

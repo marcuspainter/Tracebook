@@ -26,7 +26,7 @@ struct MeasurementDetailView: View {
     private let phaseYAxisValues = [-180, -135, -90, -45, 0, 45, 90, 135, 180]
 
     var body: some View {
-        GeometryReader { _ in
+        Group {
             ScrollView {
                 VStack {
                     Group {
@@ -146,13 +146,19 @@ struct MeasurementDetailView: View {
                         .clipped()
                         .frame(height: 200)
                     }
-                    .navigationTitle(measurement.title)
+                    
 
                     HStack {
                             if let url = URL(string: measurement.tracebookURL) {
                                 Link("View on Tracebook", destination: url)
                                     .font(.footnote)
                             }
+                    }
+                    
+                    NavigationLink {
+                        DownloadView(measurement: measurement)
+                    } label: {
+                        Text("Hello")
                     }
 
                     HStack {
@@ -249,6 +255,7 @@ struct MeasurementDetailView: View {
                     Divider()
 
                     TextLine(text: "Comments:", value: measurement.commentCreator ?? "")
+                    TextLine(text: "Tags:", value: measurement.loudspeakerTags?.joined(separator: ", ") ?? "")
 
                     Divider()
 
