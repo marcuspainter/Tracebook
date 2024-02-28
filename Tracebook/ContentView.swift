@@ -17,7 +17,7 @@ struct ContentView: View {
     @State var username: String = ""
     @State var password: String = ""
     @State var isDownloading: Bool = false
-
+    
     var body: some View {
         NavigationStack(path: $path) {
             List {
@@ -64,6 +64,7 @@ struct ContentView: View {
                 if measurementListViewModel.measurementStore.models.count == 0 {
                     VStack {
                         ProgressView()
+                        Text("LOADING").font(.caption)
                     }
                 } else {
                     Text("No matches")

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23D60" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Measurement" representedClassName=".Measurement" syncable="YES">
+        <attribute name="additionalContent" optional="YES" attributeType="String"/>
+        <attribute name="analyzer" optional="YES" attributeType="String"/>
+        <attribute name="analyzerName" optional="YES" attributeType="String"/>
+        <attribute name="approved" optional="YES" attributeType="String"/>
+        <attribute name="calibrator" optional="YES" attributeType="String"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="coherenceScale" optional="YES" attributeType="String"/>
+        <attribute name="commentCreator" optional="YES" attributeType="String"/>
+        <attribute name="createdDate" optional="YES" attributeType="String"/>
+        <attribute name="delayLocator" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="distanceUnits" optional="YES" attributeType="String"/>
+        <attribute name="dspPreset" optional="YES" attributeType="String"/>
+        <attribute name="fileIRWAV" optional="YES" attributeType="String"/>
+        <attribute name="fileTFCSV" optional="YES" attributeType="String"/>
+        <attribute name="firmwareVersion" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="interface" optional="YES" attributeType="String"/>
+        <attribute name="interfaceName" optional="YES" attributeType="String"/>
+        <attribute name="loudspeakerTags" optional="YES" attributeType="Transformable" valueTransformerName="StringArrayValueTransformer" customClassName="[String]"/>
+        <attribute name="medal" optional="YES" attributeType="String"/>
+        <attribute name="micCorrectionCurve" optional="YES" attributeType="String"/>
+        <attribute name="microphone" optional="YES" attributeType="String"/>
+        <attribute name="microphoneName" optional="YES" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="photoSetup" optional="YES" attributeType="String"/>
+        <attribute name="presetVersion" optional="YES" attributeType="String"/>
+        <attribute name="setupPhoto" optional="YES" attributeType="String"/>
+        <attribute name="systemLatency" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="temperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="tempUnits" optional="YES" attributeType="String"/>
+        <attribute name="tfJSONCoherence" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
+        <attribute name="tfJSONFrequency" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
+        <attribute name="tfJSONMagnitude" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
+        <attribute name="tfJSONPhase" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
+        <attribute name="thumbnailImage" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="tracebookURL" optional="YES" attributeType="String"/>
+        <attribute name="windscreen" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+</model>

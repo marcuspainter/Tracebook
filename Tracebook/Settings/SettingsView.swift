@@ -77,7 +77,7 @@ struct SettingsView: View {
                 }
 
                 Section(header: Text("Facebook"),
-                        footer: Text("The Official group on Facebook for connecting, sharing, and learning " +
+                        footer: Text("The official group on Facebook for connecting, sharing, and learning " +
                                      "with people that have an interest in Tracebook.")) {
                     if let url = URL(string: facebookGroupURL) {
                         HStack {

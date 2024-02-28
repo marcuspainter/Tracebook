@@ -92,8 +92,6 @@ class MeasurementListViewModel: ObservableObject {
 
     func getMeasurementList() async {
         
-      
-
         measurements.removeAll()
         measurementStore.models.removeAll()
 
@@ -249,16 +247,16 @@ class MeasurementListViewModel: ObservableObject {
         model.firmwareVersionNA = content.firmwareVersionNA ?? false
         model.inputMeter = content.inputMeter ?? 0.0
 
-        model.tfFrequency = convertDataArray(dataText: content.tfJSONFrequency)
-        model.tfMagnitude = convertDataArray(dataText: content.tfJSONMagnitude)
-        model.tfPhase = convertDataArray(dataText: content.tfJSONPhase)
-        model.tfCoherence = convertDataArray(dataText: content.tfJSONCoherence)
+        model.tfFrequency = convertCSVToArray(dataText: content.tfJSONFrequency)
+        model.tfMagnitude = convertCSVToArray(dataText: content.tfJSONMagnitude)
+        model.tfPhase = convertCSVToArray(dataText: content.tfJSONPhase)
+        model.tfCoherence = convertCSVToArray(dataText: content.tfJSONCoherence)
 
         // Scale to 0...100
         model.tfCoherence = model.tfCoherence.map { $0 * 100.0}
     }
 
-    private func convertDataArray(dataText: String?) -> [Double] {
+    private func convertCSVToArray(dataText: String?) -> [Double] {
         let array = dataText?.components(separatedBy: ",") ?? []
         let text = array.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
         let result = text.map { Double($0) ?? 0.0 }

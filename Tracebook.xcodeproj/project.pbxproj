@@ -44,6 +44,7 @@
 		19787DBB2B72AB5D003FB364 /* analyzer.json in Resources */ = {isa = PBXBuildFile; fileRef = 19787DBA2B72AB5D003FB364 /* analyzer.json */; };
 		19787DBE2B72ADEC003FB364 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1949FE342B56E967000D94A8 /* Settings.plist */; };
 		19787DBF2B72AE22003FB364 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */; };
+		19B354822B8BB69100C7C544 /* Tracebook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */; };
 		19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7142B23661C0072ED04 /* PasswordStore.swift */; };
 		19C8F7242B23E7BA0072ED04 /* AppVersionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7222B23E7BA0072ED04 /* AppVersionKey.swift */; };
 		19C8F7252B23E7BA0072ED04 /* LogControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7232B23E7BA0072ED04 /* LogControl.swift */; };
@@ -116,6 +117,7 @@
 		19787DB82B72AB2B003FB364 /* interface.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = interface.json; sourceTree = "<group>"; };
 		19787DBA2B72AB5D003FB364 /* analyzer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = analyzer.json; sourceTree = "<group>"; };
 		19787DBC2B72ABB4003FB364 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
+		19B354812B8BB69100C7C544 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		19C8F7222B23E7BA0072ED04 /* AppVersionKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppVersionKey.swift; sourceTree = "<group>"; };
 		19C8F7232B23E7BA0072ED04 /* LogControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogControl.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		1930562C2B71C63C00FB6E07 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */,
 				1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */,
 			);
 			path = Store;
@@ -486,6 +489,7 @@
 				19C8F73C2B23FC770072ED04 /* asyncImageContent.swift in Sources */,
 				19776B812B3084EA00DB0E1B /* MeasurementContentResponse.swift in Sources */,
 				1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */,
+				19B354822B8BB69100C7C544 /* Tracebook.xcdatamodeld in Sources */,
 				19C8F72A2B23E7EA0072ED04 /* ColorSchemePicker.swift in Sources */,
 				1930562E2B71C6B300FB6E07 /* MeasurementStore.swift in Sources */,
 				1927F6582B33C87500B1C474 /* InterfaceListResponse.swift in Sources */,
@@ -695,7 +699,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -731,7 +735,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -856,6 +860,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				19B354812B8BB69100C7C544 /* Model.xcdatamodel */,
+			);
+			currentVersion = 19B354812B8BB69100C7C544 /* Model.xcdatamodel */;
+			path = Tracebook.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 191C76C22B214CA800406EAD /* Project object */;
 }

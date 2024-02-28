@@ -92,3 +92,5 @@ struct TraceSymbol: View {
             .foregroundColor(colors[index])
     }
 }
+
+
