@@ -8,23 +8,28 @@
 import Charts
 import SwiftUI
 
-/*
+
 struct ChartData {
-    var magitudeData: [(Double, Double)] = []
-    var phaseData: [(Double, Double)] = []
-    var coherenceData: [(Double, Double)] = []
-    var originalPhaseData: [(Double, Double)] = []
+    var magnitude: [Double] = []
+    var phase: [Double] = []
+    var coherence: [Double] = []
+    var original: [ Double] = []
 }
- */
 
 struct MeasurementDetailView: View {
     @ObservedObject var measurement: MeasurementModel
     
     @StateObject var user = UserViewModel()
-    @State var magitudeData: [(Double, Double)] = []
+    @State var magnitudeData: [(Double, Double)] = []
     @State var phaseData: [(Double, Double)] = []
     @State var coherenceData: [(Double, Double)] = []
     @State var originalPhaseData: [(Double, Double)] = []
+    
+    @State var tfFrequency: [Double] = []
+    @State var tfMagnitude: [Double] = []
+    @State var tfPhase: [Double] = []
+    @State var tfCoherence: [Double] = []
+    @State var tfOriginalPhase: [Double] = []
 
     @State var isPolarityInverted: Bool = false
     @State var delay: Double = 0.0
@@ -39,9 +44,9 @@ struct MeasurementDetailView: View {
             ScrollView {
                 VStack {
                     
-                    MagnitudeChart(magitudeData: magitudeData, coherenceData: coherenceData)
+                    MagnitudeChart(frequencyData: tfFrequency, magnitudeData: tfMagnitude, coherenceData: tfCoherence)
 
-                    PhaseChart(phaseData: phaseData, originalPhaseData: originalPhaseData)
+                    PhaseChart(frequencyData: tfFrequency, phaseData: tfPhase, originalPhaseData: tfOriginalPhase)
 
                     HStack {
                         if let url = URL(string: measurement.tracebookURL) {
@@ -59,11 +64,11 @@ struct MeasurementDetailView: View {
                     HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)
                             .onChange(of: isPolarityInverted) { _ in
-                                self.phaseData = measurement.processPhase(
+                                self.tfPhase = measurement.processPhase2(
                                     delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
                             }.frame(width: 130, alignment: .leading)
                         Button("Reset") {
-
+                            resetChart()
                         }
                         .padding(5)
                         .overlay( // apply a rounded border
@@ -91,7 +96,7 @@ struct MeasurementDetailView: View {
                         Text("20").font(.footnote)
                     }
                     .onChange(of: delay) { _ in
-                        self.phaseData = measurement.processPhase(
+                        self.tfPhase = measurement.processPhase2(
                             delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
                     }
 
@@ -180,23 +185,34 @@ struct MeasurementDetailView: View {
     }
 
     func updateChart() {
-        self.magitudeData = measurement.processMagnitude(
+
+        self.tfFrequency = measurement.tfFrequency
+        /*
+        self.tfMagnitude = measurement.processMagnitude2(
             delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
-        self.phaseData = measurement.processPhase(
+        self.tfPhase = measurement.processPhase2(
             delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
-        self.coherenceData = measurement.processCoherence(
+        self.tfCoherence = measurement.processCoherence2(
             delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
 
         // Gray reference trace
-        self.originalPhaseData = measurement.processPhase(
+        self.tfOriginalPhase = measurement.processPhase2(
             delay: 0.0, threshold: threshold, isPolarityInverted: false)
+    */
+        (self.tfMagnitude, self.tfPhase, self.tfCoherence, self.tfOriginalPhase) = measurement.processAll2(
+            delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
     }
 
 }
 
 #Preview {
+    
     let measurement = MeasurementModel()
-    return MeasurementDetailView(measurement: measurement)
+    return NavigationStack {
+        MeasurementDetailView(measurement: measurement)
+            .navigationTitle("RCF 710A")
+    }
+   
 }
 
 struct TextLine: View {
@@ -219,30 +235,31 @@ func valueUnit(_ value: Double?, _ unitString: String) -> String {
 }
 
 struct MagnitudeChart: View {
+    let frequencyData: [Double]
+    let magnitudeData: [Double]
+    let coherenceData:  [Double]
+    
     private let frequencyXAxisValues = [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     private let dbYAxisValues = [-30, -20, -10, 0, 10, 20, 30]
-
-    let magitudeData: [(Double, Double)]
-    let coherenceData: [(Double, Double)]
 
     var body: some View {
         Group {
             Text("Magnitude")
             Chart {
-                ForEach(coherenceData, id: \.0) { data in
+                ForEach(frequencyData.indices, id: \.self) { index in
                     LineMark(
-                        x: .value("Frequency", data.0),
-                        y: .value("Coherence", data.1),
+                        x: .value("Frequency", frequencyData[index]),
+                        y: .value("Coherence", coherenceData[index]),
                         series: .value("Weight", "B")
                     )
                     .foregroundStyle(.red)
                     .lineStyle(StrokeStyle(lineWidth: 1))
                 }
 
-                ForEach(magitudeData, id: \.0) { data in
+                ForEach(frequencyData.indices, id: \.self) { index in
                     LineMark(
-                        x: .value("Frequency", data.0),
-                        y: .value("Magnitude", data.1),
+                        x: .value("Frequency", frequencyData[index]),
+                        y: .value("Magnitude", magnitudeData[index]),
                         series: .value("Weight", "A")
                     )
                     .foregroundStyle(.blue)
@@ -287,31 +304,32 @@ struct MagnitudeChart: View {
 }
 
 struct PhaseChart: View {
+    let frequencyData: [Double]
+    let phaseData: [Double]
+    let originalPhaseData: [Double]
+    
     private let frequencyXAxisValues = [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     private let dbYAxisValues = [-30, -20, -10, 0, 10, 20, 30]
     private let phaseYAxisValues = [-180, -135, -90, -45, 0, 45, 90, 135, 180]
-
-    let phaseData: [(Double, Double)]
-    let originalPhaseData: [(Double, Double)]
 
     var body: some View {
         Group {
             Text("Phase")
             Chart {
-                ForEach(originalPhaseData, id: \.0) { data in
+                ForEach(frequencyData.indices, id: \.self) { index in
                     LineMark(
-                        x: .value("x", data.0),
-                        y: .value("y", data.1),
+                        x: .value("x", frequencyData[index]),
+                        y: .value("y", originalPhaseData[index]),
                         series: .value("Weight", "A")
                     )
                     .foregroundStyle(.gray)
                     .lineStyle(StrokeStyle(lineWidth: 1))
                 }
 
-                ForEach(phaseData, id: \.0) { data in
+                ForEach(frequencyData.indices, id: \.self) { index in
                     LineMark(
-                        x: .value("x", data.0),
-                        y: .value("y", data.1),
+                        x: .value("x", frequencyData[index]),
+                        y: .value("y", phaseData[index]),
                         series: .value("Weight", "B")
                     )
                     .foregroundStyle(.blue)

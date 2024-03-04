@@ -148,4 +148,85 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
         return newPhase - 180.0
     }
 
+    func processMagnitude2(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [Double] {
+        
+        let newMagnitudeData = self.tfMagnitude.enumerated().map { index, magnitude in
+            guard index < self.tfCoherence.count else { return Double.nan }
+            
+            let coherence = self.tfCoherence[index]
+            if coherence < threshold {
+                return Double.nan
+            }
+    
+            return magnitude
+        }
+        return newMagnitudeData
+    }
+
+    func processPhase2(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [Double] {
+
+        let newPhaseData = self.tfPhase.enumerated().map { index, phase in
+            guard index < self.tfFrequency.count else { return Double.nan }
+            guard index < self.tfCoherence.count else { return Double.nan }
+            
+                let coherence = self.tfCoherence[index]
+                if coherence < threshold {
+                    return Double.nan
+                }
+                let frequency = self.tfFrequency[index]
+                var newPhase = phase + (frequency * 360.0 * (delay * -1.0 / 1000.0))
+                if isPolarityInverted {
+                    newPhase += 180.0
+                }
+                newPhase = wrapTo180(newPhase)
+                return newPhase
+        }
+        return newPhaseData
+    }
+
+    func processCoherence2(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [Double] {
+        let newCoherenceData = self.tfCoherence.enumerated().map { index, coherence in
+
+            if coherence < threshold {
+                return Double.nan
+            }
+            return coherence / 3.333 // Scale to fit graph axis at 30dB = 100%
+        }
+        return newCoherenceData
+    }
+
+    
+    func processAll2(delay: Double, threshold: Double, isPolarityInverted: Bool) ->
+    (magnitude: [Double], phase: [Double], coherence: [Double], originalPhase: [Double]) {
+        
+        var newCoherence = [Double](repeating: 0, count: tfFrequency.count)
+        var newMagnitude = [Double](repeating: 0, count: tfFrequency.count)
+        var newPhase = [Double](repeating: 0, count: tfFrequency.count)
+        var newOriginalPhase = [Double](repeating: 0, count: tfFrequency.count)
+        
+        for index in 0..<tfFrequency.count {
+            newCoherence[index] = self.tfCoherence[index]  / 3.333 // Scaling for chart
+            newMagnitude[index] = self.tfMagnitude[index]
+            newPhase[index] = self.tfPhase[index]
+            newOriginalPhase[index] = self.tfPhase[index]
+            
+            let coherence = self.tfCoherence[index]
+            if coherence < threshold {
+                newCoherence[index] = Double.nan
+                newMagnitude[index] =  Double.nan
+                newPhase[index] = Double.nan
+                newOriginalPhase[index] = Double.nan
+            }
+            else {
+                let frequency = self.tfFrequency[index]
+                var phase = self.tfPhase[index]
+                phase += (frequency * 360.0 * (delay * -1.0 / 1000.0))
+                if isPolarityInverted {
+                    phase += 180.0
+                }
+                newPhase[index] = wrapTo180(phase)
+            }
+        }
+        return (newMagnitude, newPhase, newCoherence, newOriginalPhase)
+    }
 }
