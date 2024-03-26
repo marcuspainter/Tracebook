@@ -8,18 +8,24 @@
 // https://stackoverflow.com/questions/69511960/customize-searchable-search-field-swiftui-ios-15
 
 import SwiftUI
+import Observation
 
 struct ContentView: View {
-    @StateObject var measurementListViewModel: MeasurementListViewModel = .init()
+    @State var measurementListViewModel: MeasurementListViewModel = .init()
     @State var searchText: String = ""
     @State private var path = NavigationPath()
 
     @State var username: String = ""
     @State var password: String = ""
     @State var isDownloading: Bool = false
-    
+
+    init() {
+
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
+
             List {
                 ForEach(measurementListViewModel.measurements) { measurement in
                     NavigationLink(value: measurement) {
@@ -59,8 +65,9 @@ struct ContentView: View {
         }
         .searchable(text: $searchText, prompt: "Search loudspeakers")
         .overlay {
+
             if measurementListViewModel.measurements.isEmpty {
-                
+
                 if measurementListViewModel.measurementStore.models.count == 0 {
                     VStack {
                         ProgressView()
@@ -70,8 +77,9 @@ struct ContentView: View {
                     Text("No matches")
                 }
             }
+
         }
-        .onChange(of: searchText) { newValue in
+        .onChange(of: searchText) { _, newValue in
             print(newValue)
             Task {
                 await measurementListViewModel.search(searchText: searchText)
@@ -81,14 +89,14 @@ struct ContentView: View {
             Text("Sheet")
                 .presentationDetents([.medium, .large])
         }
+        .task {
+            isDownloading = true
+            await measurementListViewModel.loadMeasurements()
+            isDownloading = false
+            print("Done")
+        }
         .onAppear {
-            Task {
-                isDownloading = true
-                await measurementListViewModel.loadMeasurements()
-                isDownloading = false
-                print("Done")
- 
-            }
+        
         }
     }
 }

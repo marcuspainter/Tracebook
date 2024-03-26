@@ -1,35 +1,22 @@
 //
-//  InterfaceResponse.swift
+//  Interface.swift
 //  Tracebook
 //
-//  Created by Marcus Painter on 21/12/2023.
+//  Created by Marcus Painter on 10/02/2024.
 //
 
 import Foundation
 
-// MARK: - InterfaceListResponse
-struct InterfaceListResponse: Codable {
-    let response: InterfaceResult
-}
-
-// MARK: - InterfaceResult
-struct InterfaceResult: Codable {
-    let cursor: Int
-    let results: [InterfaceItem]
-    let count, remaining: Int
-}
-
-// MARK: - InterfaceItem
-struct InterfaceItem: Codable {
+struct InterfaceBody: Codable {
+    let id: String?
     let brandModel: String?
     let createdBy: String?
     let createdDate: String?
     let modifiedDate: String?
     let maxOutputVoltage: Int?
-    let id: String?
     let selectableVoltageRange: Bool?
 
-    enum CodingKeys: String, CodingKey, CaseIterable {
+    enum CodingKeys: String, CodingKey {
         case brandModel = "Brand+Model"
         case createdBy = "Created By"
         case createdDate = "Created Date"

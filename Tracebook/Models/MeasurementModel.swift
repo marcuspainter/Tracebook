@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import Observation
 
-final class MeasurementModel: ObservableObject, Identifiable, Hashable {
+@Observable
+final class MeasurementModel: Identifiable, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -47,7 +49,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
     var splGroundPlane: Bool = false
     var responseLoudspeakerModel: String = ""
     var systemLatency: Double?      // Nilable
-    @Published var microphone: String = ""
+    var microphone: String = ""
     var measurement: String = ""
     var interface: String = ""
     var micCorrectionCurve: String = ""
@@ -76,7 +78,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
     // var modifiedDate: String = ""
     var slug: String = ""
     var moderator1: String = ""
-    var resultPublic: Bool = false
+    var isPublic: Bool = false
     var title: String = ""
     var publishDate: String? = ""
     var admin1Approved: String? = ""
@@ -93,7 +95,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
         let newMagnitudeData = self.tfFrequency.enumerated().map { index, frequency in
             guard index < self.tfMagnitude.count else { return (frequency, Double.nan) }
             let magnitude = self.tfMagnitude[index]
-            
+
             if index < self.tfCoherence.count {
                 let coherence = self.tfCoherence[index]
                 if coherence < threshold {
@@ -110,7 +112,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
         let newPhaseData = self.tfFrequency.enumerated().map { index, frequency in
             guard index < self.tfPhase.count else { return (frequency, Double.nan) }
             var phase = self.tfPhase[index]
-            
+
             if index < self.tfCoherence.count {
                 let coherence = self.tfCoherence[index]
                 if coherence < threshold {
@@ -131,7 +133,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
         let newCoherenceData = self.tfFrequency.enumerated().map { index, frequency in
             guard index < self.tfCoherence.count else { return (frequency, Double.nan) }
             let coherence = self.tfCoherence[index]
-            
+
             if coherence < threshold {
                 return (frequency, Double.nan)
             }
@@ -149,15 +151,15 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
     }
 
     func processMagnitude2(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [Double] {
-        
+
         let newMagnitudeData = self.tfMagnitude.enumerated().map { index, magnitude in
             guard index < self.tfCoherence.count else { return Double.nan }
-            
+
             let coherence = self.tfCoherence[index]
             if coherence < threshold {
                 return Double.nan
             }
-    
+
             return magnitude
         }
         return newMagnitudeData
@@ -168,7 +170,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
         let newPhaseData = self.tfPhase.enumerated().map { index, phase in
             guard index < self.tfFrequency.count else { return Double.nan }
             guard index < self.tfCoherence.count else { return Double.nan }
-            
+
                 let coherence = self.tfCoherence[index]
                 if coherence < threshold {
                     return Double.nan
@@ -185,7 +187,7 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
     }
 
     func processCoherence2(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [Double] {
-        let newCoherenceData = self.tfCoherence.enumerated().map { index, coherence in
+        let newCoherenceData = self.tfCoherence.enumerated().map { _, coherence in
 
             if coherence < threshold {
                 return Double.nan
@@ -195,29 +197,27 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
         return newCoherenceData
     }
 
-    
     func processAll2(delay: Double, threshold: Double, isPolarityInverted: Bool) ->
     (magnitude: [Double], phase: [Double], coherence: [Double], originalPhase: [Double]) {
-        
+
         var newCoherence = [Double](repeating: 0, count: tfFrequency.count)
         var newMagnitude = [Double](repeating: 0, count: tfFrequency.count)
         var newPhase = [Double](repeating: 0, count: tfFrequency.count)
         var newOriginalPhase = [Double](repeating: 0, count: tfFrequency.count)
-        
+
         for index in 0..<tfFrequency.count {
             newCoherence[index] = self.tfCoherence[index]  / 3.333 // Scaling for chart
             newMagnitude[index] = self.tfMagnitude[index]
             newPhase[index] = self.tfPhase[index]
             newOriginalPhase[index] = self.tfPhase[index]
-            
+
             let coherence = self.tfCoherence[index]
             if coherence < threshold {
                 newCoherence[index] = Double.nan
                 newMagnitude[index] =  Double.nan
                 newPhase[index] = Double.nan
                 newOriginalPhase[index] = Double.nan
-            }
-            else {
+            } else {
                 let frequency = self.tfFrequency[index]
                 var phase = self.tfPhase[index]
                 phase += (frequency * 360.0 * (delay * -1.0 / 1000.0))

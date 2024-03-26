@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct UserView: View {
-    var user: UserViewModel
+    var userId: String
+   let user: UserViewModel = UserViewModel()
 
     var body: some View {
         Group {
@@ -51,6 +52,6 @@ struct UserView: View {
 }
 
 #Preview {
-    let user = UserViewModel()
-    return UserView(user: user)
+    let userId = ""
+    return UserView(userId: userId)
 }

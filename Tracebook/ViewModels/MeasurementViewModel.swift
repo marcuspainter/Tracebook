@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import Observation
 
 @MainActor
-class MeasurementViewModel: ObservableObject {
+@Observable
+class MeasurementViewModel {
 
-    @Published var isPolarityInverted: Bool = false
-    @Published var delay: Double = 0.0
-    @Published var threshold: Double = 0.0
+    var isPolarityInverted: Bool = false
+    var delay: Double = 0.0
+    var threshold: Double = 0.0
 
     var firmwareVersion: String = ""
     var loudspeakerBrand: String = ""
@@ -55,16 +57,16 @@ class MeasurementViewModel: ObservableObject {
     var medal: String = ""
     var windscreen: String = ""
 
-    @Published var magitudeData: [(Double, Double)] = []
-    @Published var phaseData: [(Double, Double)] = []
-    @Published var coherenceData: [(Double, Double)] = []
-    @Published var originalPhaseData: [(Double, Double)] = []
+    var magitudeData: [(Double, Double)] = []
+    var phaseData: [(Double, Double)] = []
+    var coherenceData: [(Double, Double)] = []
+    var originalPhaseData: [(Double, Double)] = []
 
     func processMagnitude(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
         let newMagnitudeData = self.tfFrequency.enumerated().map { index, frequency in
             guard index < self.tfMagnitude.count else { return (frequency, Double.nan) }
             let magnitude = self.tfMagnitude[index]
-            
+
             if index < self.tfCoherence.count {
                 let coherence = self.tfCoherence[index]
                 if coherence < threshold {
@@ -80,7 +82,7 @@ class MeasurementViewModel: ObservableObject {
         let newPhaseData = self.tfFrequency.enumerated().map { index, frequency in
             guard index < self.tfPhase.count else { return (frequency, Double.nan) }
             var phase = self.tfPhase[index]
-            
+
             if index < self.tfCoherence.count {
                 let coherence = self.tfCoherence[index]
                 if coherence < threshold {
@@ -101,7 +103,7 @@ class MeasurementViewModel: ObservableObject {
     func processCoherence(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
         let newCoherenceData = self.tfFrequency.enumerated().map { index, frequency in
             guard index < self.tfCoherence.count else { return (frequency, Double.nan) }
-            
+
             let coherence = self.tfCoherence[index]
             if coherence < threshold {
                 return (frequency, Double.nan)

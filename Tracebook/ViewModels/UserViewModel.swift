@@ -8,25 +8,26 @@
 import Foundation
 
 @MainActor
-class UserViewModel: ObservableObject {
-    @Published var name: String = ""
-    @Published var photo: String = ""
-    @Published var location: String = ""
-    @Published var headline: String = ""
-    @Published var firstName: String = ""
-    @Published var lastName: String = ""
-    @Published var followers: [String] = []
-    @Published var following: [String] = []
-    @Published var measurementsCreated: [String] = []
-    @Published var referralCode: String = ""
-    @Published var pseudonym: String = ""
-    @Published var measurementsCreatedCount: Int = 0
-    @Published var userSignedUp: Bool = false
-    @Published var id: String = ""
-    
+@Observable
+class UserViewModel {
+    var name: String = ""
+    var photo: String = ""
+    var location: String = ""
+    var headline: String = ""
+    var firstName: String = ""
+    var lastName: String = ""
+    var followers: [String] = []
+    var following: [String] = []
+    var measurementsCreated: [String] = []
+    var referralCode: String = ""
+    var pseudonym: String = ""
+    var measurementsCreatedCount: Int = 0
+    var userSignedUp: Bool = false
+    var id: String = ""
+
     // Derived counts from arrays
-    @Published var followersCount: Int = 0
-    @Published var followingCount: Int = 0
+    var followersCount: Int = 0
+    var followingCount: Int = 0
 
     private var tracebookAPI = TracebookAPI()
 
@@ -38,7 +39,7 @@ class UserViewModel: ObservableObject {
             self.photo = user.photo ?? ""
             self.location = user.location ?? ""
             self.measurementsCreatedCount = user.measurementsCreatedCount ?? 0
-            
+
             self.followersCount = user.followers?.count ?? 0
             self.followingCount = user.following?.count ?? 0
         }

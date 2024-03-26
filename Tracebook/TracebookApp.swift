@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct TracebookApp: App {
     @Environment(\.scenePhase) var scenePhase
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -18,7 +18,7 @@ struct TracebookApp: App {
                     ColorSchemeManager.shared.applyColorScheme()
                     // disableUIConstraintBasedLayoutLogUnsatisfiable()
                 }
-                .onChange(of: scenePhase) { newPhase in
+                .onChange(of: scenePhase) { _, newPhase in
                     if newPhase == .active {
                         print("Active")
                     } else if newPhase == .inactive {

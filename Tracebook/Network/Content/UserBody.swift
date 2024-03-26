@@ -1,19 +1,13 @@
 //
-//  UserRresponse.swift
+//  User.swift
 //  Tracebook
 //
-//  Created by Marcus Painter on 17/01/2024.
+//  Created by Marcus Painter on 10/02/2024.
 //
 
 import Foundation
 
-// MARK: - User
-struct UserResponse: Codable {
-    let response: UserContent
-}
-
-// MARK: - Response
-struct UserContent: Codable {
+struct UserBody: Codable {
     let name: String?
     let photo: String?
     let location: String?

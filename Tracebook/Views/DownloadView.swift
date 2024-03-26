@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct DownloadView: View {
-    @ObservedObject var measurement: MeasurementModel
-    
+    @State var measurement: MeasurementModel
+
     var body: some View {
         Text(measurement.title)
             .navigationTitle(measurement.title)

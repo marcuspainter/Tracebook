@@ -8,7 +8,7 @@
 import Foundation
 
 class MeasurementStore {
-    
+
     var models: [MeasurementModel] = []
-    
+
 }

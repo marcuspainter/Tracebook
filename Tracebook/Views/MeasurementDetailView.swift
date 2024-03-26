@@ -7,7 +7,7 @@
 
 import Charts
 import SwiftUI
-
+import Observation
 
 struct ChartData {
     var magnitude: [Double] = []
@@ -17,14 +17,14 @@ struct ChartData {
 }
 
 struct MeasurementDetailView: View {
-    @ObservedObject var measurement: MeasurementModel
-    
-    @StateObject var user = UserViewModel()
+    // ObservedObject
+    var measurement: MeasurementModel
+
     @State var magnitudeData: [(Double, Double)] = []
     @State var phaseData: [(Double, Double)] = []
     @State var coherenceData: [(Double, Double)] = []
     @State var originalPhaseData: [(Double, Double)] = []
-    
+
     @State var tfFrequency: [Double] = []
     @State var tfMagnitude: [Double] = []
     @State var tfPhase: [Double] = []
@@ -43,7 +43,7 @@ struct MeasurementDetailView: View {
         Group {
             ScrollView {
                 VStack {
-                    
+
                     MagnitudeChart(frequencyData: tfFrequency, magnitudeData: tfMagnitude, coherenceData: tfCoherence)
 
                     PhaseChart(frequencyData: tfFrequency, phaseData: tfPhase, originalPhaseData: tfOriginalPhase)
@@ -63,7 +63,7 @@ struct MeasurementDetailView: View {
 */
                     HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)
-                            .onChange(of: isPolarityInverted) { _ in
+                            .onChange(of: isPolarityInverted) { _, _ in
                                 self.tfPhase = measurement.processPhase2(
                                     delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
                             }.frame(width: 130, alignment: .leading)
@@ -95,7 +95,7 @@ struct MeasurementDetailView: View {
                     } maximumValueLabel: {
                         Text("20").font(.footnote)
                     }
-                    .onChange(of: delay) { _ in
+                    .onChange(of: delay) { _, _ in
                         self.tfPhase = measurement.processPhase2(
                             delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
                     }
@@ -118,7 +118,7 @@ struct MeasurementDetailView: View {
                     } maximumValueLabel: {
                         Text("100").font(.footnote)
                     }
-                    .onChange(of: threshold) { _ in
+                    .onChange(of: threshold) { _, _ in
                         updateChart()
                     }
 
@@ -157,7 +157,7 @@ struct MeasurementDetailView: View {
                     }
                     .navigationTitle(measurement.title)
                     .navigationBarTitleDisplayMode(.inline)
-                }.onChange(of: measurement.distance) { _ in
+                }.onChange(of: measurement.distance) { _, _ in
                     updateChart()
                 }
 
@@ -177,7 +177,7 @@ struct MeasurementDetailView: View {
          }
           */
     }
-    
+
     func resetChart() {
         delay = 0.0
         threshold = 0.0
@@ -206,13 +206,13 @@ struct MeasurementDetailView: View {
 }
 
 #Preview {
-    
+
     let measurement = MeasurementModel()
     return NavigationStack {
         MeasurementDetailView(measurement: measurement)
             .navigationTitle("RCF 710A")
     }
-   
+
 }
 
 struct TextLine: View {
@@ -237,8 +237,8 @@ func valueUnit(_ value: Double?, _ unitString: String) -> String {
 struct MagnitudeChart: View {
     let frequencyData: [Double]
     let magnitudeData: [Double]
-    let coherenceData:  [Double]
-    
+    let coherenceData: [Double]
+
     private let frequencyXAxisValues = [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     private let dbYAxisValues = [-30, -20, -10, 0, 10, 20, 30]
 
@@ -307,7 +307,7 @@ struct PhaseChart: View {
     let frequencyData: [Double]
     let phaseData: [Double]
     let originalPhaseData: [Double]
-    
+
     private let frequencyXAxisValues = [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     private let dbYAxisValues = [-30, -20, -10, 0, 10, 20, 30]
     private let phaseYAxisValues = [-180, -135, -90, -45, 0, 45, 90, 135, 180]

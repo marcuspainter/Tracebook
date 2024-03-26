@@ -13,11 +13,12 @@
 import SwiftUI
 
 /// Manages the app color scheme and stores scheme in UserDefaults
+@MainActor
 public class ColorSchemeManager: ObservableObject {
     /// Shared instance
     public static let shared = ColorSchemeManager()
     /// User default key name
-    public static var keyName: String = "colorScheme"
+    public static let keyName: String = "colorScheme"
 
     /// Private initializer.
     private init() {

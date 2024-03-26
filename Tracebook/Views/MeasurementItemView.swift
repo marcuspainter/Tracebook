@@ -7,9 +7,10 @@
 
 import Foundation
 import SwiftUI
+import Observation
 
 struct MeasurementItemView: View {
-    @ObservedObject var measurement: MeasurementModel
+    var measurement: MeasurementModel
 
     var body: some View {
         HStack {
@@ -92,5 +93,3 @@ struct TraceSymbol: View {
             .foregroundColor(colors[index])
     }
 }
-
-
