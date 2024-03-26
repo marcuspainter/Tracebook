@@ -7,10 +7,11 @@
 
 import SwiftUI
 
+@MainActor
 struct UserView: View {
     var userId: String
-   let user: UserViewModel = UserViewModel()
-
+    @State var user: UserViewModel = UserViewModel()
+    
     var body: some View {
         Group {
             AsyncImage(url: URL(string: user.photo), content: asyncImageContent)

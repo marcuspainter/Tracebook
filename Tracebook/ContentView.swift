@@ -10,6 +10,7 @@
 import SwiftUI
 import Observation
 
+@MainActor
 struct ContentView: View {
     @State var measurementListViewModel: MeasurementListViewModel = .init()
     @State var searchText: String = ""
