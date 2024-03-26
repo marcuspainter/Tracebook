@@ -41,6 +41,9 @@
 		194E47A82BB23F5800FC15BD /* ErrorBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47A72BB23F5800FC15BD /* ErrorBody.swift */; };
 		194E47B12BB249CA00FC15BD /* Measurement+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47AF2BB249CA00FC15BD /* Measurement+CoreDataClass.swift */; };
 		194E47B22BB249CA00FC15BD /* Measurement+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47B02BB249CA00FC15BD /* Measurement+CoreDataProperties.swift */; };
+		194E47C32BB2885B00FC15BD /* DoubleArrayValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47BF2BB2885B00FC15BD /* DoubleArrayValueTransformer.swift */; };
+		194E47C42BB2885B00FC15BD /* OptionalBoolValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47C02BB2885B00FC15BD /* OptionalBoolValueTransformer.swift */; };
+		194E47C52BB2885B00FC15BD /* StringArrayValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47C12BB2885B00FC15BD /* StringArrayValueTransformer.swift */; };
 		19552D392B585F3200412266 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D382B585F3200412266 /* UserModel.swift */; };
 		19552D3F2B5DD2E100412266 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */; };
 		1966EC972B6D55F4004246C2 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1966EC962B6D55F4004246C2 /* UserViewModel.swift */; };
@@ -51,9 +54,6 @@
 		19787DBE2B72ADEC003FB364 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1949FE342B56E967000D94A8 /* Settings.plist */; };
 		19787DBF2B72AE22003FB364 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */; };
 		198A3E622B9D4595003CE68F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198A3E612B9D4595003CE68F /* PersistenceController.swift */; };
-		19A9F5EE2B9D61950015E529 /* DoubleArrayValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A9F5EA2B9D61950015E529 /* DoubleArrayValueTransformer.swift */; };
-		19A9F5EF2B9D61950015E529 /* OptionalBoolValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A9F5EB2B9D61950015E529 /* OptionalBoolValueTransformer.swift */; };
-		19A9F5F02B9D61950015E529 /* StringArrayValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A9F5EC2B9D61950015E529 /* StringArrayValueTransformer.swift */; };
 		19A9F5F22B9D61B00015E529 /* FileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A9F5F12B9D61B00015E529 /* FileStore.swift */; };
 		19B354822B8BB69100C7C544 /* Tracebook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */; };
 		19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7142B23661C0072ED04 /* PasswordStore.swift */; };
@@ -123,6 +123,9 @@
 		194E47A72BB23F5800FC15BD /* ErrorBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ErrorBody.swift; path = Tracebook/ErrorBody.swift; sourceTree = SOURCE_ROOT; };
 		194E47AF2BB249CA00FC15BD /* Measurement+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Measurement+CoreDataClass.swift"; sourceTree = "<group>"; };
 		194E47B02BB249CA00FC15BD /* Measurement+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Measurement+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		194E47BF2BB2885B00FC15BD /* DoubleArrayValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleArrayValueTransformer.swift; sourceTree = "<group>"; };
+		194E47C02BB2885B00FC15BD /* OptionalBoolValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalBoolValueTransformer.swift; sourceTree = "<group>"; };
+		194E47C12BB2885B00FC15BD /* StringArrayValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringArrayValueTransformer.swift; sourceTree = "<group>"; };
 		19552D382B585F3200412266 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		19552D3B2B5C3C2C00412266 /* Snapfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; };
 		19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
@@ -136,9 +139,6 @@
 		19787DBA2B72AB5D003FB364 /* analyzer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = analyzer.json; sourceTree = "<group>"; };
 		19787DBC2B72ABB4003FB364 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
 		198A3E612B9D4595003CE68F /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		19A9F5EA2B9D61950015E529 /* DoubleArrayValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleArrayValueTransformer.swift; sourceTree = "<group>"; };
-		19A9F5EB2B9D61950015E529 /* OptionalBoolValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalBoolValueTransformer.swift; sourceTree = "<group>"; };
-		19A9F5EC2B9D61950015E529 /* StringArrayValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringArrayValueTransformer.swift; sourceTree = "<group>"; };
 		19A9F5F12B9D61B00015E529 /* FileStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStore.swift; sourceTree = "<group>"; };
 		19B354812B8BB69100C7C544 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
@@ -254,7 +254,7 @@
 		1930562C2B71C63C00FB6E07 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				19A9F5ED2B9D61950015E529 /* Transformers */,
+				194E47C22BB2885B00FC15BD /* Transformers */,
 				19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */,
 				198A3E612B9D4595003CE68F /* PersistenceController.swift */,
 				19A9F5F12B9D61B00015E529 /* FileStore.swift */,
@@ -291,23 +291,22 @@
 			path = Content;
 			sourceTree = "<group>";
 		};
+		194E47C22BB2885B00FC15BD /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				194E47BF2BB2885B00FC15BD /* DoubleArrayValueTransformer.swift */,
+				194E47C02BB2885B00FC15BD /* OptionalBoolValueTransformer.swift */,
+				194E47C12BB2885B00FC15BD /* StringArrayValueTransformer.swift */,
+			);
+			path = Transformers;
+			sourceTree = "<group>";
+		};
 		19787DC02B72AE6A003FB364 /* Dismiss */ = {
 			isa = PBXGroup;
 			children = (
 				191C771D2B22929600406EAD /* DismissButton.swift */,
 			);
 			path = Dismiss;
-			sourceTree = "<group>";
-		};
-		19A9F5ED2B9D61950015E529 /* Transformers */ = {
-			isa = PBXGroup;
-			children = (
-				19A9F5EA2B9D61950015E529 /* DoubleArrayValueTransformer.swift */,
-				19A9F5EC2B9D61950015E529 /* StringArrayValueTransformer.swift */,
-				19A9F5EB2B9D61950015E529 /* OptionalBoolValueTransformer.swift */,
-			);
-			name = Transformers;
-			path = "../../../Tracebook copy/Tracebook/Storage/Transformers";
 			sourceTree = "<group>";
 		};
 		19C8F7172B23BF810072ED04 /* Models */ = {
@@ -540,7 +539,6 @@
 				194E47A62BB239AB00FC15BD /* AnalyzerBody.swift in Sources */,
 				19C8F7292B23E7EA0072ED04 /* ColorSchemeManager.swift in Sources */,
 				19C8F73C2B23FC770072ED04 /* asyncImageContent.swift in Sources */,
-				19A9F5EE2B9D61950015E529 /* DoubleArrayValueTransformer.swift in Sources */,
 				194E47B12BB249CA00FC15BD /* Measurement+CoreDataClass.swift in Sources */,
 				194E47B22BB249CA00FC15BD /* Measurement+CoreDataProperties.swift in Sources */,
 				194E478B2BB2392200FC15BD /* BubbleConstraint.swift in Sources */,
@@ -549,23 +547,24 @@
 				19C8F72A2B23E7EA0072ED04 /* ColorSchemePicker.swift in Sources */,
 				1930562E2B71C6B300FB6E07 /* MeasurementStore.swift in Sources */,
 				194E47952BB2392200FC15BD /* BubbleResponse.swift in Sources */,
-				19A9F5F02B9D61950015E529 /* StringArrayValueTransformer.swift in Sources */,
 				191C76D02B214CA800406EAD /* ContentView.swift in Sources */,
 				194E47A82BB23F5800FC15BD /* ErrorBody.swift in Sources */,
 				1927F6522B32828600B1C474 /* MeasurementListViewModel.swift in Sources */,
 				1927F64C2B30948800B1C474 /* MeasurementViewModel.swift in Sources */,
-				19A9F5EF2B9D61950015E529 /* OptionalBoolValueTransformer.swift in Sources */,
 				191C770D2B21679900406EAD /* MeasurementDetailView.swift in Sources */,
+				194E47C52BB2885B00FC15BD /* StringArrayValueTransformer.swift in Sources */,
 				19552D392B585F3200412266 /* UserModel.swift in Sources */,
 				194E47A42BB239AB00FC15BD /* MicrophoneBody.swift in Sources */,
 				194E47A02BB239AB00FC15BD /* UserBody.swift in Sources */,
 				19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */,
 				19C8F7252B23E7BA0072ED04 /* LogControl.swift in Sources */,
+				194E47C32BB2885B00FC15BD /* DoubleArrayValueTransformer.swift in Sources */,
 				194E47942BB2392200FC15BD /* BubbleErrorResponse.swift in Sources */,
 				19C8F7242B23E7BA0072ED04 /* AppVersionKey.swift in Sources */,
 				194E47A32BB239AB00FC15BD /* MeasurementContentBody.swift in Sources */,
 				194E479F2BB239AB00FC15BD /* MeasurementBody.swift in Sources */,
 				191C76CE2B214CA800406EAD /* TracebookApp.swift in Sources */,
+				194E47C42BB2885B00FC15BD /* OptionalBoolValueTransformer.swift in Sources */,
 				194E47912BB2392200FC15BD /* BubbleRequest.swift in Sources */,
 				191C77142B22126500406EAD /* LoginView.swift in Sources */,
 				1966EC972B6D55F4004246C2 /* UserViewModel.swift in Sources */,
