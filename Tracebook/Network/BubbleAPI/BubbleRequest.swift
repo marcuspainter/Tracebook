@@ -57,16 +57,16 @@ class BubbleRequest {
             if constraints.count > 0 {
                 let textArray = constraints.map { $0.description }
                 let csvString = textArray.joined(separator: ",")
-                let JSONString = "[" + csvString + "]"
-                let queryItem = URLQueryItem(name: "constraints", value: JSONString)
+                let jsonString = "[\(csvString)]"
+                let queryItem = URLQueryItem(name: "constraints", value: jsonString)
                 components.queryItems?.append(queryItem)
             }
 
             if sortKeys.count > 0 {
                 let textArray = sortKeys.map { $0.description }
                 let csvString = textArray.joined(separator: ",")
-                let JSONString = "[" + csvString + "]"
-                let queryItem = URLQueryItem(name: "additional_sort_fields", value: JSONString)
+                let jsonString = "[\(csvString)]"
+                let queryItem = URLQueryItem(name: "additional_sort_fields", value: jsonString)
                 components.queryItems?.append(queryItem)
             }
         }

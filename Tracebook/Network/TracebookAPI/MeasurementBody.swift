@@ -19,50 +19,53 @@ class MeasurementBody: Codable {
 
     var id: String = ""
     var additionalContent: String?
+    var admin1Approved: String?
+    var admin2Approved: String?
     var approved: String?
     var commentCreator: String?
-    var productLaunchDateText: String?
-    var thumbnailImage: String?
-    var upvotes: [String]?
-    var createdDate: String?
     var createdBy: String?
-    var modifiedDate: String?
-    var slug: String?
-    var moderator1: String?
-    var isPublic: Bool?             // public is resevered word, so resultPublic used instead
-    var title: String?
-    var publishDate: String?
-    var admin1Approved: String?
-    var moderator2: String?
-    var admin2Approved: String?
-    var loudspeakerTags: [String]?
+    var createdDate: String?
     var emailSent: Bool?
+    // public is reserved word, so resultPublic used instead
+    var isPublic: Bool?
+    var loudspeakerTags: [String]?
+    var moderator1: String?
+    var moderator2: String?
+    var modifiedDate: String?
+    var productLaunchDateText: String?
+    var publishDate: String?
+    var slug: String?
+    var thumbnailImage: String?
+    var title: String?
+    var upvotes: [String]?
 
-    var content: MeasurementContentBody?
+    //var content: MeasurementContentBody?
 
     // Added properties
     var tracebookURL: String? { "https://trace-book.org/measurement/\(slug ?? "")" }
 
     enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        
         case additionalContent = "Additional content"
+        case admin1Approved = "Admin1 Approved"
+        case admin2Approved = "Admin2 Approved"
         case approved = "Approved"
+        case modifiedDate = "Modified Date"
         case commentCreator = "Comment Creator"
-        case productLaunchDateText = "ProductLaunchDate(text)"
-        case thumbnailImage = "Thumbnail image"
-        case upvotes = "Upvotes"
         case createdDate = "Created Date"
         case createdBy = "Created By"
-        case modifiedDate = "Modified Date"
-        case slug = "Slug"
-        case moderator1 = "Moderator1"
-        case isPublic = "Public"
-        case title = "Title"
-        case publishDate = "_Publish Date"
-        case admin1Approved = "Admin1 Approved"
-        case moderator2 = "Moderator2"
-        case admin2Approved = "Admin2 Approved"
-        case id = "_id"
-        case loudspeakerTags = "Loudspeaker tags"
         case emailSent = "Email Sent"
+        case isPublic = "Public"
+        case loudspeakerTags = "Loudspeaker tags"
+        case moderator1 = "Moderator1"
+        case moderator2 = "Moderator2"
+        case productLaunchDateText = "ProductLaunchDate(text)"
+        case publishDate = "_Publish Date"
+        case slug = "Slug"
+        case thumbnailImage = "Thumbnail image"
+        case title = "Title"
+        case upvotes = "Upvotes"
+
     }
 }

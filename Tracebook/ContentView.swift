@@ -12,43 +12,71 @@ import Observation
 
 @MainActor
 struct ContentView: View {
-    @State var measurementListViewModel: MeasurementListViewModel = .init()
-    @State var searchText: String = ""
+    @FetchRequest(
+        sortDescriptors: [SortDescriptor(\MeasurementEntity.createdDate, order: .reverse)]
+    ) var measurements: FetchedResults<MeasurementEntity>
+
+    var tracebookProvider = TracebookProvider.shared
     @State private var path = NavigationPath()
-
-    @State var username: String = ""
-    @State var password: String = ""
     @State var isDownloading: Bool = false
-
-    init() {
-
+    
+    // https://stackoverflow.com/questions/68530633/how-to-use-a-fetchrequest-with-the-new-searchable-modifier-in-swiftui
+    @State private var searchText = ""
+    var query: Binding<String> {
+        Binding {
+            searchText
+        } set: { newValue in
+            searchText = newValue
+            if measurements.nsPredicate == nil && newValue.isEmpty { return }
+            measurements.nsPredicate = newValue.isEmpty
+                           ? nil
+                           : NSPredicate(format: "title CONTAINS[c] %@", newValue)
+        }
     }
-
+    
     var body: some View {
         NavigationStack(path: $path) {
+            
+            Button("Delete") {
+                tracebookProvider.deleteEntityData()
+            }
 
+            Button("Load") {
+                Task {
+                    do {
+                        try await tracebookProvider.fetchMeasurements()
+                        try await tracebookProvider.fetchMeasurementContents()
+                    }
+                    catch {
+                        print("Fetch error: \(error)")
+                    }
+                }
+            }
+            
             List {
-                ForEach(measurementListViewModel.measurements) { measurement in
+                ForEach(measurements) { measurement in
                     NavigationLink(value: measurement) {
-                        MeasurementItemView(measurement: measurement)
+                        MeasurementEntityItemView(measurement: measurement)
                     }
                 }.listRowBackground(Color.clear) // No highlight on selection
             }
             .listStyle(.plain)
+            .searchable(text: query, prompt: "Search loudspeakers")
             .refreshable {
                 // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
                 print("Pull")
                 await Task {
                     if !isDownloading {
-                        await measurementListViewModel.loadMeasurements()
+                        //try? await tracebookProvider.fetchMeasurements()
+                        try? await tracebookProvider.fetchMeasurementContents()
                     }
                  }.value
 
             }
             .navigationTitle("Tracebook")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: MeasurementModel.self) { measurement in
-                MeasurementDetailView(measurement: measurement)
+            .navigationDestination(for: MeasurementEntity.self) { measurement in
+                MeasurementEntityDetailView(measurement: measurement)
             }
 
             .toolbarBackground(.visible, for: .navigationBar)
@@ -64,12 +92,11 @@ struct ContentView: View {
                 }
             }
         }
-        .searchable(text: $searchText, prompt: "Search loudspeakers")
         .overlay {
 
-            if measurementListViewModel.measurements.isEmpty {
+            if measurements.isEmpty {
 
-                if measurementListViewModel.measurementStore.models.count == 0 {
+                if measurements.count == 0 {
                     VStack {
                         ProgressView()
                         Text("LOADING").font(.caption)
@@ -80,19 +107,14 @@ struct ContentView: View {
             }
 
         }
-        .onChange(of: searchText) { _, newValue in
-            print(newValue)
-            Task {
-                await measurementListViewModel.search(searchText: searchText)
-            }
-        }
         .sheet(isPresented: .constant(false)) {
             Text("Sheet")
                 .presentationDetents([.medium, .large])
         }
         .task {
             isDownloading = true
-            await measurementListViewModel.loadMeasurements()
+            //try? await tracebookProvider.fetchMeasurements()
+            //try? await tracebookProvider.fetchMeasurementContents()
             isDownloading = false
             print("Done")
         }
