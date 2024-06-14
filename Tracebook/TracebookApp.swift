@@ -14,12 +14,11 @@ struct TracebookApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, TracebookProvider.shared.container.viewContext)
                 .onAppear {
                     ColorSchemeManager.shared.applyColorScheme()
                     // disableUIConstraintBasedLayoutLogUnsatisfiable()
                 }
-                .onChange(of: scenePhase) { newPhase in
+                .onChange(of: scenePhase) { _, newPhase in
                     if newPhase == .active {
                         print("Active")
                     } else if newPhase == .inactive {

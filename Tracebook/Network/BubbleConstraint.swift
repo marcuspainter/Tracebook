@@ -16,7 +16,7 @@ enum BubbleConstraintType: String {
     // Use to test whether a thing's given field is empty or not
     case isEmpty = "is_empty"
     case isNotEmpty = "is_not_empty"
-    // Use to test whether a text field contains a string. Text contains will not respect partial words that are not
+    // Use to test whether a text field contains a string. Text contains will  not respect partial words that are not
     // of the same stem.
     case textContains = "text contains"
     case notTextContains = "not text contains"

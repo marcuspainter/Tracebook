@@ -1,105 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23D60" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="MeasurementEntity" representedClassName=".MeasurementEntity" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23D60" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Measurement" representedClassName=".Measurement" syncable="YES">
         <attribute name="additionalContent" optional="YES" attributeType="String"/>
-        <attribute name="admin1Approved" optional="YES" attributeType="String"/>
-        <attribute name="admin2Approved" optional="YES" attributeType="String"/>
         <attribute name="analyzer" optional="YES" attributeType="String"/>
+        <attribute name="analyzerName" optional="YES" attributeType="String"/>
         <attribute name="approved" optional="YES" attributeType="String"/>
         <attribute name="calibrator" optional="YES" attributeType="String"/>
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="coherenceScale" optional="YES" attributeType="String"/>
         <attribute name="commentCreator" optional="YES" attributeType="String"/>
-        <attribute name="contentId" optional="YES" attributeType="String"/>
-        <attribute name="createdBy" optional="YES" attributeType="String"/>
         <attribute name="createdDate" optional="YES" attributeType="String"/>
         <attribute name="delayLocator" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="distanceUnits" optional="YES" attributeType="String"/>
         <attribute name="dspPreset" optional="YES" attributeType="String"/>
-        <attribute name="emailSent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="fileIRWAV" optional="YES" attributeType="String"/>
         <attribute name="fileTFCSV" optional="YES" attributeType="String"/>
-        <attribute name="fileTFNative" optional="YES" attributeType="String"/>
         <attribute name="firmwareVersion" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="interface" optional="YES" attributeType="String"/>
-        <attribute name="isPublic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="loudspeakerTags" optional="YES" attributeType="String"/>
+        <attribute name="interfaceName" optional="YES" attributeType="String"/>
+        <attribute name="loudspeakerTags" optional="YES" attributeType="Transformable" valueTransformerName="StringArrayValueTransformer" customClassName="[String]"/>
         <attribute name="medal" optional="YES" attributeType="String"/>
         <attribute name="micCorrectionCurve" optional="YES" attributeType="String"/>
         <attribute name="microphone" optional="YES" attributeType="String"/>
-        <attribute name="moderator1" optional="YES" attributeType="String"/>
-        <attribute name="moderator2" optional="YES" attributeType="String"/>
-        <attribute name="modifiedDate" optional="YES" attributeType="String"/>
+        <attribute name="microphoneName" optional="YES" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="photoSetup" optional="YES" attributeType="String"/>
         <attribute name="presetVersion" optional="YES" attributeType="String"/>
-        <attribute name="productLaunchDateText" optional="YES" attributeType="String"/>
-        <attribute name="publishDate" optional="YES" attributeType="String"/>
-        <attribute name="slug" optional="YES" attributeType="String"/>
+        <attribute name="setupPhoto" optional="YES" attributeType="String"/>
         <attribute name="systemLatency" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="temperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="tempUnits" optional="YES" attributeType="String"/>
-        <attribute name="tfJSONCoherence" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
-        <attribute name="tfJSONFrequency" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
-        <attribute name="tfJSONMagnitude" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
-        <attribute name="tfJSONPhase" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
+        <attribute name="tfJSONCoherence" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
+        <attribute name="tfJSONFrequency" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
+        <attribute name="tfJSONMagnitude" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
+        <attribute name="tfJSONPhase" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer" customClassName="[Double]"/>
         <attribute name="thumbnailImage" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="tracebookURL" optional="YES" attributeType="String"/>
-        <attribute name="upvotes" optional="YES" attributeType="String"/>
         <attribute name="windscreen" optional="YES" attributeType="String"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
-    </entity>
-    <entity name="MeasurmentContentEntity" representedClassName="MeasurmentContentEntity" syncable="YES">
-        <attribute name="analyzer" optional="YES" attributeType="String"/>
-        <attribute name="calibrator" optional="YES" attributeType="String"/>
-        <attribute name="category" optional="YES" attributeType="String"/>
-        <attribute name="coherenceScale" optional="YES" attributeType="String"/>
-        <attribute name="createdBy" optional="YES" attributeType="String"/>
-        <attribute name="createdDate" optional="YES" attributeType="String"/>
-        <attribute name="crestFactorM" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="crestFactorPink" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="delayLocator" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="distanceUnits" optional="YES" attributeType="String"/>
-        <attribute name="dspPreset" optional="YES" attributeType="String"/>
-        <attribute name="fileAdditional" optional="YES" attributeType="String"/>
-        <attribute name="fileIRWAV" optional="YES" attributeType="String"/>
-        <attribute name="fileTFCSV" optional="YES" attributeType="String"/>
-        <attribute name="fileTFNative" optional="YES" attributeType="String"/>
-        <attribute name="firmwareVersion" optional="YES" attributeType="String"/>
-        <attribute name="firmwareVersionNA" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="inputMeter" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="interface" optional="YES" attributeType="String"/>
-        <attribute name="loudspeakerBrand" optional="YES" attributeType="String"/>
-        <attribute name="loudspeakerModel" optional="YES" attributeType="String"/>
-        <attribute name="measurement" optional="YES" attributeType="String"/>
-        <attribute name="measurementType" optional="YES" attributeType="String"/>
-        <attribute name="medal" optional="YES" attributeType="String"/>
-        <attribute name="micCorrectionCurve" optional="YES" attributeType="String"/>
-        <attribute name="microphone" optional="YES" attributeType="String"/>
-        <attribute name="modifiedDate" optional="YES" attributeType="String"/>
-        <attribute name="notes" optional="YES" attributeType="String"/>
-        <attribute name="photoSetup" optional="YES" attributeType="String"/>
-        <attribute name="presetNA" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="presetVersion" optional="YES" attributeType="String"/>
-        <attribute name="presetVersionNA" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="responseLoudspeakerBrand" optional="YES" attributeType="String"/>
-        <attribute name="responseLoudspeakerModel" optional="YES" attributeType="String"/>
-        <attribute name="splGroundPlane" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="systemLatency" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="temperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="tempUnits" optional="YES" attributeType="String"/>
-        <attribute name="tfJSONCoherence" optional="YES" attributeType="String"/>
-        <attribute name="tfJSONFrequency" optional="YES" attributeType="String"/>
-        <attribute name="tfJSONMagnitude" optional="YES" attributeType="String"/>
-        <attribute name="tfJSONPhase" optional="YES" attributeType="String"/>
-        <attribute name="windscreen" optional="YES" attributeType="String"/>
     </entity>
 </model>

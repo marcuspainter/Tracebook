@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-/*
 @MainActor
 struct UserView: View {
     var userId: String
@@ -57,4 +56,3 @@ struct UserView: View {
     let userId = ""
     return UserView(userId: userId)
 }
-*/

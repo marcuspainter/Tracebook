@@ -7,16 +7,14 @@
 
 import CoreData
 
-// UNUSED - EXAMPLE ONLY
-
 final class PersistenceController: Sendable {
     static let shared = PersistenceController()
-/*
+
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0 ..< 10 {
-            let newItem = Measurement(from: viewContext)
+            let newItem = Measurement(context: viewContext)
             newItem.id = UUID().uuidString
             newItem.title = "RCF"
         }
@@ -31,7 +29,7 @@ final class PersistenceController: Sendable {
         }
         return result
     }()
-*/
+
     let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {
@@ -40,8 +38,8 @@ final class PersistenceController: Sendable {
 
         print(applicationSupportURL ?? "")
 
-        //DoubleArrayValueTransformer.register()
-        //StringArrayValueTransformer.register()
+        DoubleArrayValueTransformer.register()
+        StringArrayValueTransformer.register()
 
         container = NSPersistentContainer(name: "Tracebook")
         if inMemory {

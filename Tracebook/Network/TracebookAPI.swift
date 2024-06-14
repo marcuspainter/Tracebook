@@ -10,15 +10,19 @@ typealias InterfaceListResponse = BubbleListResponse<InterfaceBody>
 typealias UserItemResponse = BubbleItemResponse<UserBody>
 typealias UserListResponse = BubbleListResponse<UserBody>
 
-class TracebookAPI: TracebookAPIProtocol {
+class TracebookAPI {
     // Tokens look like this (Sample expired token)
     let token = "3f600fe8b64b951f4dc87d867400f0f4"
+    let startDate: Date = ISO8601DateFormatter().date(from: "2022-01-31T02:22:40Z")!
 
-    private func getResponse<T: Decodable>(_ type: T.Type, for request: URLRequest) async -> T? {
+    init() {
+    }
+
+    func getResponse<T: Decodable>(_ type: T.Type, for request: URLRequest) async -> T? {
         do {
             let (jsonData, _ /* response */ ) = try await URLSession.shared.data(for: request)
-            let response = try JSONDecoder().decode(type, from: jsonData)
-            return response
+            let reponse = try JSONDecoder().decode(type, from: jsonData)
+            return reponse
         } catch {
             print("Request error: \(error)")
         }
@@ -60,7 +64,9 @@ class TracebookAPI: TracebookAPIProtocol {
         return response
     }
 
-    func getMeasurementListByDate(cursor: Int = 0, dateString: String = "2001-01-01T00:00:00.000Z") async -> MeasurementListResponse? {
+    func getMeasurementListbyDate(cursor: Int = 0, dateString: String) async -> MeasurementListResponse? {
+        print(dateString)
+
         let bubbleRequest = BubbleRequest(entity: "measurement")
         bubbleRequest.cursor = cursor
         bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
@@ -68,7 +74,18 @@ class TracebookAPI: TracebookAPIProtocol {
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
 
         let urlRequest = bubbleRequest.urlRequest()
+        print(urlRequest.mainDocumentURL as Any)
         let response = await getResponse(MeasurementListResponse.self, for: urlRequest)
         return response
+    }
+}
+
+extension Date {
+    init?(iso: String) {
+        let formatter = ISO8601DateFormatter()
+        guard let date = formatter.date(from: iso) else {
+            return nil
+        }
+        self = date
     }
 }
