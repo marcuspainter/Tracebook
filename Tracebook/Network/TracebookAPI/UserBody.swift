@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct UserBody: Codable, Sendable {
-    let id: String
+struct UserBody: Codable {
     let name: String?
     let photo: String?
     let location: String?
@@ -22,9 +21,9 @@ struct UserBody: Codable, Sendable {
     let pseudonym: String?
     let measurementsCreatedCount: Int?
     let userSignedUp: Bool?
+    let id: String
 
-
-    enum CodingKeys: String, CodingKey, CaseIterable, Sendable {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case name = "Name"
         case photo = "Photo"
         case location = "Location"

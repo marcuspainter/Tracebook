@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct MicrophoneBody: Codable, Sendable {
-    let id: String?
+struct MicrophoneBody: Codable {
     let micBrandModel: String?
     let createdBy: String?
     let createdDate: String?
     let modifiedDate: String?
+    let id: String?
 
     enum CodingKeys: String, CodingKey {
         case micBrandModel = "Mic brand+model"

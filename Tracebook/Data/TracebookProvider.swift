@@ -6,41 +6,33 @@
  */
 
 import CoreData
-@preconcurrency
-import OSLog // Not sendable. Not fixed yet by Apple
+import OSLog
 
-final class TracebookProvider {
+class TracebookProvider {
     // Local dictionaries
-
-    func sync() async {
-        // Get date of most recent measurement
-        // Get measurements after date
-        // Get measurements
-
-        // Get all non-content measurements
+    private var microphones: [String: String] = [:]
+    private var interfaces: [String: String] = [:]
+    private var analyzers: [String: String] = [:]
+    
+    @discardableResult
+    static func makePreviews(count: Int) -> [MeasurementEntity] {
+        var measurements = [MeasurementEntity]()
+        let viewContext = TracebookProvider.preview.container.viewContext
+        for index in 0 ..< count {
+            let measurement = MeasurementEntity(context: viewContext)
+            measurement.id = UUID().uuidString
+            measurement.title = "Speaker \(index)"
+            measurements.append(measurement)
+        }
+        return measurements
     }
-
-    /*
-     @discardableResult
-     static func makePreviews(count: Int) -> [MeasurementEntity] {
-         var measurements = [MeasurementEntity]()
-         let viewContext = TracebookProvider.preview.container.viewContext
-         for index in 0 ..< count {
-             let measurement = MeasurementEntity(context: viewContext)
-             measurement.id = UUID().uuidString
-             measurement.title = "Speaker \(index)"
-             measurements.append(measurement)
-         }
-         return measurements
-     }
-     */
 
     // MARK: Logging
 
     let logger = Logger(subsystem: "com.marcuspainter.com.Tracebook", category: "persistence")
-
+    
     // MARK: Network API
-
+    
     let tracebookAPI = TracebookAPI()
 
     // MARK: Core Data
@@ -49,13 +41,11 @@ final class TracebookProvider {
     static let shared = TracebookProvider()
 
     /// A tracebook provider for use with canvas previews.
-    /*
-     static let preview: TracebookProvider = {
-         let provider = TracebookProvider(inMemory: true)
-         TracebookProvider.makePreviews(count: 10)
-         return provider
-     }()
-      */
+    static let preview: TracebookProvider = {
+        let provider = TracebookProvider(inMemory: true)
+        TracebookProvider.makePreviews(count: 10)
+        return provider
+    }()
 
     private let inMemory: Bool
     private var notificationToken: NSObjectProtocol?
@@ -63,43 +53,24 @@ final class TracebookProvider {
     private init(inMemory: Bool = false) {
         self.inMemory = inMemory
 
-        /*
         // Observe Core Data remote change notifications on the queue where the changes were made.
-        notificationToken = NotificationCenter.default.addObserver(forName: .NSPersistentStoreRemoteChange, object: nil, queue: nil) { [weak self]_ in
-            self?.logger.debug("Received a persistent store remote change notification.")
-            Task {
-                await self?.fetchPersistentHistory()
-            }
-        }
-         */
-        
-        Task {
-            await self.addObserver()
-        }
-    }
-
-    deinit {
-        Task {
-            await removeObserver()
-        }
-    }
-
-    // Can't removeObserver directly in deinit
-    func removeObserver() async {
-        if let observer = notificationToken {
-            NotificationCenter.default.removeObserver(observer)
-        }
-    }
-  
-    func addObserver() async {
         notificationToken = NotificationCenter.default.addObserver(forName: .NSPersistentStoreRemoteChange, object: nil, queue: nil) { _ in
             self.logger.debug("Received a persistent store remote change notification.")
             Task {
                 await self.fetchPersistentHistory()
             }
         }
+        
+        DoubleArrayValueTransformer.register()
+        StringArrayValueTransformer.register()
     }
- 
+
+    deinit {
+        if let observer = notificationToken {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+
     /// A persistent history token used for fetching transactions from the store.
     private var lastToken: NSPersistentHistoryToken?
 
@@ -135,7 +106,7 @@ final class TracebookProvider {
         container.viewContext.automaticallyMergesChangesFromParent = false
         container.viewContext.name = "viewContext"
         /// - Tag: viewContextMergePolicy
-        container.viewContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.undoManager = nil
         container.viewContext.shouldDeleteInaccessibleFaults = true
         return container
@@ -146,11 +117,44 @@ final class TracebookProvider {
         // Create a private queue context.
         /// - Tag: newBackgroundContext
         let taskContext = container.newBackgroundContext()
-        taskContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+        taskContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         // Set unused undoManager to nil for macOS (it is nil by default on iOS)
         // to reduce resource requirements.
         taskContext.undoManager = nil
         return taskContext
+    }
+    
+    private func getMicrophones() async {
+        let microphoneResponse = await tracebookAPI.getMicrophoneList()
+        if let microphoneList = microphoneResponse?.response.results {
+            for microphone in microphoneList {
+                if let id = microphone.id, let brand = microphone.micBrandModel {
+                    self.microphones[id] = brand
+                }
+            }
+        }
+    }
+
+    private func getInterfaces() async {
+        let interfaceResponse = await tracebookAPI.getInterfaceList()
+        if let interfaceList = interfaceResponse?.response.results {
+            for interface in interfaceList {
+                if let id = interface.id, let brand = interface.brandModel {
+                    self.interfaces[id] = brand
+                }
+            }
+        }
+    }
+
+    private func getAnalyzers() async {
+        let analyzerResponse = await tracebookAPI.getAnalyzerList()
+        if let analyzerList = analyzerResponse?.response.results {
+            for analyzer in analyzerList {
+                if let id = analyzer.id, let name = analyzer.name {
+                    self.analyzers[id] = name
+                }
+            }
+        }
     }
 
     func getLastDate() -> String {
@@ -164,48 +168,43 @@ final class TracebookProvider {
 
         var date = "2000-01-01T00:00:00.000Z"
         // Perform the fetch request to get the objects
-        viewContext.perform {
-            do {
-                let measurements = try viewContext.fetch(fetchRequest)
-                if let measurement = measurements.first {
-                    date = measurement.createdDate ?? date
-                }
-            } catch {
-                self.logger.debug("Fetch failed \(error)")
+        do {
+            let measurements = try viewContext.fetch(fetchRequest)
+            if let measurement = measurements.first {
+                date = measurement.createdDate ?? date
             }
+        } catch {
+            logger.debug("Fetch failed \(error)")
         }
         return date
     }
-
+    
     func fetchMeasurementsForUpdate() -> [MeasurementEntity] {
         let viewContext = container.viewContext
 
         let fetchRequest: NSFetchRequest<MeasurementEntity> = MeasurementEntity.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \MeasurementEntity.createdDate, ascending: false),
-                                        NSSortDescriptor(keyPath: \MeasurementEntity.id, ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \MeasurementEntity.createdDate, ascending: false)]
         fetchRequest.predicate = NSPredicate(format: "%K == NIL", "contentId")
 
         var measurements: [MeasurementEntity] = []
         // Perform the fetch request to get the objects
-        viewContext.performAndWait {
-            do {
-                measurements = try viewContext.fetch(fetchRequest)
-            } catch {
-                self.logger.debug("Fetch failed \(error)")
-            }
+        do {
+            measurements = try viewContext.fetch(fetchRequest)
+        } catch {
+            logger.debug("Fetch failed \(error)")
         }
         return measurements
     }
-
+    
     func fetchMeasurement(id: String) -> MeasurementEntity? {
         let viewContext = container.viewContext
-        var measurement: MeasurementEntity?
+        var measurement: MeasurementEntity? = nil
 
         // Create a fetch request with a string filter
         // for an entity’s name
         let fetchRequest: NSFetchRequest<MeasurementEntity> = MeasurementEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
+        
         // Perform the fetch request to get the objects
         do {
             let measurements = try viewContext.fetch(fetchRequest)
@@ -217,131 +216,94 @@ final class TracebookProvider {
     }
 
     func fetchMeasurementContents() async throws {
-        let viewContext = container.viewContext
-
-        //var measurements: [MeasurementEntity] = []
-        //measurements = fetchMeasurementsForUpdate()
-        //guard measurements.count > 0 else {
-        //    logger.debug("No content updates needed.")
-        //    return
-        //}
-
-        let fetchRequest: NSFetchRequest<MeasurementEntity> = MeasurementEntity.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \MeasurementEntity.createdDate, ascending: false),
-                                        NSSortDescriptor(keyPath: \MeasurementEntity.id, ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "%K == NIL", "contentId")
-
-        var measurements: [MeasurementEntity] = []
-        // Perform the fetch request to get the objects
         
-        viewContext.performAndWait {
-            do {
-                measurements = try viewContext.fetch(fetchRequest)
-            } catch {
-                self.logger.debug("Fetch failed \(error)")
-            }
+        let viewContext = container.viewContext
+        
+        var measurements: [MeasurementEntity] = []
+        measurements = fetchMeasurementsForUpdate()
+        guard measurements.count > 0 else {
+            logger.debug("No content updates needed.")
+            return
         }
         
         logger.debug("Start getting content data...")
-
+        
         //var propertiesList: [[String: Any]] = []
         var count: Int = 0
         for measurement in measurements {
-            count += 1
-            
             if let contentId = measurement.additionalContent {
                 let measurementContentResponse = await tracebookAPI.getMeasurementContent(id: contentId)
-
-                //logger.debug("Content for \(measurementContentId ?? "")")
+                
+                logger.debug("Content for \(measurement.title ?? "")")
                 if let measurementContentBody = measurementContentResponse?.response {
-                    let body = measurementContentBody
-                    let microphone = body.microphone ?? ""
-                    let interface = body.interface ?? ""
-                    let analyzer = body.analyzer ?? ""
-/*
-                    var measurementContentProperties = TracebookMapper.measurementContentBodyToProperties(body: measurementContentBody)
-                    measurementContentProperties["id"] = measurementContentId.0
-                    measurementContentProperties["contentId"] = body.id
+                    //var measurementContentProperties = TracebookMapper.measurementContentBodyToProperties(body: measurementContentBody)
+                    //measurementContentProperties["id"] = measurement.id
                     //measurementContentProperties["microphone"] = microphones[microphone] ?? microphone
                     //measurementContentProperties["interface"] = interfaces[interface] ?? interface
                     //measurementContentProperties["analyzer"]  = analyzers[analyzer] ?? analyzer
-                    propertiesList.append(measurementContentProperties)
-*/
-                    //let microphoneText = microphones[microphone] ?? microphone
-                    //let interfaceText = interfaces[interface] ?? interface
-                    //let analyzerText = analyzers[analyzer] ?? analyzer
-
+                    //propertiesList.append(measurementContentProperties)
+                    
+                    let microphone = measurementContentBody.microphone ?? ""
+                    let interface = measurementContentBody.interface ?? ""
+                    let analyzer = measurementContentBody.analyzer ?? ""
+                    
+                    let microphoneText = microphones[microphone] ?? microphone
+                    let interfaceText = interfaces[interface] ?? interface
+                    let analyzerText  = analyzers[analyzer] ?? analyzer
+                    
+                    let body = measurementContentBody
                     measurement.contentId = body.id
                     
-                    // Replace ids with text
-                    // measurement.analyzer = analyzerText
-                    // measurement.microphone = microphoneText
-                    // measurement.interface = interfaceText
-
+                    measurement.analyzer = analyzerText
+                    measurement.microphone = microphoneText
+                    measurement.interface = interfaceText
+                    
                     measurement.calibrator = body.calibrator
-                    measurement.category = body.category
                     measurement.coherenceScale = body.coherenceScale
                     measurement.delayLocator = body.delayLocator ?? 0.0
                     measurement.distance = body.distance ?? 0.0
                     measurement.distanceUnits = body.distanceUnits
-                    measurement.dspPreset = body.dspPreset
-
                     measurement.fileIRWAV = body.fileIRWAV
                     measurement.fileTFCSV = body.fileTFCSV
                     measurement.fileTFNative = body.fileTFNative
-                    measurement.firmwareVersion = body.firmwareVersion
                     measurement.medal = body.medal
                     measurement.micCorrectionCurve = body.micCorrectionCurve
-                    measurement.notes = body.notes
-                    measurement.photoSetup = body.photoSetup
-                    measurement.presetVersion = body.presetVersion
                     measurement.systemLatency = body.systemLatency ?? 0.0
                     measurement.temperature = body.temperature ?? 0.0
                     measurement.tempUnits = body.tempUnits
-                    measurement.tfJSONCoherence = body.tfJSONCoherence ?? ""
-                    measurement.tfJSONFrequency = body.tfJSONFrequency ?? ""
-                    measurement.tfJSONMagnitude = body.tfJSONMagnitude ?? ""
-                    measurement.tfJSONPhase = body.tfJSONPhase ?? ""
+                    measurement.tfJSONCoherence = TracebookMapper.csvToDoubleArray(body.tfJSONCoherence)
+                    measurement.tfJSONFrequency = TracebookMapper.csvToDoubleArray(body.tfJSONFrequency)
+                    measurement.tfJSONMagnitude = TracebookMapper.csvToDoubleArray(body.tfJSONMagnitude)
+                    measurement.tfJSONPhase = TracebookMapper.csvToDoubleArray(body.tfJSONPhase)
                     measurement.windscreen = body.windscreen
-                   
-                    /*
-                    await viewContext.perform {
+                
+                    Task { @MainActor in
                         do {
                             try viewContext.save()
                         } catch {
-                            print("Error")
-                        }
+                           print("Error")
+                       }
                     }
-                    */
-                    await MainActor.run {
-
-                        do {
-                            try viewContext.save()
-                        } catch {
-                            print("Error")
-                        }
-                    }
-
+                    
                 }
             }
-
-          //  if count % 10 == 0 {
-          //   try await importMeasurements(from: propertiesList)
-           //    propertiesList = []
-        //    }
+            count += 1
+           //if count % 10 == 0 {
+                //try await importMeasurements(from: propertiesList)
+                // propertiesList = []
+           //}
         }
-
+        
         // Import the JSON into Core Data.
-        // logger.debug("Start importing content data to the store...")
-        // try await importMeasurements(from: propertiesList)
-        // logger.debug("Finished importing content data.")
-        // logger.debug("Content done.")
+        //logger.debug("Start importing content data to the store...")
+        //try await importMeasurements(from: propertiesList)
+        //logger.debug("Finished importing content data.")
+        //logger.debug("Content done.")
     }
 
     /// Fetches the tracebook feed from the remote server, and imports it into Core Data.
     func fetchMeasurements() async throws {
         
-        /*
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
                 await self.getMicrophones()
@@ -353,8 +315,8 @@ final class TracebookProvider {
                 await self.getAnalyzers()
             }
         }
-         */
 
+        var propertiesList: [[String: Any]] = []
         let lastDate = getLastDate()
         var cursor: Int = 0
         while true {
@@ -364,9 +326,20 @@ final class TracebookProvider {
                 break
             }
 
-            var propertiesList: [[String: Any]] = []
             for result in measurementListResponse.response.results {
+                
                 let measurementProperties = TracebookMapper.measurementBodyToProperties(body: result)
+/*
+                if let contentId =  result.additionalContent {
+                    logger.debug("Get measurement content \(result.title ?? "")")
+                    let measurementContentResponse = await tracebookAPI.getMeasurementContent(id: contentId)
+                    
+                    if let measurementContentBody = measurementContentResponse?.response {
+                        let measurementContentProperties = TracebookMapper.measurementContentBodyToProperties(body: measurementContentBody)
+                        measurementProperties.merge(measurementContentProperties){ (_, new) in new }
+                    }
+                }
+*/
                 propertiesList.append(measurementProperties)
             }
 
@@ -412,6 +385,20 @@ final class TracebookProvider {
 
     private func newBatchInsertRequest(with propertyList: [[String: Any]]) -> NSBatchInsertRequest {
         let batchInsertRequest = NSBatchInsertRequest(entity: MeasurementEntity.entity(), objects: propertyList)
+        /*
+         var index = 0
+         let total = propertyList.count
+
+         // Provide one dictionary at a time when the closure is called.
+         let batchInsertRequest = NSBatchInsertRequest(entity: MeasurementEntity.entity(), dictionaryHandler: { dictionary in
+             guard index < total else { return true }
+             let properties = propertyList[index]
+
+             dictionary.addEntries(from: properties)
+             index += 1
+             return false
+         })
+         */
         return batchInsertRequest
     }
 
@@ -453,6 +440,16 @@ final class TracebookProvider {
         let viewContext = container.viewContext
         viewContext.perform {
             for transaction in history {
+                /*
+                 logger.debug("transaction", transaction.changes?.count)
+                 if let changes = transaction.changes {
+                     for change in changes {
+                         let names = change.updatedProperties?.map { $0.name }
+                 logger.debug("changes \(change.changeType) properties \(names)")
+                     }
+                 }
+                 */
+
                 let notification = transaction.objectIDNotification()
                 viewContext.mergeChanges(fromContextDidSave: notification)
                 self.lastToken = transaction.token
@@ -464,66 +461,16 @@ final class TracebookProvider {
         let entityName = "MeasurementEntity"
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        let context = container.newBackgroundContext()
+        let context = container.viewContext
 
-        context.perform {
-            do {
-                try context.execute(batchDeleteRequest)
-                try context.save()
-                self.logger.debug("Delete ended")
-            } catch {
-                self.logger.debug("Error deleting data for entity \(entityName): \(error)")
-            }
+        do {
+            try context.execute(batchDeleteRequest)
+            try context.save()
+            logger.debug("Delete ended")
+        } catch {
+            logger.debug("Error deleting data for entity \(entityName): \(error)")
         }
     }
-    /*
-     func resetPersistentStore() {
-         guard let storeURL = container.persistentStoreDescriptions.first?.url else { return }
-         let storeCoordinator = container.persistentStoreCoordinator
-
-         do {
-             try storeCoordinator.destroyPersistentStore(at: storeURL, ofType: NSSQLiteStoreType, options: nil)
-             loadPersistentStore()
-         } catch {
-             fatalError("Failed to destroy old persistent store: \(error)")
-         }
-     }
-      */
-  /*
-    private func getMicrophones() async {
-        let microphoneResponse = await tracebookAPI.getMicrophoneList()
-        if let microphoneList = microphoneResponse?.response.results {
-            for microphone in microphoneList {
-                if let id = microphone.id, let brand = microphone.micBrandModel {
-                    microphones[id] = brand
-                }
-            }
-        }
-    }
-
-    private func getInterfaces() async {
-        let interfaceResponse = await tracebookAPI.getInterfaceList()
-        if let interfaceList = interfaceResponse?.response.results {
-            for interface in interfaceList {
-                if let id = interface.id, let brand = interface.brandModel {
-                    interfaces[id] = brand
-                }
-            }
-        }
-    }
-
-    private func getAnalyzers() async {
-        let analyzerResponse = await tracebookAPI.getAnalyzerList()
-        if let analyzerList = analyzerResponse?.response.results {
-            for analyzer in analyzerList {
-                if let id = analyzer.id, let name = analyzer.name {
-                    analyzers[id] = name
-                }
-            }
-        }
-    }
-   
-   */
 }
 
 func getCoreDataDBPath() {

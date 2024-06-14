@@ -14,17 +14,14 @@ struct MeasurementEntityItemView: View {
 
     var body: some View {
         HStack {
-            VStack {
-                if let url = URL(string: "https:\(measurement.thumbnailImage ?? "")") {
-                    AsyncImage(url: url,
-                               content: AsyncImageHandler.content)
+        /*    VStack {
+                AsyncImage(url: URL(string: "https:\(measurement.thumbnailImage ?? "")"),
+                           content: AsyncImageHandler.content)
                     .padding(.top, 0)
                     .frame(width: 75, height: 75, alignment: .center)
-                }
                 Spacer()
-                    
             }
-         
+         */
             VStack {
                 Group {
                     Text(measurement.title ?? "")
@@ -61,11 +58,10 @@ struct MeasurementEntityItemView: View {
     }
 }
 
-
+/*
 #Preview {
-    let measurement = MeasurementEntity()
-    measurement.title = "Hello"
-    return MeasurementEntityItemView(measurement: measurement)
+    let measurement = MeasurementModel()
+    return MeasurementItemView(measurement: measurement)
 }
-
+ */
 

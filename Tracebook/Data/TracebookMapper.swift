@@ -24,10 +24,10 @@ class TracebookMapper {
         entity.systemLatency = body.systemLatency ?? 0.0
         entity.temperature = body.temperature ?? 0.0
         entity.tempUnits = body.tempUnits
-        entity.tfJSONCoherence = body.tfJSONCoherence ?? ""
-        entity.tfJSONFrequency = body.tfJSONFrequency  ?? ""
-        entity.tfJSONMagnitude = body.tfJSONMagnitude  ?? ""
-        entity.tfJSONPhase = body.tfJSONPhase ?? ""
+        entity.tfJSONCoherence = TracebookMapper.csvToDoubleArray(body.tfJSONCoherence)
+        entity.tfJSONFrequency = TracebookMapper.csvToDoubleArray(body.tfJSONFrequency)
+        entity.tfJSONMagnitude = TracebookMapper.csvToDoubleArray(body.tfJSONMagnitude)
+        entity.tfJSONPhase = TracebookMapper.csvToDoubleArray(body.tfJSONPhase)
         entity.windscreen = body.windscreen
     }
 
@@ -52,7 +52,7 @@ class TracebookMapper {
         properties["slug"] = body.slug
         properties["thumbnailImage"] = body.thumbnailImage
         properties["title"] = body.title
-        // properties["tracebookURL"] = body.tracebookURL
+        properties["tracebookURL"] = body.tracebookURL
         // properties["upvotes"] = body.upvotes
 
         return properties
@@ -84,8 +84,7 @@ class TracebookMapper {
         properties["windscreen"] = body.windscreen
         return properties
 
-        // Not used
-         /*
+        /*
          properties["analyzer"] = body.analyzer
          properties["calibrator"] = body.calibrator
          properties["category"] = body.category

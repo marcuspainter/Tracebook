@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BubbleErrorResponse: Codable, Sendable {
+struct BubbleErrorResponse: Codable {
     let statusCode: Int
     let body: BubbleErrorBody
 }

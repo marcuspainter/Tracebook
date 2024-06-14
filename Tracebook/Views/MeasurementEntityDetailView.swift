@@ -38,11 +38,6 @@ struct MeasurementEntityDetailView: View {
     @State var magnitudePlotData = MagnitudePlotData(frequencyData: [], magnitudeData: [], coherenceData: [])
     @State var phasePlotData = PhasePlotData(frequencyData: [], phaseData: [], coherenceData: [], originalPhaseData: [])
 
-    @State var tfJSONFrequency: [Double] = []
-    @State var tfJSONMagnitude: [Double] = []
-    @State var tfJSONPhase: [Double] = []
-    @State var tfJSONCoherence: [Double] = []
-
     @State var isPolarityInverted: Bool = false
     @State var delay: Double = 0.0
     @State var threshold: Double = 0.0
@@ -146,35 +141,26 @@ struct MeasurementEntityDetailView: View {
 
                     TextLine(text: "Comments:", value: measurement.commentCreator)
 
-                    TextLine(text: "Tags:", value: measurement.loudspeakerTags ?? "")
+                        /*
+                         TextLine(text: "Tags:", value: measurement.loudspeakerTags?.joined(separator: ", ") ?? "")
 
-                    Divider()
+                         Divider()
 
-                    VStack {
-                        Text("Setup").multilineTextAlignment(.leading)
-                        if let url = URL(string: "https:\(measurement.photoSetup ?? "")") {
-                            AsyncImage(url: url, content: AsyncImageHandler.content)
-                                .frame(maxWidth: 400)
-                        }
-                    }
+                         VStack {
+                              Text("Setup").multilineTextAlignment(.leading)
+                              AsyncImage(url: URL(string: "https:\(measurement.photoSetup)"), content: AsyncImageHandler.content)
+                                  .frame(maxWidth: 400)
+                         }
+                         */
 
-                    .navigationTitle(measurement.title ?? "")
-                    .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle(measurement.title ?? "")
+                        .navigationBarTitleDisplayMode(.inline)
                 }
-                // Change of content
                 .onChange(of: measurement.contentId) { _ in
                     // Trigger when content is updated from database
-                    self.tfJSONFrequency = TracebookMapper.csvToDoubleArray(measurement.tfJSONFrequency)
-                    self.tfJSONMagnitude = TracebookMapper.csvToDoubleArray(measurement.tfJSONMagnitude)
-                    self.tfJSONPhase = TracebookMapper.csvToDoubleArray(measurement.tfJSONPhase)
-                    self.tfJSONCoherence = TracebookMapper.csvToDoubleArray(measurement.tfJSONCoherence)
                     updateChart()
                 }
                 .onAppear {
-                    self.tfJSONFrequency = TracebookMapper.csvToDoubleArray(measurement.tfJSONFrequency)
-                    self.tfJSONMagnitude = TracebookMapper.csvToDoubleArray(measurement.tfJSONMagnitude)
-                    self.tfJSONPhase = TracebookMapper.csvToDoubleArray(measurement.tfJSONPhase)
-                    self.tfJSONCoherence = TracebookMapper.csvToDoubleArray(measurement.tfJSONCoherence)
                     updateChart()
                 }
                 .padding()
@@ -189,24 +175,24 @@ struct MeasurementEntityDetailView: View {
     }
 
     func updateMagnitudeChart() {
-        magnitudePlotData = MagnitudePlotData(frequencyData: tfJSONFrequency,
-                                              magnitudeData: tfJSONMagnitude,
-                                              coherenceData: tfJSONCoherence)
+        magnitudePlotData = MagnitudePlotData(frequencyData: measurement.tfJSONFrequency,
+                                              magnitudeData: measurement.tfJSONMagnitude,
+                                              coherenceData: measurement.tfJSONCoherence)
     }
 
     func updatePhaseChart() {
-        phasePlotData = PhasePlotData(frequencyData: tfJSONFrequency,
-                                      phaseData: tfJSONPhase,
-                                      coherenceData: tfJSONCoherence,
-                                      originalPhaseData: tfJSONPhase)
+        phasePlotData = PhasePlotData(frequencyData: measurement.tfJSONFrequency,
+                                      phaseData: measurement.tfJSONPhase,
+                                      coherenceData: measurement.tfJSONCoherence,
+                                      originalPhaseData: measurement.tfJSONPhase)
     }
 
     func updateChart() {
-        plotData = PlotData(frequencyData: tfJSONFrequency,
-                            magnitudeData: tfJSONMagnitude,
-                            phaseData: tfJSONPhase,
-                            coherenceData: tfJSONCoherence,
-                            originalPhaseData: tfJSONPhase)
+        plotData = PlotData(frequencyData: measurement.tfJSONFrequency,
+                            magnitudeData: measurement.tfJSONMagnitude,
+                            phaseData: measurement.tfJSONPhase,
+                            coherenceData: measurement.tfJSONCoherence,
+                            originalPhaseData: measurement.tfJSONPhase)
 
         updateMagnitudeChart()
         updatePhaseChart()

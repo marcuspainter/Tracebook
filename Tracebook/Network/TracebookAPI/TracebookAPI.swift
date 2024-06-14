@@ -10,7 +10,7 @@ typealias InterfaceListResponse = BubbleListResponse<InterfaceBody>
 typealias UserItemResponse = BubbleItemResponse<UserBody>
 typealias UserListResponse = BubbleListResponse<UserBody>
 
-final class TracebookAPI: Sendable {
+class TracebookAPI: TracebookAPIProtocol {
     // Tokens look like this (Sample expired token)
     let token = "3f600fe8b64b951f4dc87d867400f0f4"
 
@@ -24,14 +24,14 @@ final class TracebookAPI: Sendable {
         }
         return nil
     }
-/*
+
     func getUser(id: String) async -> UserItemResponse? {
         let bubbleRequest = BubbleRequest(entity: "user")
         let urlRequest = bubbleRequest.urlRequest()
         let response = await getResponse(UserItemResponse.self, for: urlRequest)
         return response
     }
-*/
+
     func getAnalyzerList() async -> AnalyzerListResponse? {
         let bubbleRequest = BubbleRequest(entity: "analyzer")
         let urlRequest = bubbleRequest.urlRequest()

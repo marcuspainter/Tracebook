@@ -34,21 +34,22 @@ class BubbleRequest {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "trace-book.org"
-        components.path = "/api/1.1/obj/\(entity)"
+        components.path = "/api/1.1/obj"
+        components.path += "/\(entity)"
 
-        if let id = id {
+        if let id = self.id {
             components.path += "/\(id)"
         }
 
         if cursor != nil || limit != nil || constraints.count > 0 || sortKeys.count > 0 {
             components.queryItems = []
 
-            if let cursor = cursor {
+            if let cursor = self.cursor {
                 let queryItem = URLQueryItem(name: "cursor", value: "\(cursor)")
                 components.queryItems?.append(queryItem)
             }
 
-            if let limit = limit {
+            if let limit = self.limit {
                 let queryItem = URLQueryItem(name: "limit", value: "\(limit)")
                 components.queryItems?.append(queryItem)
             }
@@ -79,4 +80,5 @@ class BubbleRequest {
 
         return request
     }
+
 }

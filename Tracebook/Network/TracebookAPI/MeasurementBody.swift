@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MeasurementBody: Codable, Sendable {
+class MeasurementBody: Codable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -17,33 +17,32 @@ struct MeasurementBody: Codable, Sendable {
         return lhs.id == rhs.id
     }
 
-    let id: String
-    let additionalContent: String?
-    let admin1Approved: String?
-    let admin2Approved: String?
-    let approved: String?
-    let commentCreator: String?
-    let createdBy: String?
-    let createdDate: String?
-    let emailSent: Bool?
+    var id: String = ""
+    var additionalContent: String?
+    var admin1Approved: String?
+    var admin2Approved: String?
+    var approved: String?
+    var commentCreator: String?
+    var createdBy: String?
+    var createdDate: String?
+    var emailSent: Bool?
     // public is reserved word, so resultPublic used instead
-    let isPublic: Bool?
-    let loudspeakerTags: [String]?
-    let moderator1: String?
-    let moderator2: String?
-    let modifiedDate: String?
-    let productLaunchDateText: String?
-    let publishDate: String?
-    let slug: String?
-    let thumbnailImage: String?
-    let title: String?
-    let upvotes: [String]?
+    var isPublic: Bool?
+    var loudspeakerTags: [String]?
+    var moderator1: String?
+    var moderator2: String?
+    var modifiedDate: String?
+    var productLaunchDateText: String?
+    var publishDate: String?
+    var slug: String?
+    var thumbnailImage: String?
+    var title: String?
+    var upvotes: [String]?
 
-    //let content: MeasurementContentBody?
+    //var content: MeasurementContentBody?
 
     // Added properties
-    //var tracebookURL: String? { "https://trace-book.org/measurement/\(slug ?? "")" }
-    //let tracebookURL: String? = ""
+    var tracebookURL: String? { "https://trace-book.org/measurement/\(slug ?? "")" }
 
     enum CodingKeys: String, CodingKey {
         case id = "_id"
