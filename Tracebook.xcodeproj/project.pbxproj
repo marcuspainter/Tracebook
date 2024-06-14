@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1910F70A2C1CA4D6009468FF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1910F7082C1CA4D6009468FF /* README.md */; };
+		1910F70B2C1CA4D6009468FF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 1910F7092C1CA4D6009468FF /* LICENSE */; };
 		191C76CE2B214CA800406EAD /* TracebookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C76CD2B214CA800406EAD /* TracebookApp.swift */; };
 		191C76D02B214CA800406EAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C76CF2B214CA800406EAD /* ContentView.swift */; };
 		191C76D22B214CAB00406EAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 191C76D12B214CAB00406EAD /* Assets.xcassets */; };
@@ -84,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1910F7082C1CA4D6009468FF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		1910F7092C1CA4D6009468FF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		191BF15A2B352FF10008FEBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		191C76CA2B214CA800406EAD /* Tracebook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracebook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		191C76CD2B214CA800406EAD /* TracebookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracebookApp.swift; sourceTree = "<group>"; };
@@ -180,6 +184,8 @@
 		191C76C12B214CA800406EAD = {
 			isa = PBXGroup;
 			children = (
+				1910F7092C1CA4D6009468FF /* LICENSE */,
+				1910F7082C1CA4D6009468FF /* README.md */,
 				194E47AF2BB249CA00FC15BD /* Measurement+CoreDataClass.swift */,
 				194E47B02BB249CA00FC15BD /* Measurement+CoreDataProperties.swift */,
 				191C76CC2B214CA800406EAD /* Tracebook */,
@@ -499,8 +505,10 @@
 			files = (
 				19787DBF2B72AE22003FB364 /* LaunchScreen.storyboard in Resources */,
 				19787DBE2B72ADEC003FB364 /* Settings.plist in Resources */,
+				1910F70A2C1CA4D6009468FF /* README.md in Resources */,
 				19787DB92B72AB2B003FB364 /* interface.json in Resources */,
 				1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */,
+				1910F70B2C1CA4D6009468FF /* LICENSE in Resources */,
 				19787DB72B72AAFB003FB364 /* microphone.json in Resources */,
 				19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */,
 				191C76D52B214CAB00406EAD /* Preview Assets.xcassets in Resources */,
