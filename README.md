@@ -2,7 +2,7 @@
 
 ![Tracebook Logo](https://c2b1d9fa5c3d26f2666647d298a3ed0a.cdn.bubble.io/f1607387294628x364723563952972000/Trace_logo_2.svg)
 
-The Tracebook website is hosted on Bubblen a no-code website builder platform.  that can expose a database through a simple REST API. 
+The Tracebook website is hosted on Bubble, a no-code website builder platform. The website can expose a database using a simple REST API. 
 
 [https://trace-book.org/](https://trace-book.org/)
 
@@ -15,7 +15,44 @@ More information about using the Bubble API for Tracebook can be found here:
 The API is limited to returning 100 items at a time. To get the next items, the cursor parameter must be used. To start, set the cursor to 0. 
 The response contains the number of items remaining. Items should be retrieved until the remains count is zero.
 
+For endpoint for each entity is:
+
+```
 https://trace-book.org/api/1.1/obj/
+```
+
+#### List Response
+
+```
+https://trace-book.org/api/1.1/obj/<entity>
+```
+
+```json
+{
+    "response": {
+        "cursor": 0,
+        "results": [
+          /* entity */
+        ]
+        "count": 100,
+        "remaining": 314
+}
+```
+
+#### Item Response
+
+```
+https://trace-book.org/api/1.1/obj/<entity>/<id>
+```
+
+```json
+{
+    "response": {
+      /* entity */
+    }
+}
+```
+
 
 ## Postman
 
@@ -35,7 +72,7 @@ https://trace-book.org/api/1.1/obj/measurement
 
 ### Measurement Content
 
-Use the id from the measurement to get the measurement content.
+Use the `Additional content` property from the measurement to get the measurement content.
 
 https://trace-book.org/api/1.1/obj/measurementcontent/1701541284662x312646422310158340
 
