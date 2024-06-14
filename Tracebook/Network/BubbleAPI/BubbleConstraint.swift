@@ -28,7 +28,7 @@ enum BubbleConstraintType: String {
     case notInField = "not in"
     // Use to test whether a list field contains an entry or not for list fields only.
     case contains = "contains"
-    case notContaiins = "not contains"
+    case notContains = "not contains"
     // Use to test whether a list field is empty or not for list fields only.
     case empty = "empty"
     case notEmpty = "not empty"

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum BubbleSortKeyOrder {
+enum BubbleSortKeyOrder: CaseIterable, Sendable {
     case ascending
     case descending
 }

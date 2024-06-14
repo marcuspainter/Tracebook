@@ -48,6 +48,7 @@ extension MeasurementEntity {
     @NSManaged public var moderator2: String?
     @NSManaged public var modifiedDate: String?
     @NSManaged public var notes: String?
+    @NSManaged public var photoSetup: String?
     @NSManaged public var presetVersion: String?
     @NSManaged public var productLaunchDateText: String?
     @NSManaged public var publishDate: String?
@@ -55,10 +56,10 @@ extension MeasurementEntity {
     @NSManaged public var systemLatency: Double
     @NSManaged public var temperature: Double
     @NSManaged public var tempUnits: String?
-    @NSManaged public var tfJSONCoherence: [Double]
-    @NSManaged public var tfJSONFrequency: [Double]
-    @NSManaged public var tfJSONMagnitude: [Double]
-    @NSManaged public var tfJSONPhase: [Double]
+    @NSManaged public var tfJSONCoherence: String
+    @NSManaged public var tfJSONFrequency: String
+    @NSManaged public var tfJSONMagnitude: String
+    @NSManaged public var tfJSONPhase: String
     @NSManaged public var thumbnailImage: String?
     @NSManaged public var title: String?
     @NSManaged public var tracebookURL: String?

@@ -22,7 +22,7 @@
         <attribute name="fileTFCSV" optional="YES" attributeType="String"/>
         <attribute name="fileTFNative" optional="YES" attributeType="String"/>
         <attribute name="firmwareVersion" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
         <attribute name="interface" optional="YES" attributeType="String"/>
         <attribute name="isPublic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="loudspeakerTags" optional="YES" attributeType="String"/>
@@ -33,6 +33,7 @@
         <attribute name="moderator2" optional="YES" attributeType="String"/>
         <attribute name="modifiedDate" optional="YES" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="photoSetup" optional="YES" attributeType="String"/>
         <attribute name="presetVersion" optional="YES" attributeType="String"/>
         <attribute name="productLaunchDateText" optional="YES" attributeType="String"/>
         <attribute name="publishDate" optional="YES" attributeType="String"/>
@@ -40,15 +41,25 @@
         <attribute name="systemLatency" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="temperature" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="tempUnits" optional="YES" attributeType="String"/>
-        <attribute name="tfJSONCoherence" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
-        <attribute name="tfJSONFrequency" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
-        <attribute name="tfJSONMagnitude" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
-        <attribute name="tfJSONPhase" optional="YES" attributeType="Transformable" valueTransformerName="DoubleArrayValueTransformer"/>
+        <attribute name="tfJSONCoherence" optional="YES" attributeType="String" valueTransformerName="DoubleArrayValueTransformer"/>
+        <attribute name="tfJSONFrequency" optional="YES" attributeType="String" valueTransformerName="DoubleArrayValueTransformer"/>
+        <attribute name="tfJSONMagnitude" optional="YES" attributeType="String" valueTransformerName="DoubleArrayValueTransformer"/>
+        <attribute name="tfJSONPhase" optional="YES" attributeType="String" valueTransformerName="DoubleArrayValueTransformer"/>
         <attribute name="thumbnailImage" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="tracebookURL" optional="YES" attributeType="String"/>
         <attribute name="upvotes" optional="YES" attributeType="String"/>
         <attribute name="windscreen" optional="YES" attributeType="String"/>
+        <fetchIndex name="byCreatedDate">
+            <fetchIndexElement property="createdDate" type="Binary" order="descending"/>
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTitle">
+            <fetchIndexElement property="title" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byId">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>

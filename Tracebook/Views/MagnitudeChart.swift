@@ -5,8 +5,8 @@
 //  Created by Marcus Painter on 07/12/2023.
 //
 
-import SwiftUI
 import Charts
+import SwiftUI
 
 struct MagnitudeChart: View {
     let frequencyData: [Double]
@@ -15,27 +15,26 @@ struct MagnitudeChart: View {
 
     private let frequencyXAxisValues = [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     private let dbYAxisValues = [-30, -20, -10, 0, 10, 20, 30]
-    
+
     init(frequencyData: [Double], magnitudeData: [Double], coherenceData: [Double], threshold: Double) {
         self.frequencyData = frequencyData
-        
+
         self.magnitudeData = TracebookProcessor.processMagnitude(
             tfFrequency: frequencyData,
             tfMagnitude: magnitudeData,
             tfCoherence: coherenceData,
             threshold: threshold)
-        
-        let rawCoherence =  TracebookProcessor.processCoherence(
+
+        let rawCoherence = TracebookProcessor.processCoherence(
             tfFrequency: frequencyData,
             tfCoherence: coherenceData,
             threshold: threshold)
         let scaledCoherence = rawCoherence.map { $0 * 100 / 3.3333 } // Scale for chart
         self.coherenceData = scaledCoherence
-
     }
 
     var body: some View {
-        Group {
+        VStack {
             Text("Magnitude")
             Chart {
                 ForEach(frequencyData.indices, id: \.self) { index in

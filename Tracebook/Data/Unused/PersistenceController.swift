@@ -69,7 +69,7 @@ final class PersistenceController: Sendable {
         container.viewContext.automaticallyMergesChangesFromParent = true
 
         // Duplicates policy. Overwrite with new.
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
 
         // deleteStoreFiles()
 

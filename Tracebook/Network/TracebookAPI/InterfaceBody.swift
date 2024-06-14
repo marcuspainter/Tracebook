@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InterfaceBody: Codable {
+struct InterfaceBody: Codable, Sendable {
     let id: String?
     let brandModel: String?
     let createdBy: String?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MeasurementContentBody: Codable {
+struct MeasurementContentBody: Codable, Sendable {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -17,61 +17,61 @@ class MeasurementContentBody: Codable {
         return lhs.id == rhs.id
     }
     
-    var id: String = ""
-    var analyzer: String?
-    var calibrator: String?
-    var category: String?
-    var coherenceScale: String?
-    var createdBy: String?
-    var createdDate: String?
-    var crestFactorM: Double?
-    var crestFactorPink: Double?
-    var delayLocator: Double?
-    var distance: Double?
-    var distanceUnits: String?
-    var dspPreset: String?
-    var fileAdditional: [String]?
-    var fileIRWAV: String?
-    var fileTFCSV: String?
-    var fileTFNative: String?
-    var firmwareVersion: String?
-    var firmwareVersionNA: Bool?
+    let id: String
+    let analyzer: String?
+    let calibrator: String?
+    let category: String?
+    let coherenceScale: String?
+    let createdBy: String?
+    let createdDate: String?
+    let crestFactorM: Double?
+    let crestFactorPink: Double?
+    let delayLocator: Double?
+    let distance: Double?
+    let distanceUnits: String?
+    let dspPreset: String?
+    let fileAdditional: [String]?
+    let fileIRWAV: String?
+    let fileTFCSV: String?
+    let fileTFNative: String?
+    let firmwareVersion: String?
+    let firmwareVersionNA: Bool?
     // id
-    var interface: String?
-    var inputMeter: Double?
-    var loudspeakerBrand: String?
-    var loudspeakerModel: String?
-    var measurement: String?
-    var measurementType: String?
-    var medal: String?
-    var micCorrectionCurve: String?
-    var microphone: String?
-    var modifiedDate: String?
-    var notes: String?
-    var photoSetup: String?
-    var presetNA: Bool?
-    var presetVersion: String?
-    var presetVersionNA: Bool?
-    var responseLoudspeakerBrand: String?
-    var responseLoudspeakerModel: String?
-    var splGroundPlane: Bool?
-    var systemLatency: Double?
-    var temperature: Double?
-    var tempUnits: String?
-    var tfJSONCoherence: String?
-    var tfJSONFrequency: String?
-    var tfJSONMagnitude: String?
-    var tfJSONPhase: String?
-    var windscreen: String?
+    let interface: String?
+    let inputMeter: Double?
+    let loudspeakerBrand: String?
+    let loudspeakerModel: String?
+    let measurement: String?
+    let measurementType: String?
+    let medal: String?
+    let micCorrectionCurve: String?
+    let microphone: String?
+    let modifiedDate: String?
+    let notes: String?
+    let photoSetup: String?
+    let presetNA: Bool?
+    let presetVersion: String?
+    let presetVersionNA: Bool?
+    let responseLoudspeakerBrand: String?
+    let responseLoudspeakerModel: String?
+    let splGroundPlane: Bool?
+    let systemLatency: Double?
+    let temperature: Double?
+    let tempUnits: String?
+    let tfJSONCoherence: String?
+    let tfJSONFrequency: String?
+    let tfJSONMagnitude: String?
+    let tfJSONPhase: String?
+    let windscreen: String?
     
     // Computed
-    var microphoneText: String = ""
-    var interfaceText: String = ""
-    var analyzerText: String = ""
-    var tfFrequency: [Double] = []
-    var tfMagnitude: [Double] = []
-    var tfPhase: [Double] = []
-    var tfCoherence: [Double] = []
+    let microphoneText: String = ""
+    let interfaceText: String = ""
+    let analyzerText: String = ""
+    let tfFrequency: [Double] = []
+    let tfMagnitude: [Double] = []
+    let tfPhase: [Double] = []
+    let tfCoherence: [Double] = []
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"

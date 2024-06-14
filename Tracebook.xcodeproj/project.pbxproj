@@ -51,6 +51,9 @@
 		194E47C42BB2885B00FC15BD /* OptionalBoolValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47C02BB2885B00FC15BD /* OptionalBoolValueTransformer.swift */; };
 		194E47C52BB2885B00FC15BD /* StringArrayValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47C12BB2885B00FC15BD /* StringArrayValueTransformer.swift */; };
 		19552D3F2B5DD2E100412266 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */; };
+		196426E02BDC8881001E8F15 /* Snapfile in Resources */ = {isa = PBXBuildFile; fileRef = 19552D3B2B5C3C2C00412266 /* Snapfile */; };
+		196426E12BDC888B001E8F15 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 194E47652BB21A8700FC15BD /* PrivacyInfo.xcprivacy */; };
+		196426E52BDEBA69001E8F15 /* TracebookActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196426E42BDEBA69001E8F15 /* TracebookActor.swift */; };
 		19787DB32B72952A003FB364 /* MeasurementListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19787DB22B72952A003FB364 /* MeasurementListViewModelTest.swift */; };
 		19787DB72B72AAFB003FB364 /* microphone.json in Resources */ = {isa = PBXBuildFile; fileRef = 19787DB62B72AAFB003FB364 /* microphone.json */; };
 		19787DB92B72AB2B003FB364 /* interface.json in Resources */ = {isa = PBXBuildFile; fileRef = 19787DB82B72AB2B003FB364 /* interface.json */; };
@@ -87,7 +90,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		191BF15A2B352FF10008FEBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		191BF15A2B352FF10008FEBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		191C76CA2B214CA800406EAD /* Tracebook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracebook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		191C76CD2B214CA800406EAD /* TracebookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracebookApp.swift; sourceTree = "<group>"; };
 		191C76D12B214CAB00406EAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -137,6 +140,7 @@
 		194E47C12BB2885B00FC15BD /* StringArrayValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringArrayValueTransformer.swift; sourceTree = "<group>"; };
 		19552D3B2B5C3C2C00412266 /* Snapfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; };
 		19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		196426E42BDEBA69001E8F15 /* TracebookActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracebookActor.swift; sourceTree = "<group>"; };
 		1966EC982B6DF728004246C2 /* Tracebook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tracebook.entitlements; sourceTree = "<group>"; };
 		19776B7E2B30849000DB0E1B /* measurementcontent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurementcontent.json; sourceTree = "<group>"; };
 		19787DB22B72952A003FB364 /* MeasurementListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementListViewModelTest.swift; sourceTree = "<group>"; };
@@ -186,8 +190,6 @@
 		191C76C12B214CA800406EAD = {
 			isa = PBXGroup;
 			children = (
-				192EB2812BD80DAE00D7AAA8 /* MeasurementEntity+CoreDataClass.swift */,
-				192EB2822BD80DAE00D7AAA8 /* MeasurementEntity+CoreDataProperties.swift */,
 				191C76CC2B214CA800406EAD /* Tracebook */,
 				191C76DD2B214CAB00406EAD /* TracebookTests */,
 				191C76E72B214CAB00406EAD /* TracebookUITests */,
@@ -208,10 +210,10 @@
 		191C76CC2B214CA800406EAD /* Tracebook */ = {
 			isa = PBXGroup;
 			children = (
+				191BF15A2B352FF10008FEBC /* Info.plist */,
 				194E477B2BB2391000FC15BD /* Network */,
 				1966EC982B6DF728004246C2 /* Tracebook.entitlements */,
 				19552D3B2B5C3C2C00412266 /* Snapfile */,
-				191BF15A2B352FF10008FEBC /* Info.plist */,
 				19C8F73D2B23FF420072ED04 /* JSON */,
 				19C8F7212B23E7BA0072ED04 /* Utilities */,
 				19C8F72B2B23E8240072ED04 /* Settings */,
@@ -267,25 +269,28 @@
 			path = BubbleAPI;
 			sourceTree = "<group>";
 		};
-		192EB2712BD5DA8100D7AAA8 /* Stores */ = {
+		192EB2712BD5DA8100D7AAA8 /* Unused */ = {
 			isa = PBXGroup;
 			children = (
+				192EB2422BD215A000D7AAA8 /* PersistenceController.swift */,
 				19A9F5F12B9D61B00015E529 /* FileStore.swift */,
 			);
-			path = Stores;
+			path = Unused;
 			sourceTree = "<group>";
 		};
 		1930562C2B71C63C00FB6E07 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				192EB2712BD5DA8100D7AAA8 /* Stores */,
+				192EB2712BD5DA8100D7AAA8 /* Unused */,
 				194E47C22BB2885B00FC15BD /* Transformers */,
 				19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */,
+				192EB2812BD80DAE00D7AAA8 /* MeasurementEntity+CoreDataClass.swift */,
+				192EB2822BD80DAE00D7AAA8 /* MeasurementEntity+CoreDataProperties.swift */,
 				192EB23A2BD1D83F00D7AAA8 /* TracebookProvider.swift */,
+				196426E42BDEBA69001E8F15 /* TracebookActor.swift */,
 				192EB23C2BD1D8DA00D7AAA8 /* TracebookError.swift */,
 				192EB25F2BD48F4E00D7AAA8 /* TracebookMapper.swift */,
 				192EB26F2BD5D8D000D7AAA8 /* TracebookProcessor.swift */,
-				192EB2422BD215A000D7AAA8 /* PersistenceController.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -512,6 +517,8 @@
 				1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */,
 				19787DB72B72AAFB003FB364 /* microphone.json in Resources */,
 				19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */,
+				196426E12BDC888B001E8F15 /* PrivacyInfo.xcprivacy in Resources */,
+				196426E02BDC8881001E8F15 /* Snapfile in Resources */,
 				191C76D52B214CAB00406EAD /* Preview Assets.xcassets in Resources */,
 				191C76D22B214CAB00406EAD /* Assets.xcassets in Resources */,
 				19787DBB2B72AB5D003FB364 /* analyzer.json in Resources */,
@@ -541,6 +548,7 @@
 			files = (
 				192EB23B2BD1D83F00D7AAA8 /* TracebookProvider.swift in Sources */,
 				191C771E2B22929600406EAD /* DismissButton.swift in Sources */,
+				196426E52BDEBA69001E8F15 /* TracebookActor.swift in Sources */,
 				194E47A22BB239AB00FC15BD /* InterfaceBody.swift in Sources */,
 				192EB2432BD215A000D7AAA8 /* PersistenceController.swift in Sources */,
 				192EB2832BD80DAE00D7AAA8 /* MeasurementEntity+CoreDataClass.swift in Sources */,
@@ -827,7 +835,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_FILE = Tracebook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -847,7 +856,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_FILE = Tracebook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -866,6 +876,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -884,6 +895,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
