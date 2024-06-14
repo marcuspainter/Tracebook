@@ -50,7 +50,6 @@
 		19787DBB2B72AB5D003FB364 /* analyzer.json in Resources */ = {isa = PBXBuildFile; fileRef = 19787DBA2B72AB5D003FB364 /* analyzer.json */; };
 		19787DBE2B72ADEC003FB364 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1949FE342B56E967000D94A8 /* Settings.plist */; };
 		19787DBF2B72AE22003FB364 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */; };
-		198A3E622B9D4595003CE68F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198A3E612B9D4595003CE68F /* PersistenceController.swift */; };
 		19A9F5F22B9D61B00015E529 /* FileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A9F5F12B9D61B00015E529 /* FileStore.swift */; };
 		19B354822B8BB69100C7C544 /* Tracebook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */; };
 		19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7142B23661C0072ED04 /* PasswordStore.swift */; };
@@ -132,7 +131,6 @@
 		19787DB82B72AB2B003FB364 /* interface.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = interface.json; sourceTree = "<group>"; };
 		19787DBA2B72AB5D003FB364 /* analyzer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = analyzer.json; sourceTree = "<group>"; };
 		19787DBC2B72ABB4003FB364 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
-		198A3E612B9D4595003CE68F /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		19A9F5F12B9D61B00015E529 /* FileStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStore.swift; sourceTree = "<group>"; };
 		19B354812B8BB69100C7C544 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
@@ -249,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */,
-				198A3E612B9D4595003CE68F /* PersistenceController.swift */,
 				19A9F5F12B9D61B00015E529 /* FileStore.swift */,
 				1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */,
 			);
@@ -549,7 +546,6 @@
 				191C77142B22126500406EAD /* LoginView.swift in Sources */,
 				1966EC972B6D55F4004246C2 /* UserViewModel.swift in Sources */,
 				191C77162B22313A00406EAD /* UserView.swift in Sources */,
-				198A3E622B9D4595003CE68F /* PersistenceController.swift in Sources */,
 				19C8F72F2B23E8240072ED04 /* SettingsView.swift in Sources */,
 				1927F6472B30885900B1C474 /* MeasurementModel.swift in Sources */,
 				194E478E2BB2392200FC15BD /* TracebookAPI.swift in Sources */,
