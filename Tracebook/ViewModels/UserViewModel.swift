@@ -31,17 +31,21 @@ class UserViewModel {
 
     private var tracebookAPI = TracebookAPI()
 
-    func getUser(id: String) async {
-        if let response = await tracebookAPI.getUser(id: id) {
-            let user = response.response
-            self.id = user.id
-            self.name = user.name ?? ""
-            self.photo = user.photo ?? ""
-            self.location = user.location ?? ""
-            self.measurementsCreatedCount = user.measurementsCreatedCount ?? 0
+    func getUser(id: String) async throws {
+        do {
+            if let response = try await tracebookAPI.getUser(id: id) {
+                let user = response.response
+                self.id = user.id
+                name = user.name ?? ""
+                photo = user.photo ?? ""
+                location = user.location ?? ""
+                measurementsCreatedCount = user.measurementsCreatedCount ?? 0
 
-            self.followersCount = user.followers?.count ?? 0
-            self.followingCount = user.following?.count ?? 0
+                followersCount = user.followers?.count ?? 0
+                followingCount = user.following?.count ?? 0
+            }
+        } 
+        catch {
         }
     }
 }

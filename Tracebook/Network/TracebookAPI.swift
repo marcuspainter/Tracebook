@@ -10,73 +10,114 @@ typealias InterfaceListResponse = BubbleListResponse<InterfaceBody>
 typealias UserItemResponse = BubbleItemResponse<UserBody>
 typealias UserListResponse = BubbleListResponse<UserBody>
 
+enum TracebookError: Error {
+    case networkError
+}
+
 class TracebookAPI {
     // Tokens look like this (Sample expired token)
     let token = "3f600fe8b64b951f4dc87d867400f0f4"
     let startDate: Date = ISO8601DateFormatter().date(from: "2022-01-31T02:22:40Z")!
 
-    init() {
-    }
-
-    func getResponse<T: Decodable>(_ type: T.Type, for request: URLRequest) async -> T? {
+    func getResponse<T: Decodable>(_ type: T.Type, for request: URLRequest) async throws -> T? {
         do {
-            let (jsonData, _ /* response */ ) = try await URLSession.shared.data(for: request)
-            let reponse = try JSONDecoder().decode(type, from: jsonData)
-            return reponse
+            let (jsonData, response) = try await URLSession.shared.data(for: request)
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw TracebookError.networkError
+            }
+
+            // HTTP status code
+            let status = httpResponse.statusCode
+            if status < 200 || status > 299 {
+                throw TracebookError.networkError
+            }
+
+            // Parse JSON
+            let jsonResponse = try JSONDecoder().decode(type, from: jsonData)
+            return jsonResponse
+
         } catch {
             print("Request error: \(error)")
+            throw TracebookError.networkError
         }
-        return nil
     }
 
-    func getUser(id: String) async -> UserItemResponse? {
+    func getUser(id: String) async throws -> UserItemResponse? {
         let bubbleRequest = BubbleRequest(entity: "user")
         let urlRequest = bubbleRequest.urlRequest()
-        let response = await getResponse(UserItemResponse.self, for: urlRequest)
-        return response
+        do {
+            let response = try await getResponse(UserItemResponse.self, for: urlRequest)
+            return response
+        } catch {
+            throw error
+        }
     }
 
-    func getAnalyzerList() async -> AnalyzerListResponse? {
+    func getAnalyzerList() async throws -> AnalyzerListResponse? {
         let bubbleRequest = BubbleRequest(entity: "analyzer")
         let urlRequest = bubbleRequest.urlRequest()
-        let response = await getResponse(AnalyzerListResponse.self, for: urlRequest)
-        return response
+        do {
+            let response = try await getResponse(AnalyzerListResponse.self, for: urlRequest)
+            return response
+        } catch {
+            throw error
+        }
     }
 
-    func getMicrophoneList() async -> MicrophoneListResponse? {
+    func getMicrophoneList() async throws -> MicrophoneListResponse? {
         let bubbleRequest = BubbleRequest(entity: "microphone")
         let urlRequest = bubbleRequest.urlRequest()
-        let response = await getResponse(MicrophoneListResponse.self, for: urlRequest)
-        return response
+        do {
+            let response = try await getResponse(MicrophoneListResponse.self, for: urlRequest)
+            return response
+        } catch {
+            throw error
+        }
     }
 
-    func getInterfaceList() async -> InterfaceListResponse? {
+    func getInterfaceList() async throws -> InterfaceListResponse? {
         let bubbleRequest = BubbleRequest(entity: "interface")
         let urlRequest = bubbleRequest.urlRequest()
-        let response = await getResponse(InterfaceListResponse.self, for: urlRequest)
-        return response
+        do {
+            let response = try await getResponse(InterfaceListResponse.self, for: urlRequest)
+            return response
+        } catch {
+            throw error
+        }
     }
 
-    func getMeasurementContent(id: String) async -> MeasurementContentItemResponse? {
+    func getMeasurementContent(id: String) async throws -> MeasurementContentItemResponse? {
         let bubbleRequest = BubbleRequest(entity: "measurementcontent", id: id)
         let urlRequest = bubbleRequest.urlRequest()
-        let response = await getResponse(MeasurementContentItemResponse.self, for: urlRequest)
-        return response
+        do {
+            let response = try await getResponse(MeasurementContentItemResponse.self, for: urlRequest)
+            return response
+        } catch {
+            throw error
+        }
     }
 
-    func getMeasurementListbyDate(cursor: Int = 0, dateString: String) async -> MeasurementListResponse? {
+    func getMeasurementListByDate(cursor: Int = 0, dateString: String) async throws -> MeasurementListResponse? {
         print(dateString)
 
         let bubbleRequest = BubbleRequest(entity: "measurement")
         bubbleRequest.cursor = cursor
-        bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
-        bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: dateString))
-        bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
+        bubbleRequest.constraints.append(
+            BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
+        bubbleRequest.constraints.append(
+            BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: dateString))
+        bubbleRequest.sortKeys.append(
+            BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
 
         let urlRequest = bubbleRequest.urlRequest()
         print(urlRequest.mainDocumentURL as Any)
-        let response = await getResponse(MeasurementListResponse.self, for: urlRequest)
-        return response
+        do {
+            let response = try await getResponse(MeasurementListResponse.self, for: urlRequest)
+            return response
+        } catch {
+            throw error
+        }
     }
 }
 

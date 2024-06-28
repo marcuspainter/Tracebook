@@ -42,7 +42,6 @@
 		194E47A62BB239AB00FC15BD /* AnalyzerBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E479E2BB239AB00FC15BD /* AnalyzerBody.swift */; };
 		194E47A82BB23F5800FC15BD /* ErrorBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47A72BB23F5800FC15BD /* ErrorBody.swift */; };
 		19552D392B585F3200412266 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D382B585F3200412266 /* UserModel.swift */; };
-		19552D3F2B5DD2E100412266 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */; };
 		1966EC972B6D55F4004246C2 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1966EC962B6D55F4004246C2 /* UserViewModel.swift */; };
 		19787DB32B72952A003FB364 /* MeasurementListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19787DB22B72952A003FB364 /* MeasurementListViewModelTest.swift */; };
 		19787DB72B72AAFB003FB364 /* microphone.json in Resources */ = {isa = PBXBuildFile; fileRef = 19787DB62B72AAFB003FB364 /* microphone.json */; };
@@ -120,8 +119,6 @@
 		194E479E2BB239AB00FC15BD /* AnalyzerBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyzerBody.swift; sourceTree = "<group>"; };
 		194E47A72BB23F5800FC15BD /* ErrorBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ErrorBody.swift; path = Tracebook/ErrorBody.swift; sourceTree = SOURCE_ROOT; };
 		19552D382B585F3200412266 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		19552D3B2B5C3C2C00412266 /* Snapfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; };
-		19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		1966EC962B6D55F4004246C2 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		1966EC982B6DF728004246C2 /* Tracebook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tracebook.entitlements; sourceTree = "<group>"; };
 		19776B7E2B30849000DB0E1B /* measurementcontent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurementcontent.json; sourceTree = "<group>"; };
@@ -196,7 +193,6 @@
 			children = (
 				194E477B2BB2391000FC15BD /* Network */,
 				1966EC982B6DF728004246C2 /* Tracebook.entitlements */,
-				19552D3B2B5C3C2C00412266 /* Snapfile */,
 				191BF15A2B352FF10008FEBC /* Info.plist */,
 				19C8F73D2B23FF420072ED04 /* JSON */,
 				19C8F7212B23E7BA0072ED04 /* Utilities */,
@@ -238,7 +234,6 @@
 			children = (
 				191C76E82B214CAB00406EAD /* TracebookUITests.swift */,
 				191C76EA2B214CAB00406EAD /* TracebookUITestsLaunchTests.swift */,
-				19552D3C2B5C3C2C00412266 /* SnapshotHelper.swift */,
 			);
 			path = TracebookUITests;
 			sourceTree = "<group>";
@@ -567,7 +562,6 @@
 			files = (
 				191C76E92B214CAB00406EAD /* TracebookUITests.swift in Sources */,
 				191C76EB2B214CAB00406EAD /* TracebookUITestsLaunchTests.swift in Sources */,
-				19552D3F2B5DD2E100412266 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,7 +733,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -776,7 +770,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

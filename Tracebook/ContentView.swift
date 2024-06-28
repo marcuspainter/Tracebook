@@ -40,7 +40,12 @@ struct ContentView: View {
                 print("Pull")
                 await Task {
                     if !isDownloading {
-                        await measurementListViewModel.loadMeasurements()
+                        do {
+                            try await measurementListViewModel.loadMeasurements()
+                        }
+                        catch {
+                            print("Error")
+                        }
                     }
                  }.value
 
@@ -92,7 +97,13 @@ struct ContentView: View {
         }
         .task {
             isDownloading = true
-            await measurementListViewModel.loadMeasurements()
+            do {
+                try await measurementListViewModel.loadMeasurements()
+            }
+            catch {
+                print("Error")
+                isDownloading = false
+            }
             isDownloading = false
             print("Done")
         }

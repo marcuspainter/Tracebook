@@ -10,7 +10,6 @@ import Foundation
 @MainActor
 @Observable
 final class MeasurementListViewModel: Sendable {
-
     var searchText: String = ""
     var measurements: [MeasurementModel] = []
 
@@ -30,26 +29,17 @@ final class MeasurementListViewModel: Sendable {
         }
     }
 
-    func go() async {
+    func go() async{
         let model = MeasurementModel()
         model.title = "Title"
         model.id = "XXX"
         measurements.append(model)
     }
 
-    func loadMeasurements() async {
-
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.getMicrophones()
-            }
-            group.addTask {
-                await self.getInterfaces()
-            }
-            group.addTask {
-                await self.getAnalyzers()
-            }
-        }
+    func loadMeasurements() async throws {
+        try await getMicrophones()
+        try await getInterfaces()
+        try await getAnalyzers()
 
         let dateString = measurementStore.models.isEmpty ? "2000-01-01" : (measurementStore.models.first?.createdDate ?? "2001-01-01")
 
@@ -59,7 +49,7 @@ final class MeasurementListViewModel: Sendable {
 
         var cursor: Int = 0
         while true {
-            guard let measurementListResponse = await tracebookAPI.getMeasurementListbyDate(cursor: cursor, dateString: dateString) else {
+            guard let measurementListResponse = try await tracebookAPI.getMeasurementListByDate(cursor: cursor, dateString: dateString) else {
                 break
             }
 
@@ -67,7 +57,7 @@ final class MeasurementListViewModel: Sendable {
             for measurementItem in measurementList {
                 let model = convertListToModel(measurement: measurementItem)
 
-                if self.measurementStore.models.first(where: { $0.id == model.id }) != nil {
+                if measurementStore.models.first(where: { $0.id == model.id }) != nil {
                     print("Duplicate: \(model.title)")
                 } else {
                     newMeasurementModels.append(model)
@@ -80,11 +70,11 @@ final class MeasurementListViewModel: Sendable {
             }
         }
 
-        self.measurementStore.models = newMeasurementModels + self.measurementStore.models
-        self.measurements = measurementStore.models
+        measurementStore.models = newMeasurementModels + measurementStore.models
+        measurements = measurementStore.models
 
         for model in newMeasurementModels {
-            if let content = await tracebookAPI.getMeasurementContent(id: model.additionalContent) {
+            if let content = try await tracebookAPI.getMeasurementContent(id: model.additionalContent) {
                 convertContentToModel(model: model, content: content.response)
                 model.microphone = microphones[model.microphone] ?? model.microphone
                 model.interface = interfaces[model.interface] ?? model.interface
@@ -94,39 +84,51 @@ final class MeasurementListViewModel: Sendable {
             }
         }
 
-        self.measurements = self.measurementStore.models
+        measurements = measurementStore.models
     }
 
-    private func getMicrophones() async {
-        let microphoneResponse = await tracebookAPI.getMicrophoneList()
-        if let microphoneList = microphoneResponse?.response.results {
-            for microphone in microphoneList {
-                if let id = microphone.id, let brand = microphone.micBrandModel {
-                    self.microphones[id] = brand
+    private func getMicrophones() async throws {
+        do {
+            let microphoneResponse = try await tracebookAPI.getMicrophoneList()
+            if let microphoneList = microphoneResponse?.response.results {
+                for microphone in microphoneList {
+                    if let id = microphone.id, let brand = microphone.micBrandModel {
+                        microphones[id] = brand
+                    }
                 }
             }
+        } catch {
+            throw error
         }
     }
 
-    private func getInterfaces() async {
-        let interfaceResponse = await tracebookAPI.getInterfaceList()
-        if let interfaceList = interfaceResponse?.response.results {
-            for interface in interfaceList {
-                if let id = interface.id, let brand = interface.brandModel {
-                    self.interfaces[id] = brand
+    private func getInterfaces() async throws {
+        do {
+            let interfaceResponse = try await tracebookAPI.getInterfaceList()
+            if let interfaceList = interfaceResponse?.response.results {
+                for interface in interfaceList {
+                    if let id = interface.id, let brand = interface.brandModel {
+                        interfaces[id] = brand
+                    }
                 }
             }
+        } catch {
+            throw error
         }
     }
 
-    private func getAnalyzers() async {
-        let analyzerResponse = await tracebookAPI.getAnalyzerList()
-        if let analyzerList = analyzerResponse?.response.results {
-            for analyzer in analyzerList {
-                if let id = analyzer.id, let name = analyzer.name {
-                    self.analyzers[id] = name
+    private func getAnalyzers() async throws {
+        do {
+            let analyzerResponse = try await tracebookAPI.getAnalyzerList()
+            if let analyzerList = analyzerResponse?.response.results {
+                for analyzer in analyzerList {
+                    if let id = analyzer.id, let name = analyzer.name {
+                        analyzers[id] = name
+                    }
                 }
             }
+        } catch {
+            throw error
         }
     }
 
@@ -152,7 +154,7 @@ final class MeasurementListViewModel: Sendable {
         model.moderator2 = measurement.moderator2 ?? ""
         model.admin2Approved = measurement.admin2Approved ?? ""
         model.loudspeakerTags = measurement.loudspeakerTags ?? []
-        model.emailSent = measurement.emailSent  ?? false
+        model.emailSent = measurement.emailSent ?? false
 
         // Link to Tracebook website
         model.tracebookURL = "https://trace-book.org/measurement/\(measurement.slug ?? "")"
@@ -161,13 +163,12 @@ final class MeasurementListViewModel: Sendable {
     }
 
     private func convertContentToModel(model: MeasurementModel, content: MeasurementContentBody) {
-
         // Measurement Content
         model.firmwareVersion = content.firmwareVersion ?? ""
         model.loudspeakerBrand = content.loudspeakerBrand ?? ""
         model.category = content.category ?? ""
         model.delayLocator = content.delayLocator
-        model.distance = content.distance         // Nilable
+        model.distance = content.distance // Nilable
         model.dspPreset = content.dspPreset ?? ""
         model.photoSetup = content.photoSetup ?? ""
         model.fileAdditional = content.fileAdditional ?? []
@@ -183,7 +184,7 @@ final class MeasurementListViewModel: Sendable {
         model.calibrator = content.calibrator ?? ""
         model.measurementType = content.measurementType ?? ""
         model.presetVersion = content.presetVersion ?? ""
-        model.temperature = content.temperature         // Nilable
+        model.temperature = content.temperature // Nilable
         model.tempUnits = content.tempUnits ?? ""
         model.responseLoudspeakerBrand = content.responseLoudspeakerBrand ?? ""
         model.coherenceScale = content.coherenceScale ?? ""
@@ -191,7 +192,7 @@ final class MeasurementListViewModel: Sendable {
         model.fileTFNative = content.fileTFNative ?? ""
         model.splGroundPlane = content.splGroundPlane ?? false
         model.responseLoudspeakerModel = content.responseLoudspeakerModel ?? ""
-        model.systemLatency = content.systemLatency         // Nilable
+        model.systemLatency = content.systemLatency // Nilable
         model.microphone = content.microphone ?? ""
         model.measurement = content.measurement ?? ""
         model.interface = content.interface ?? ""
@@ -210,7 +211,7 @@ final class MeasurementListViewModel: Sendable {
         model.tfCoherence = convertCSVToArray(dataText: content.tfJSONCoherence)
 
         // Scale to 0...100
-        model.tfCoherence = model.tfCoherence.map { $0 * 100.0}
+        model.tfCoherence = model.tfCoherence.map { $0 * 100.0 }
     }
 
     private func convertCSVToArray(dataText: String?) -> [Double] {
@@ -219,5 +220,4 @@ final class MeasurementListViewModel: Sendable {
         let result = text.map { Double($0) ?? 0.0 }
         return result
     }
-
 }
