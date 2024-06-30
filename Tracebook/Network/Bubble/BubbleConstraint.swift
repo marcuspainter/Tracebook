@@ -28,7 +28,7 @@ enum BubbleConstraintType: String {
     case notInField = "not in"
     // Use to test whether a list field contains an entry or not for list fields only.
     case contains = "contains"
-    case notContaiins = "not contains"
+    case notContains = "not contains"
     // Use to test whether a list field is empty or not for list fields only.
     case empty = "empty"
     case notEmpty = "not empty"
@@ -37,7 +37,7 @@ enum BubbleConstraintType: String {
     case geographicSearch = "geographic_search"
 }
 
-struct BubbleConstraint {
+struct BubbleConstraint: Sendable {
     let key: String
     let type: BubbleConstraintType
     let value: String

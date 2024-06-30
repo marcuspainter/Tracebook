@@ -12,11 +12,13 @@ import Foundation
 // limit
 // constraints
 //
-// [ { "key": "unitname", "constraint_type": "text contains", "value": "Unit” } ,{ "key": "unitnumber", "constraint_type": "greater than", "value": "3" }]
+// [ 
+//  { "key": "unitname", "constraint_type": "text contains", "value": "Unit” },
+//  { "key": "unitnumber", "constraint_type": "greater than", "value": "3" }
+// ]
 
 // sort additional_sort_fields
 // [ { "sort_field": "unitname", "descending": "false" } ]
-
 
 class BubbleRequest {
     var entity: String
@@ -31,7 +33,7 @@ class BubbleRequest {
         self.id = id
     }
 
-    func urlRequest() -> URLRequest {
+    func makeGetUrlRequest() -> URLRequest {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "trace-book.org"

@@ -13,9 +13,13 @@ final class MeasurementListViewModel: Sendable {
     var searchText: String = ""
     var measurements: [MeasurementModel] = []
 
-    public var measurementStore = MeasurementStore()
-
-    private var tracebookAPI = TracebookAPI()
+    public let measurementStore = MeasurementStore()
+    private let tracebookService: TracebookServiceProtocol
+    
+    init(tracebookService: TracebookServiceProtocol = TracebookService()) {
+        self.tracebookService = tracebookService
+    }
+    
     // Local dictonaries
     private var microphones: [String: String] = [:]
     private var interfaces: [String: String] = [:]
@@ -49,7 +53,7 @@ final class MeasurementListViewModel: Sendable {
 
         var cursor: Int = 0
         while true {
-            guard let measurementListResponse = try await tracebookAPI.getMeasurementListByDate(cursor: cursor, dateString: dateString) else {
+            guard let measurementListResponse = try await tracebookService.getMeasurementListByDate(cursor: cursor, dateString: dateString) else {
                 break
             }
 
@@ -74,7 +78,7 @@ final class MeasurementListViewModel: Sendable {
         measurements = measurementStore.models
 
         for model in newMeasurementModels {
-            if let content = try await tracebookAPI.getMeasurementContent(id: model.additionalContent) {
+            if let content = try await tracebookService.getMeasurementContent(id: model.additionalContent) {
                 convertContentToModel(model: model, content: content.response)
                 model.microphone = microphones[model.microphone] ?? model.microphone
                 model.interface = interfaces[model.interface] ?? model.interface
@@ -89,7 +93,7 @@ final class MeasurementListViewModel: Sendable {
 
     private func getMicrophones() async throws {
         do {
-            let microphoneResponse = try await tracebookAPI.getMicrophoneList()
+            let microphoneResponse = try await tracebookService.getMicrophoneList()
             if let microphoneList = microphoneResponse?.response.results {
                 for microphone in microphoneList {
                     if let id = microphone.id, let brand = microphone.micBrandModel {
@@ -104,7 +108,7 @@ final class MeasurementListViewModel: Sendable {
 
     private func getInterfaces() async throws {
         do {
-            let interfaceResponse = try await tracebookAPI.getInterfaceList()
+            let interfaceResponse = try await tracebookService.getInterfaceList()
             if let interfaceList = interfaceResponse?.response.results {
                 for interface in interfaceList {
                     if let id = interface.id, let brand = interface.brandModel {
@@ -119,7 +123,7 @@ final class MeasurementListViewModel: Sendable {
 
     private func getAnalyzers() async throws {
         do {
-            let analyzerResponse = try await tracebookAPI.getAnalyzerList()
+            let analyzerResponse = try await tracebookService.getAnalyzerList()
             if let analyzerList = analyzerResponse?.response.results {
                 for analyzer in analyzerList {
                     if let id = analyzer.id, let name = analyzer.name {

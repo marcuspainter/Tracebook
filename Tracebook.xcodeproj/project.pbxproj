@@ -29,7 +29,7 @@
 		1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */ = {isa = PBXBuildFile; fileRef = 19776B7E2B30849000DB0E1B /* measurementcontent.json */; };
 		1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1949FE362B56EA21000D94A8 /* AppConfig.swift */; };
 		194E478B2BB2392200FC15BD /* BubbleConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E477E2BB2392200FC15BD /* BubbleConstraint.swift */; };
-		194E478E2BB2392200FC15BD /* TracebookAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47812BB2392200FC15BD /* TracebookAPI.swift */; };
+		194E478E2BB2392200FC15BD /* TracebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47812BB2392200FC15BD /* TracebookService.swift */; };
 		194E47912BB2392200FC15BD /* BubbleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47842BB2392200FC15BD /* BubbleRequest.swift */; };
 		194E47932BB2392200FC15BD /* BubbleSortKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47862BB2392200FC15BD /* BubbleSortKey.swift */; };
 		194E47942BB2392200FC15BD /* BubbleErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E47872BB2392200FC15BD /* BubbleErrorResponse.swift */; };
@@ -59,6 +59,16 @@
 		19C8F72F2B23E8240072ED04 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F72C2B23E8240072ED04 /* SettingsView.swift */; };
 		19C8F73C2B23FC770072ED04 /* asyncImageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F73B2B23FC770072ED04 /* asyncImageContent.swift */; };
 		19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D5073D2B2A8F6400DBB25D /* measurement.json */; };
+		19E884862C2F7348009B7E4A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E884852C2F7348009B7E4A /* ImageCacheManager.swift */; };
+		19E884882C2F7A38009B7E4A /* FIleSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E884872C2F7A38009B7E4A /* FIleSystem.swift */; };
+		19E8848A2C2F88B0009B7E4A /* FileSystem+SafeURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E884892C2F88B0009B7E4A /* FileSystem+SafeURL.swift */; };
+		19E8848C2C2F893B009B7E4A /* FileSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E8848B2C2F893B009B7E4A /* FileSystemTests.swift */; };
+		19E8970B2C31C109009B7E4A /* BubbleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E8970A2C31C109009B7E4A /* BubbleAPI.swift */; };
+		19E8970D2C31C166009B7E4A /* BubbleAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E8970C2C31C166009B7E4A /* BubbleAPIError.swift */; };
+		19E897112C31C473009B7E4A /* TracebookServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E897102C31C472009B7E4A /* TracebookServiceProtocol.swift */; };
+		19E897162C31C5C9009B7E4A /* TracebookServiceActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E897152C31C5C9009B7E4A /* TracebookServiceActor.swift */; };
+		19E897182C31D67A009B7E4A /* BubbleAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E897172C31D67A009B7E4A /* BubbleAPITest.swift */; };
+		19E8971A2C31D6B4009B7E4A /* BubbleAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E897192C31D6B4009B7E4A /* BubbleAPIProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,7 +116,7 @@
 		1949FE362B56EA21000D94A8 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		194E47652BB21A8700FC15BD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		194E477E2BB2392200FC15BD /* BubbleConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleConstraint.swift; sourceTree = "<group>"; };
-		194E47812BB2392200FC15BD /* TracebookAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TracebookAPI.swift; sourceTree = "<group>"; };
+		194E47812BB2392200FC15BD /* TracebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TracebookService.swift; sourceTree = "<group>"; };
 		194E47842BB2392200FC15BD /* BubbleRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleRequest.swift; sourceTree = "<group>"; };
 		194E47862BB2392200FC15BD /* BubbleSortKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleSortKey.swift; sourceTree = "<group>"; };
 		194E47872BB2392200FC15BD /* BubbleErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleErrorResponse.swift; sourceTree = "<group>"; };
@@ -138,6 +148,16 @@
 		19C8F72C2B23E8240072ED04 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		19C8F73B2B23FC770072ED04 /* asyncImageContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = asyncImageContent.swift; path = Tracebook/Controls/asyncImageContent.swift; sourceTree = SOURCE_ROOT; };
 		19D5073D2B2A8F6400DBB25D /* measurement.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = measurement.json; sourceTree = "<group>"; };
+		19E884852C2F7348009B7E4A /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		19E884872C2F7A38009B7E4A /* FIleSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIleSystem.swift; sourceTree = "<group>"; };
+		19E884892C2F88B0009B7E4A /* FileSystem+SafeURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileSystem+SafeURL.swift"; sourceTree = "<group>"; };
+		19E8848B2C2F893B009B7E4A /* FileSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemTests.swift; sourceTree = "<group>"; };
+		19E8970A2C31C109009B7E4A /* BubbleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleAPI.swift; sourceTree = "<group>"; };
+		19E8970C2C31C166009B7E4A /* BubbleAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleAPIError.swift; sourceTree = "<group>"; };
+		19E897102C31C472009B7E4A /* TracebookServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracebookServiceProtocol.swift; sourceTree = "<group>"; };
+		19E897152C31C5C9009B7E4A /* TracebookServiceActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracebookServiceActor.swift; sourceTree = "<group>"; };
+		19E897172C31D67A009B7E4A /* BubbleAPITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleAPITest.swift; sourceTree = "<group>"; };
+		19E897192C31D6B4009B7E4A /* BubbleAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleAPIProtocol.swift; sourceTree = "<group>"; };
 		19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -225,6 +245,7 @@
 			children = (
 				191C76DE2B214CAB00406EAD /* TracebookTests.swift */,
 				19787DB22B72952A003FB364 /* MeasurementListViewModelTest.swift */,
+				19E8848B2C2F893B009B7E4A /* FileSystemTests.swift */,
 			);
 			path = TracebookTests;
 			sourceTree = "<group>";
@@ -251,13 +272,10 @@
 		194E477B2BB2391000FC15BD /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				19E897142C31C522009B7E4A /* Utilities */,
+				19E897122C31C4E4009B7E4A /* Bubble */,
+				19E897132C31C506009B7E4A /* Tracebook */,
 				194E47962BB2399100FC15BD /* Content */,
-				194E47812BB2392200FC15BD /* TracebookAPI.swift */,
-				194E47842BB2392200FC15BD /* BubbleRequest.swift */,
-				194E477E2BB2392200FC15BD /* BubbleConstraint.swift */,
-				194E47862BB2392200FC15BD /* BubbleSortKey.swift */,
-				194E47882BB2392200FC15BD /* BubbleResponse.swift */,
-				194E47872BB2392200FC15BD /* BubbleErrorResponse.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -366,6 +384,42 @@
 				19787DBA2B72AB5D003FB364 /* analyzer.json */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		19E897122C31C4E4009B7E4A /* Bubble */ = {
+			isa = PBXGroup;
+			children = (
+				19E897192C31D6B4009B7E4A /* BubbleAPIProtocol.swift */,
+				19E8970A2C31C109009B7E4A /* BubbleAPI.swift */,
+				19E897172C31D67A009B7E4A /* BubbleAPITest.swift */,
+				19E8970C2C31C166009B7E4A /* BubbleAPIError.swift */,
+				194E47842BB2392200FC15BD /* BubbleRequest.swift */,
+				194E477E2BB2392200FC15BD /* BubbleConstraint.swift */,
+				194E47862BB2392200FC15BD /* BubbleSortKey.swift */,
+				194E47882BB2392200FC15BD /* BubbleResponse.swift */,
+				194E47872BB2392200FC15BD /* BubbleErrorResponse.swift */,
+			);
+			path = Bubble;
+			sourceTree = "<group>";
+		};
+		19E897132C31C506009B7E4A /* Tracebook */ = {
+			isa = PBXGroup;
+			children = (
+				19E897102C31C472009B7E4A /* TracebookServiceProtocol.swift */,
+				194E47812BB2392200FC15BD /* TracebookService.swift */,
+				19E897152C31C5C9009B7E4A /* TracebookServiceActor.swift */,
+			);
+			path = Tracebook;
+			sourceTree = "<group>";
+		};
+		19E897142C31C522009B7E4A /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				19E884852C2F7348009B7E4A /* ImageCacheManager.swift */,
+				19E884872C2F7A38009B7E4A /* FIleSystem.swift */,
+				19E884892C2F88B0009B7E4A /* FileSystem+SafeURL.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -512,29 +566,38 @@
 				194E47A22BB239AB00FC15BD /* InterfaceBody.swift in Sources */,
 				194E47932BB2392200FC15BD /* BubbleSortKey.swift in Sources */,
 				191C77032B215DDF00406EAD /* MeasurementItemView.swift in Sources */,
+				19E8848A2C2F88B0009B7E4A /* FileSystem+SafeURL.swift in Sources */,
 				19A9F5F22B9D61B00015E529 /* FileStore.swift in Sources */,
 				194E47A62BB239AB00FC15BD /* AnalyzerBody.swift in Sources */,
 				19C8F7292B23E7EA0072ED04 /* ColorSchemeManager.swift in Sources */,
 				19C8F73C2B23FC770072ED04 /* asyncImageContent.swift in Sources */,
 				194E478B2BB2392200FC15BD /* BubbleConstraint.swift in Sources */,
+				19E897112C31C473009B7E4A /* TracebookServiceProtocol.swift in Sources */,
 				1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */,
 				19B354822B8BB69100C7C544 /* Tracebook.xcdatamodeld in Sources */,
 				19C8F72A2B23E7EA0072ED04 /* ColorSchemePicker.swift in Sources */,
 				1930562E2B71C6B300FB6E07 /* MeasurementStore.swift in Sources */,
 				194E47952BB2392200FC15BD /* BubbleResponse.swift in Sources */,
 				191C76D02B214CA800406EAD /* ContentView.swift in Sources */,
+				19E884882C2F7A38009B7E4A /* FIleSystem.swift in Sources */,
 				194E47A82BB23F5800FC15BD /* ErrorBody.swift in Sources */,
 				1927F6522B32828600B1C474 /* MeasurementListViewModel.swift in Sources */,
 				1927F64C2B30948800B1C474 /* MeasurementViewModel.swift in Sources */,
 				191C770D2B21679900406EAD /* MeasurementDetailView.swift in Sources */,
+				19E897182C31D67A009B7E4A /* BubbleAPITest.swift in Sources */,
 				19552D392B585F3200412266 /* UserModel.swift in Sources */,
 				194E47A42BB239AB00FC15BD /* MicrophoneBody.swift in Sources */,
 				194E47A02BB239AB00FC15BD /* UserBody.swift in Sources */,
 				19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */,
+				19E8970B2C31C109009B7E4A /* BubbleAPI.swift in Sources */,
+				19E8970D2C31C166009B7E4A /* BubbleAPIError.swift in Sources */,
+				19E8971A2C31D6B4009B7E4A /* BubbleAPIProtocol.swift in Sources */,
 				19C8F7252B23E7BA0072ED04 /* LogControl.swift in Sources */,
 				194E47942BB2392200FC15BD /* BubbleErrorResponse.swift in Sources */,
+				19E897162C31C5C9009B7E4A /* TracebookServiceActor.swift in Sources */,
 				19C8F7242B23E7BA0072ED04 /* AppVersionKey.swift in Sources */,
 				194E47A32BB239AB00FC15BD /* MeasurementContentBody.swift in Sources */,
+				19E884862C2F7348009B7E4A /* ImageCacheManager.swift in Sources */,
 				194E479F2BB239AB00FC15BD /* MeasurementBody.swift in Sources */,
 				191C76CE2B214CA800406EAD /* TracebookApp.swift in Sources */,
 				194E47912BB2392200FC15BD /* BubbleRequest.swift in Sources */,
@@ -543,7 +606,7 @@
 				191C77162B22313A00406EAD /* UserView.swift in Sources */,
 				19C8F72F2B23E8240072ED04 /* SettingsView.swift in Sources */,
 				1927F6472B30885900B1C474 /* MeasurementModel.swift in Sources */,
-				194E478E2BB2392200FC15BD /* TracebookAPI.swift in Sources */,
+				194E478E2BB2392200FC15BD /* TracebookService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +615,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				191C76DF2B214CAB00406EAD /* TracebookTests.swift in Sources */,
+				19E8848C2C2F893B009B7E4A /* FileSystemTests.swift in Sources */,
 				19787DB32B72952A003FB364 /* MeasurementListViewModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,7 +698,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -642,6 +706,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -692,12 +757,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -785,11 +851,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tracebook.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tracebook";
@@ -805,11 +873,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tracebook.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tracebook";
@@ -824,6 +894,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -842,6 +913,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracebook/Info.plist;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct BubbleItemResponse<T: Codable>: Codable {
+struct BubbleItemResponse<T: Codable & Sendable>: Codable & Sendable {
     let response: T
 }
 
-struct BubbleListResponse<T: Codable>: Codable {
+struct BubbleListResponse<T: Codable & Sendable>: Codable & Sendable {
     let response: BubbleListBody<T>
 }
 
-struct BubbleListBody<T: Codable>: Codable {
+struct BubbleListBody<T: Codable & Sendable>: Codable & Sendable  {
     let cursor: Int
     let results: [T]
     let count: Int

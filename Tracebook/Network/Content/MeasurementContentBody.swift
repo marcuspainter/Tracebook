@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MeasurementContentBody: Codable {
+struct MeasurementContentBody: Codable, Sendable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

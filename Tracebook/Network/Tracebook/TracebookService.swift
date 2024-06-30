@@ -10,44 +10,22 @@ typealias InterfaceListResponse = BubbleListResponse<InterfaceBody>
 typealias UserItemResponse = BubbleItemResponse<UserBody>
 typealias UserListResponse = BubbleListResponse<UserBody>
 
-enum TracebookError: Error {
-    case networkError
-}
-
-class TracebookAPI {
+final class TracebookService: TracebookServiceProtocol, Sendable {
     // Tokens look like this (Sample expired token)
     let token = "3f600fe8b64b951f4dc87d867400f0f4"
     let startDate: Date = ISO8601DateFormatter().date(from: "2022-01-31T02:22:40Z")!
-
-    func getResponse<T: Decodable>(_ type: T.Type, for request: URLRequest) async throws -> T? {
-        do {
-            let (jsonData, response) = try await URLSession.shared.data(for: request)
-
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw TracebookError.networkError
-            }
-
-            // HTTP status code
-            let status = httpResponse.statusCode
-            if status < 200 || status > 299 {
-                throw TracebookError.networkError
-            }
-
-            // Parse JSON
-            let jsonResponse = try JSONDecoder().decode(type, from: jsonData)
-            return jsonResponse
-
-        } catch {
-            print("Request error: \(error)")
-            throw TracebookError.networkError
-        }
+    
+    private let bubbleAPI: BubbleAPI
+    
+    init(bubbleAPI: BubbleAPI = BubbleAPI()) {
+        self.bubbleAPI = bubbleAPI
     }
-
+    
     func getUser(id: String) async throws -> UserItemResponse? {
         let bubbleRequest = BubbleRequest(entity: "user")
-        let urlRequest = bubbleRequest.urlRequest()
+        let urlRequest = bubbleRequest.makeGetUrlRequest()
         do {
-            let response = try await getResponse(UserItemResponse.self, for: urlRequest)
+            let response = try await bubbleAPI.getResponse(UserItemResponse.self, for: urlRequest)
             return response
         } catch {
             throw error
@@ -56,9 +34,9 @@ class TracebookAPI {
 
     func getAnalyzerList() async throws -> AnalyzerListResponse? {
         let bubbleRequest = BubbleRequest(entity: "analyzer")
-        let urlRequest = bubbleRequest.urlRequest()
+        let urlRequest = bubbleRequest.makeGetUrlRequest()
         do {
-            let response = try await getResponse(AnalyzerListResponse.self, for: urlRequest)
+            let response = try await bubbleAPI.getResponse(AnalyzerListResponse.self, for: urlRequest)
             return response
         } catch {
             throw error
@@ -67,9 +45,9 @@ class TracebookAPI {
 
     func getMicrophoneList() async throws -> MicrophoneListResponse? {
         let bubbleRequest = BubbleRequest(entity: "microphone")
-        let urlRequest = bubbleRequest.urlRequest()
+        let urlRequest = bubbleRequest.makeGetUrlRequest()
         do {
-            let response = try await getResponse(MicrophoneListResponse.self, for: urlRequest)
+            let response = try await bubbleAPI.getResponse(MicrophoneListResponse.self, for: urlRequest)
             return response
         } catch {
             throw error
@@ -78,9 +56,9 @@ class TracebookAPI {
 
     func getInterfaceList() async throws -> InterfaceListResponse? {
         let bubbleRequest = BubbleRequest(entity: "interface")
-        let urlRequest = bubbleRequest.urlRequest()
+        let urlRequest = bubbleRequest.makeGetUrlRequest()
         do {
-            let response = try await getResponse(InterfaceListResponse.self, for: urlRequest)
+            let response = try await bubbleAPI.getResponse(InterfaceListResponse.self, for: urlRequest)
             return response
         } catch {
             throw error
@@ -89,9 +67,9 @@ class TracebookAPI {
 
     func getMeasurementContent(id: String) async throws -> MeasurementContentItemResponse? {
         let bubbleRequest = BubbleRequest(entity: "measurementcontent", id: id)
-        let urlRequest = bubbleRequest.urlRequest()
+        let urlRequest = bubbleRequest.makeGetUrlRequest()
         do {
-            let response = try await getResponse(MeasurementContentItemResponse.self, for: urlRequest)
+            let response = try await bubbleAPI.getResponse(MeasurementContentItemResponse.self, for: urlRequest)
             return response
         } catch {
             throw error
@@ -110,10 +88,10 @@ class TracebookAPI {
         bubbleRequest.sortKeys.append(
             BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
 
-        let urlRequest = bubbleRequest.urlRequest()
+        let urlRequest = bubbleRequest.makeGetUrlRequest()
         print(urlRequest.mainDocumentURL as Any)
         do {
-            let response = try await getResponse(MeasurementListResponse.self, for: urlRequest)
+            let response = try await bubbleAPI.getResponse(MeasurementListResponse.self, for: urlRequest)
             return response
         } catch {
             throw error

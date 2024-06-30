@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MeasurementBody: Codable {
+struct MeasurementBody: Codable, Sendable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -29,7 +29,7 @@ class MeasurementBody: Codable {
     var modifiedDate: String?
     var slug: String?
     var moderator1: String?
-    var isPublic: Bool?             // public is resevered word, so resultPublic used instead
+    var isPublic: Bool?             // public is reserved word, so isPublic used instead
     var title: String?
     var publishDate: String?
     var admin1Approved: String?

@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 @Observable
-class UserViewModel {
+final class UserViewModel {
     var name: String = ""
     var photo: String = ""
     var location: String = ""
@@ -29,11 +29,15 @@ class UserViewModel {
     var followersCount: Int = 0
     var followingCount: Int = 0
 
-    private var tracebookAPI = TracebookAPI()
-
+    private let tracebookService: TracebookServiceProtocol
+    
+    init(tracebookService: TracebookServiceProtocol = TracebookService()) {
+        self.tracebookService = tracebookService
+    }
+    
     func getUser(id: String) async throws {
         do {
-            if let response = try await tracebookAPI.getUser(id: id) {
+            if let response = try await tracebookService.getUser(id: id) {
                 let user = response.response
                 self.id = user.id
                 name = user.name ?? ""

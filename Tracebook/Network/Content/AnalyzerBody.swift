@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct AnalyzerBody: Codable {
+struct AnalyzerBody: Codable, Sendable {
+    let id: String?
     let name: String?
     let createdBy: String?
     let createdDate: String?
     let modifiedDate: String?
-    let id: String?
 
     enum CodingKeys: String, CodingKey {
         case name = "Name"
