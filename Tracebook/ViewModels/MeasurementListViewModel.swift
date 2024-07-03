@@ -25,7 +25,7 @@ final class MeasurementListViewModel: Sendable {
     private var interfaces: [String: String] = [:]
     private var analyzers: [String: String] = [:]
 
-    func search(searchText: String) async {
+    public func search(searchText: String) async {
         if !searchText.isEmpty {
             measurements = measurementStore.models.filter { $0.title.uppercased().contains(searchText.uppercased()) }
         } else {
@@ -40,7 +40,7 @@ final class MeasurementListViewModel: Sendable {
         measurements.append(model)
     }
 
-    func loadMeasurements() async throws {
+    public func loadMeasurements() async throws {
         try await getMicrophones()
         try await getInterfaces()
         try await getAnalyzers()

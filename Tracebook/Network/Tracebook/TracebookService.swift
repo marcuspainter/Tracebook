@@ -15,9 +15,9 @@ final class TracebookService: TracebookServiceProtocol, Sendable {
     let token = "3f600fe8b64b951f4dc87d867400f0f4"
     let startDate: Date = ISO8601DateFormatter().date(from: "2022-01-31T02:22:40Z")!
     
-    private let bubbleAPI: BubbleAPI
+    private let bubbleAPI: BubbleAPIProtocol
     
-    init(bubbleAPI: BubbleAPI = BubbleAPI()) {
+    init(bubbleAPI: BubbleAPIProtocol = BubbleAPI()) {
         self.bubbleAPI = bubbleAPI
     }
     

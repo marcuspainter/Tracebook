@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol BubbleAPIProtocol {
+protocol BubbleAPIProtocol: Sendable {
     func getResponse<T: Decodable>(_ type: T.Type, for request: URLRequest) async throws -> T?
 }

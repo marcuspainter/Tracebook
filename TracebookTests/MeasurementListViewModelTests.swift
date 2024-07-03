@@ -6,8 +6,9 @@
 //
 
 import XCTest
+@testable import Tracebook
 
-final class MeasurementListViewModelTest: XCTestCase {
+final class MeasurementListViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -17,12 +18,37 @@ final class MeasurementListViewModelTest: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    @MainActor func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         // Any test you write for XCTest can be annotated as throws and async.
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        
+        //let settings = BubbleTestAPISettings()
+        let bubbleAPI = BubbleAPI()
+        let tracebookService = TracebookService(bubbleAPI: bubbleAPI)
+        let _ = MeasurementListViewModel(tracebookService: tracebookService)
+        Task {
+
+            do {
+                if let object = try await tracebookService.getMicrophoneList() {
+                    print("\(object.response.results)")
+                }
+                if let object = try await tracebookService.getAnalyzerList() {
+                    print("\(object.response.results)")
+                }
+                if let object = try await tracebookService.getMeasurementListByDate(dateString: "") {
+                    print("\(object.response.results)")
+                }
+
+            }
+            catch {
+                print(error)
+            }
+            print("Done")
+            
+        }
     }
 
     func testPerformanceExample() throws {

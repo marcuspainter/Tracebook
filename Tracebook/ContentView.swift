@@ -39,6 +39,7 @@ struct ContentView: View {
                 // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
                 print("Pull")
                 await Task {
+                 
                     if !isDownloading {
                         do {
                             try await measurementListViewModel.loadMeasurements()
@@ -71,10 +72,9 @@ struct ContentView: View {
         }
         .searchable(text: $searchText, prompt: "Search loudspeakers")
         .overlay {
-
             if measurementListViewModel.measurements.isEmpty {
 
-                if measurementListViewModel.measurementStore.models.count == 0 {
+                if measurementListViewModel.measurementStore.models.count == 0 && isDownloading {
                     VStack {
                         ProgressView()
                         Text("LOADING").font(.caption)
@@ -97,15 +97,15 @@ struct ContentView: View {
         }
         .task {
             isDownloading = true
+            
             do {
                 try await measurementListViewModel.loadMeasurements()
             }
             catch {
-                print("Error")
-                isDownloading = false
+                print(error.localizedDescription)
             }
-            isDownloading = false
             print("Done")
+            isDownloading = false
         }
         .onAppear {
         
