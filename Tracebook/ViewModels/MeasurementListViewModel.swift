@@ -39,17 +39,9 @@ final class MeasurementListViewModel: Sendable {
 
     func loadMeasurements() async {
 
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.getMicrophones()
-            }
-            group.addTask {
-                await self.getInterfaces()
-            }
-            group.addTask {
-                await self.getAnalyzers()
-            }
-        }
+        await self.getAnalyzers()
+        await self.getInterfaces()
+        await self.getMicrophones()
 
         let dateString = measurementStore.models.isEmpty ? "2000-01-01" : (measurementStore.models.first?.createdDate ?? "2001-01-01")
 
