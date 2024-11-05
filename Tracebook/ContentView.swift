@@ -71,11 +71,11 @@ struct ContentView: View {
 
                 if measurementListViewModel.measurementStore.models.count == 0 {
                     VStack {
-                        ProgressView()
-                        Text("LOADING").font(.caption)
+                        ProgressView("LOADING")
+                        //Text("LOADING").font(.caption)
                     }
                 } else {
-                    Text("No matches")
+                    ContentUnavailableView.search
                 }
             }
 
