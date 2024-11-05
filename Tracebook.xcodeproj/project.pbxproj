@@ -26,6 +26,7 @@
 		1927F6522B32828600B1C474 /* MeasurementListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6512B32828600B1C474 /* MeasurementListViewModel.swift */; };
 		1930562E2B71C6B300FB6E07 /* MeasurementStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */; };
 		193E412C2B81597E00109B91 /* DownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193E412B2B81597E00109B91 /* DownloadView.swift */; };
+		19423E5F2CD9B2F50002062A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 19423E5E2CD9B2F50002062A /* GoogleService-Info.plist */; };
 		1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */ = {isa = PBXBuildFile; fileRef = 19776B7E2B30849000DB0E1B /* measurementcontent.json */; };
 		1949FE372B56EA21000D94A8 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1949FE362B56EA21000D94A8 /* AppConfig.swift */; };
 		194E478B2BB2392200FC15BD /* BubbleConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E477E2BB2392200FC15BD /* BubbleConstraint.swift */; };
@@ -103,6 +104,7 @@
 		1927F6512B32828600B1C474 /* MeasurementListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementListViewModel.swift; sourceTree = "<group>"; };
 		1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementStore.swift; sourceTree = "<group>"; };
 		193E412B2B81597E00109B91 /* DownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadView.swift; sourceTree = "<group>"; };
+		19423E5E2CD9B2F50002062A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1949FE342B56E967000D94A8 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		1949FE362B56EA21000D94A8 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		194E47652BB21A8700FC15BD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 		191C76CC2B214CA800406EAD /* Tracebook */ = {
 			isa = PBXGroup;
 			children = (
+				19423E5E2CD9B2F50002062A /* GoogleService-Info.plist */,
 				194E477B2BB2391000FC15BD /* Network */,
 				1966EC982B6DF728004246C2 /* Tracebook.entitlements */,
 				19552D3B2B5C3C2C00412266 /* Snapfile */,
@@ -484,6 +487,7 @@
 				1949FE312B518EF7000D94A8 /* measurementcontent.json in Resources */,
 				1910F70B2C1CA4D6009468FF /* LICENSE in Resources */,
 				19787DB72B72AAFB003FB364 /* microphone.json in Resources */,
+				19423E5F2CD9B2F50002062A /* GoogleService-Info.plist in Resources */,
 				19D5073E2B2A8F6400DBB25D /* measurement.json in Resources */,
 				191C76D52B214CAB00406EAD /* Preview Assets.xcassets in Resources */,
 				191C76D22B214CAB00406EAD /* Assets.xcassets in Resources */,
