@@ -8,7 +8,6 @@
 import Foundation
 
 @MainActor
-@Observable
 class UserViewModel {
     var name: String = ""
     var photo: String = ""

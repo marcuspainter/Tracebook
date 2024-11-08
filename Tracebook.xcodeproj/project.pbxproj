@@ -22,7 +22,6 @@
 		191C77162B22313A00406EAD /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C77152B22313A00406EAD /* UserView.swift */; };
 		191C771E2B22929600406EAD /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C771D2B22929600406EAD /* DismissButton.swift */; };
 		1927F6472B30885900B1C474 /* MeasurementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6462B30885900B1C474 /* MeasurementModel.swift */; };
-		1927F64C2B30948800B1C474 /* MeasurementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F64B2B30948800B1C474 /* MeasurementViewModel.swift */; };
 		1927F6522B32828600B1C474 /* MeasurementListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927F6512B32828600B1C474 /* MeasurementListViewModel.swift */; };
 		1930562E2B71C6B300FB6E07 /* MeasurementStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */; };
 		193E412C2B81597E00109B91 /* DownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193E412B2B81597E00109B91 /* DownloadView.swift */; };
@@ -58,6 +57,7 @@
 		19787DBB2B72AB5D003FB364 /* analyzer.json in Resources */ = {isa = PBXBuildFile; fileRef = 19787DBA2B72AB5D003FB364 /* analyzer.json */; };
 		19787DBE2B72ADEC003FB364 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1949FE342B56E967000D94A8 /* Settings.plist */; };
 		19787DBF2B72AE22003FB364 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19F4FEE22B2A1DE80065B2E2 /* LaunchScreen.storyboard */; };
+		197ED1522CDE832B00BFA023 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197ED1512CDE832000BFA023 /* Test.swift */; };
 		19A9F5F22B9D61B00015E529 /* FileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A9F5F12B9D61B00015E529 /* FileStore.swift */; };
 		19B354822B8BB69100C7C544 /* Tracebook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 19B354802B8BB69100C7C544 /* Tracebook.xcdatamodeld */; };
 		19C8F7152B23661C0072ED04 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C8F7142B23661C0072ED04 /* PasswordStore.swift */; };
@@ -107,7 +107,6 @@
 		191C77152B22313A00406EAD /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		191C771D2B22929600406EAD /* DismissButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		1927F6462B30885900B1C474 /* MeasurementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementModel.swift; sourceTree = "<group>"; };
-		1927F64B2B30948800B1C474 /* MeasurementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementViewModel.swift; sourceTree = "<group>"; };
 		1927F6512B32828600B1C474 /* MeasurementListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementListViewModel.swift; sourceTree = "<group>"; };
 		1930562D2B71C6B200FB6E07 /* MeasurementStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementStore.swift; sourceTree = "<group>"; };
 		193E412B2B81597E00109B91 /* DownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadView.swift; sourceTree = "<group>"; };
@@ -142,6 +141,7 @@
 		19787DB82B72AB2B003FB364 /* interface.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = interface.json; sourceTree = "<group>"; };
 		19787DBA2B72AB5D003FB364 /* analyzer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = analyzer.json; sourceTree = "<group>"; };
 		19787DBC2B72ABB4003FB364 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
+		197ED1512CDE832000BFA023 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		19A9F5F12B9D61B00015E529 /* FileStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStore.swift; sourceTree = "<group>"; };
 		19B354812B8BB69100C7C544 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		19C8F7142B23661C0072ED04 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
@@ -319,6 +319,7 @@
 		19C8F7182B23BFAD0072ED04 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				197ED1512CDE832000BFA023 /* Test.swift */,
 				191C77022B215DDF00406EAD /* MeasurementItemView.swift */,
 				191C770C2B21679900406EAD /* MeasurementDetailView.swift */,
 				191C77132B22126400406EAD /* LoginView.swift */,
@@ -331,7 +332,6 @@
 		19C8F7192B23BFD50072ED04 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				1927F64B2B30948800B1C474 /* MeasurementViewModel.swift */,
 				1927F6512B32828600B1C474 /* MeasurementListViewModel.swift */,
 				1966EC962B6D55F4004246C2 /* UserViewModel.swift */,
 			);
@@ -553,7 +553,6 @@
 				191C76D02B214CA800406EAD /* ContentView.swift in Sources */,
 				194E47A82BB23F5800FC15BD /* ErrorBody.swift in Sources */,
 				1927F6522B32828600B1C474 /* MeasurementListViewModel.swift in Sources */,
-				1927F64C2B30948800B1C474 /* MeasurementViewModel.swift in Sources */,
 				191C770D2B21679900406EAD /* MeasurementDetailView.swift in Sources */,
 				19552D392B585F3200412266 /* UserModel.swift in Sources */,
 				19423EAD2CDABC070002062A /* AppDelegate.swift in Sources */,
@@ -572,6 +571,7 @@
 				1966EC972B6D55F4004246C2 /* UserViewModel.swift in Sources */,
 				191C77162B22313A00406EAD /* UserView.swift in Sources */,
 				19C8F72F2B23E8240072ED04 /* SettingsView.swift in Sources */,
+				197ED1522CDE832B00BFA023 /* Test.swift in Sources */,
 				1927F6472B30885900B1C474 /* MeasurementModel.swift in Sources */,
 				194E478E2BB2392200FC15BD /* TracebookAPI.swift in Sources */,
 			);
@@ -755,7 +755,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -792,7 +792,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -815,7 +815,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -834,7 +834,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5V2MR3PN8;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.TracebookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

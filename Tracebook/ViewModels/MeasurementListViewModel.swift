@@ -8,16 +8,16 @@
 import Foundation
 
 @MainActor
-@Observable
-final class MeasurementListViewModel: Sendable {
+final class MeasurementListViewModel: ObservableObject {
 
-    var searchText: String = ""
-    var measurements: [MeasurementModel] = []
+    @Published var searchText: String = ""
+    @Published var measurements: [MeasurementModel] = []
+    @Published var timestamp: Date = .now
 
-    public var measurementStore = MeasurementStore()
+    @Published var measurementStore = MeasurementStore()
 
     private var tracebookAPI = TracebookAPI()
-    // Local dictonaries
+    // Local dictionaries
     private var microphones: [String: String] = [:]
     private var interfaces: [String: String] = [:]
     private var analyzers: [String: String] = [:]
@@ -39,9 +39,16 @@ final class MeasurementListViewModel: Sendable {
 
     func loadMeasurements() async {
 
-        await self.getAnalyzers()
-        await self.getInterfaces()
-        await self.getMicrophones()
+        Task(priority: .userInitiated) {
+            let task1 = Task(priority: .userInitiated) { await self.getAnalyzers() }
+            let task2 = Task(priority: .userInitiated) { await self.getInterfaces() }
+            let task3 = Task(priority: .userInitiated) { await self.getMicrophones() }
+
+            // Await each task to ensure they all complete before moving on
+            await task1.value
+            await task2.value
+            await task3.value
+        }
 
         let dateString = measurementStore.models.isEmpty ? "2000-01-01" : (measurementStore.models.first?.createdDate ?? "2001-01-01")
 
@@ -58,6 +65,7 @@ final class MeasurementListViewModel: Sendable {
             let measurementList = measurementListResponse.response.results
             for measurementItem in measurementList {
                 let model = convertListToModel(measurement: measurementItem)
+                
 
                 if self.measurementStore.models.first(where: { $0.id == model.id }) != nil {
                     print("Duplicate: \(model.title)")
@@ -81,6 +89,10 @@ final class MeasurementListViewModel: Sendable {
                 model.microphone = microphones[model.microphone] ?? model.microphone
                 model.interface = interfaces[model.interface] ?? model.interface
                 model.analyzer = analyzers[model.analyzer] ?? model.analyzer
+                
+                model.timestamp = .now
+                print(model.title)
+                
             } else {
                 print("No content")
             }

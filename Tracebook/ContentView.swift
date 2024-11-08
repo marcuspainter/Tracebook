@@ -8,11 +8,10 @@
 // https://stackoverflow.com/questions/69511960/customize-searchable-search-field-swiftui-ios-15
 
 import SwiftUI
-import Observation
 
 @MainActor
 struct ContentView: View {
-    @State var measurementListViewModel: MeasurementListViewModel = .init()
+    @StateObject var measurementListViewModel: MeasurementListViewModel = .init()
     @State var searchText: String = ""
     @State private var path = NavigationPath()
 
@@ -26,14 +25,19 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
+            
+            Text(measurementListViewModel.timestamp.formatted())
 
             List {
                 ForEach(measurementListViewModel.measurements) { measurement in
                     NavigationLink(value: measurement) {
                         MeasurementItemView(measurement: measurement)
+                            
                     }
                 }.listRowBackground(Color.clear) // No highlight on selection
+                    
             }
+            
             .listStyle(.plain)
             .refreshable {
                 // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
@@ -52,6 +56,7 @@ struct ContentView: View {
             }
 
             .toolbarBackground(.visible, for: .navigationBar)
+            /*
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     // https://stackoverflow.com/questions/64269873/how-can-i-push-a-view-from-a-toolbaritem
@@ -63,6 +68,7 @@ struct ContentView: View {
                     }
                 }
             }
+             */
         }
         .searchable(text: $searchText, prompt: "Search loudspeakers")
         .overlay {
@@ -71,16 +77,17 @@ struct ContentView: View {
 
                 if measurementListViewModel.measurementStore.models.count == 0 {
                     VStack {
-                        ProgressView("LOADING")
+                        ProgressView("Loading...")
                         //Text("LOADING").font(.caption)
                     }
                 } else {
-                    ContentUnavailableView.search
+                    //ContentUnavailableView.search
+                    Text("No results")
                 }
             }
 
         }
-        .onChange(of: searchText) { _, newValue in
+        .onChange(of: searchText) { newValue in
             print(newValue)
             Task {
                 await measurementListViewModel.search(searchText: searchText)
@@ -92,8 +99,8 @@ struct ContentView: View {
         }
         .task {
             isDownloading = true
+            defer { isDownloading = false }
             await measurementListViewModel.loadMeasurements()
-            isDownloading = false
             print("Done")
         }
         .onAppear {

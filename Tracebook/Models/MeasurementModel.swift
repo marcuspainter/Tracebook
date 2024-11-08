@@ -6,90 +6,91 @@
 //
 
 import Foundation
-import Observation
 
-@Observable
-final class MeasurementModel: Identifiable, Hashable {
+final class MeasurementModel: ObservableObject, Identifiable, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+        hasher.combine(timestamp)
     }
 
     static func == (lhs: MeasurementModel, rhs: MeasurementModel) -> Bool {
         return lhs.id == rhs.id
     }
+    
+    @Published var timestamp: Date = .now
 
     // Measurement Content
-    var firmwareVersion: String = ""
-    var loudspeakerBrand: String = ""
-    var category: String = ""
-    var delayLocator: Double?       // Nilable
-    var distance: Double?           // Nilable
-    var dspPreset: String = ""
-    var photoSetup: String = ""
-    var fileAdditional: [String] = []
-    var fileTFCSV: String = ""
-    var notes: String = ""
-    var createdDate: String? = ""
-    var createdBy: String = ""
-    var modifiedDate: String = ""
-    var distanceUnits: String = ""
-    var crestFactorM: Double = 0.0
-    var crestFactorPink: Double = 0.0
-    var loudspeakerModel: String = ""
-    var calibrator: String = ""
-    var measurementType: String = ""
-    var presetVersion: String = ""
-    var temperature: Double?       // Nilable
-    var tempUnits: String = ""
-    var responseLoudspeakerBrand: String = ""
-    var coherenceScale: String = ""
-    var analyzer: String = ""
-    var fileTFNative: String = ""
-    var splGroundPlane: Bool = false
-    var responseLoudspeakerModel: String = ""
-    var systemLatency: Double?      // Nilable
-    var microphone: String = ""
-    var measurement: String = ""
-    var interface: String = ""
-    var micCorrectionCurve: String = ""
-    var tfFrequency: [Double] = []
-    var tfMagnitude: [Double] = []
-    var tfPhase: [Double] = []
-    var tfCoherence: [Double] = []
-    var id: String = ""
-    var medal: String? = ""
-    var fileIRWAV: String? = ""
-    var windscreen: String = ""
-    var presetNA: Bool? = false
-    var presetVersionNA: Bool? = false
-    var firmwareVersionNA: Bool? = false
-    var inputMeter: Double? = 0.0
+    @Published var firmwareVersion: String = ""
+    @Published var loudspeakerBrand: String = ""
+    @Published var category: String = ""
+    @Published var delayLocator: Double?       // Nilable
+    @Published var distance: Double?           // Nilable
+    @Published var dspPreset: String = ""
+    @Published var photoSetup: String = ""
+    @Published var fileAdditional: [String] = []
+    @Published var fileTFCSV: String = ""
+    @Published var notes: String = ""
+    @Published var createdDate: String? = ""
+    @Published var createdBy: String = ""
+    @Published var modifiedDate: String = ""
+    @Published var distanceUnits: String = ""
+    @Published var crestFactorM: Double = 0.0
+    @Published var crestFactorPink: Double = 0.0
+    @Published var loudspeakerModel: String = ""
+    @Published var calibrator: String = ""
+    @Published var measurementType: String = ""
+    @Published var presetVersion: String = ""
+    @Published var temperature: Double?       // Nilable
+    @Published var tempUnits: String = ""
+    @Published var responseLoudspeakerBrand: String = ""
+    @Published var coherenceScale: String = ""
+    @Published var analyzer: String = ""
+    @Published var fileTFNative: String = ""
+    @Published var splGroundPlane: Bool = false
+    @Published var responseLoudspeakerModel: String = ""
+    @Published var systemLatency: Double?      // Nilable
+    @Published var microphone: String = ""
+    @Published var measurement: String = ""
+    @Published var interface: String = ""
+    @Published var micCorrectionCurve: String = ""
+    @Published var tfFrequency: [Double] = []
+    @Published var tfMagnitude: [Double] = []
+    @Published var tfPhase: [Double] = []
+    @Published var tfCoherence: [Double] = []
+    @Published var id: String = ""
+    @Published var medal: String? = ""
+    @Published var fileIRWAV: String? = ""
+    @Published var windscreen: String = ""
+    @Published var presetNA: Bool? = false
+    @Published var presetVersionNA: Bool? = false
+    @Published var firmwareVersionNA: Bool? = false
+    @Published var inputMeter: Double? = 0.0
 
     // Measurement
-    var additionalContent: String = ""
-    var approved: String = ""
-    var commentCreator: String? = ""
-    var productLaunchDateText: String = ""
-    var thumbnailImage: String? = ""
-    var upvotes: [String]? = []
+    @Published var additionalContent: String = ""
+    @Published var approved: String = ""
+    @Published var commentCreator: String? = ""
+    @Published var productLaunchDateText: String = ""
+    @Published var thumbnailImage: String? = ""
+    @Published var upvotes: [String]? = []
     // var createdDate: String = ""
     // var createdBy: String = ""
     // var modifiedDate: String = ""
-    var slug: String = ""
-    var moderator1: String = ""
-    var isPublic: Bool = false
-    var title: String = ""
-    var publishDate: String? = ""
-    var admin1Approved: String? = ""
-    var moderator2: String? = ""
-    var admin2Approved: String? = ""
+    @Published var slug: String = ""
+    @Published var moderator1: String = ""
+    @Published var isPublic: Bool = false
+    @Published var title: String = ""
+    @Published var publishDate: String? = ""
+    @Published var admin1Approved: String? = ""
+    @Published var moderator2: String? = ""
+    @Published var admin2Approved: String? = ""
     // var id: String = ""
-    var loudspeakerTags: [String]? = []
-    var emailSent: Bool? = false
+    @Published var loudspeakerTags: [String]? = []
+    @Published var emailSent: Bool? = false
 
     // Generated from slug
-    var tracebookURL: String = ""
+    @Published var tracebookURL: String = ""
 
     func processMagnitude(delay: Double, threshold: Double, isPolarityInverted: Bool) -> [(Double, Double)] {
         let newMagnitudeData = self.tfFrequency.enumerated().map { index, frequency in
