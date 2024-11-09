@@ -6,10 +6,8 @@
 //
 
 import Foundation
-import Observation
 
-@Observable
-final class MeasurementModel: Identifiable, Hashable {
+final class MeasurementModel: ObservableObject, Identifiable, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -49,7 +47,7 @@ final class MeasurementModel: Identifiable, Hashable {
     var splGroundPlane: Bool = false
     var responseLoudspeakerModel: String = ""
     var systemLatency: Double?      // Nilable
-    var microphone: String = ""
+    @Published var microphone: String = ""
     var measurement: String = ""
     var interface: String = ""
     var micCorrectionCurve: String = ""

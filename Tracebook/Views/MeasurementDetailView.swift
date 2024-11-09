@@ -7,7 +7,6 @@
 
 import Charts
 import SwiftUI
-import Observation
 
 struct ChartData {
     var magnitude: [Double] = []
@@ -18,7 +17,7 @@ struct ChartData {
 
 struct MeasurementDetailView: View {
     // ObservedObject
-    var measurement: MeasurementModel
+    @ObservedObject var measurement: MeasurementModel
 
     @State var magnitudeData: [(Double, Double)] = []
     @State var phaseData: [(Double, Double)] = []
@@ -63,7 +62,7 @@ struct MeasurementDetailView: View {
 */
                     HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)
-                            .onChange(of: isPolarityInverted) { _, _ in
+                            .onChange(of: isPolarityInverted) { _ in
                                 self.tfPhase = measurement.processPhase2(
                                     delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
                             }.frame(width: 130, alignment: .leading)
@@ -95,7 +94,7 @@ struct MeasurementDetailView: View {
                     } maximumValueLabel: {
                         Text("20").font(.footnote)
                     }
-                    .onChange(of: delay) { _, _ in
+                    .onChange(of: delay) { _ in
                         self.tfPhase = measurement.processPhase2(
                             delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
                     }
@@ -118,7 +117,7 @@ struct MeasurementDetailView: View {
                     } maximumValueLabel: {
                         Text("100").font(.footnote)
                     }
-                    .onChange(of: threshold) { _, _ in
+                    .onChange(of: threshold) { _ in
                         updateChart()
                     }
 
@@ -157,7 +156,7 @@ struct MeasurementDetailView: View {
                     }
                     .navigationTitle(measurement.title)
                     .navigationBarTitleDisplayMode(.inline)
-                }.onChange(of: measurement.distance) { _, _ in
+                }.onChange(of: measurement.distance) { _ in
                     updateChart()
                 }
 

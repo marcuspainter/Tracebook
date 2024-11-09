@@ -8,11 +8,10 @@
 import Foundation
 
 @MainActor
-@Observable
-final class MeasurementListViewModel: Sendable {
+final class MeasurementListViewModel: ObservableObject {
 
-    var searchText: String = ""
-    var measurements: [MeasurementModel] = []
+    @Published var searchText: String = ""
+    @Published var measurements: [MeasurementModel] = []
 
     public var measurementStore = MeasurementStore()
 

@@ -7,10 +7,9 @@
 
 import Foundation
 import SwiftUI
-import Observation
 
 struct MeasurementItemView: View {
-    var measurement: MeasurementModel
+    @ObservedObject var measurement: MeasurementModel
 
     var body: some View {
         HStack {

@@ -19,7 +19,7 @@ struct TracebookApp: App {
                     ColorSchemeManager.shared.applyColorScheme()
                     // disableUIConstraintBasedLayoutLogUnsatisfiable()
                 }
-                .onChange(of: scenePhase) { _, newPhase in
+                .onChange(of: scenePhase) { newPhase in
                     if newPhase == .active {
                         print("Active")
                     } else if newPhase == .inactive {
