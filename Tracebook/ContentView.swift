@@ -72,7 +72,7 @@ struct ContentView: View {
 
                 if measurementListViewModel.measurementStore.models.count == 0 {
                     VStack {
-                        ProgressView("LOADING")
+                        ProgressView("Loading...")
                         //Text("LOADING").font(.caption)
                     }
                 } else {
