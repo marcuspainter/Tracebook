@@ -6,10 +6,8 @@
 //
 
 import Foundation
-import Observation
 
 @MainActor
-@Observable
 class MeasurementViewModel {
 
     var isPolarityInverted: Bool = false
