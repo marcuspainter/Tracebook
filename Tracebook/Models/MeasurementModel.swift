@@ -204,26 +204,29 @@ final class MeasurementModel: ObservableObject, Identifiable, Hashable {
         var newOriginalPhase = [Double](repeating: 0, count: tfFrequency.count)
 
         for index in 0..<tfFrequency.count {
-            newCoherence[index] = self.tfCoherence[index]  / 3.333 // Scaling for chart
-            newMagnitude[index] = self.tfMagnitude[index]
-            newPhase[index] = self.tfPhase[index]
-            newOriginalPhase[index] = self.tfPhase[index]
+            newCoherence[index] = index < self.tfCoherence.count ? self.tfCoherence[index]  / 3.333 : Double.nan// Scaling for chart
+            newMagnitude[index] = index < self.tfMagnitude.count ? self.tfMagnitude[index] : Double.nan
+            newPhase[index] =  index < self.tfPhase.count ? self.tfPhase[index] : Double.nan
+            newOriginalPhase[index] = index < self.tfPhase.count ? self.tfPhase[index] : Double.nan
 
-            let coherence = self.tfCoherence[index]
-            if coherence < threshold {
-                newCoherence[index] = Double.nan
-                newMagnitude[index] =  Double.nan
-                newPhase[index] = Double.nan
-                newOriginalPhase[index] = Double.nan
-            } else {
-                let frequency = self.tfFrequency[index]
-                var phase = self.tfPhase[index]
-                phase += (frequency * 360.0 * (delay * -1.0 / 1000.0))
-                if isPolarityInverted {
-                    phase += 180.0
+            if index < self.tfCoherence.count {
+                let coherence = self.tfCoherence[index]
+                
+                if coherence < threshold {
+                    newCoherence[index] = Double.nan
+                    newMagnitude[index] =  Double.nan
+                    newPhase[index] = Double.nan
+                    newOriginalPhase[index] = Double.nan
+                } else {
+                    let frequency = index < self.tfFrequency.count ? self.tfFrequency[index] : Double.nan
+                    var phase = index < self.tfPhase.count ? self.tfPhase[index] : Double.nan
+                    phase += (frequency * 360.0 * (delay * -1.0 / 1000.0))
+                    if isPolarityInverted {
+                        phase += 180.0
+                    }
+                    newPhase[index] = wrapTo180(phase)
                 }
-                newPhase[index] = wrapTo180(phase)
-            }
+           }
         }
         return (newMagnitude, newPhase, newCoherence, newOriginalPhase)
     }
