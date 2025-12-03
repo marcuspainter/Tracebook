@@ -47,7 +47,7 @@ struct MainView: View {
                         print("Done")
                     }
             }
-            .navigationTitle("TracebookDB")
+            .navigationTitle("Tracebook")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: MeasurementItem.self, destination: MeasurementDetailView.init)
             .toolbarBackground(.visible, for: .navigationBar)

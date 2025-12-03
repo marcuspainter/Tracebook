@@ -24,9 +24,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		19ECC40A2EDFA5DA00B1ECEB /* NewTracebook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTracebook.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		19ECC4172EDFA5DD00B1ECEB /* NewTracebookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewTracebookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		19ECC4212EDFA5DD00B1ECEB /* NewTracebookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewTracebookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		19ECC40A2EDFA5DA00B1ECEB /* Tracebook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracebook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		19ECC4172EDFA5DD00B1ECEB /* TracebookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TracebookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		19ECC4212EDFA5DD00B1ECEB /* TracebookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TracebookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -85,9 +85,9 @@
 		19ECC40B2EDFA5DA00B1ECEB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				19ECC40A2EDFA5DA00B1ECEB /* NewTracebook.app */,
-				19ECC4172EDFA5DD00B1ECEB /* NewTracebookTests.xctest */,
-				19ECC4212EDFA5DD00B1ECEB /* NewTracebookUITests.xctest */,
+				19ECC40A2EDFA5DA00B1ECEB /* Tracebook.app */,
+				19ECC4172EDFA5DD00B1ECEB /* TracebookTests.xctest */,
+				19ECC4212EDFA5DD00B1ECEB /* TracebookUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		19ECC4092EDFA5DA00B1ECEB /* NewTracebook */ = {
+		19ECC4092EDFA5DA00B1ECEB /* Tracebook */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 19ECC42B2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "NewTracebook" */;
+			buildConfigurationList = 19ECC42B2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "Tracebook" */;
 			buildPhases = (
 				19ECC4062EDFA5DA00B1ECEB /* Sources */,
 				19ECC4072EDFA5DA00B1ECEB /* Frameworks */,
@@ -110,16 +110,16 @@
 			fileSystemSynchronizedGroups = (
 				19ECC40C2EDFA5DA00B1ECEB /* Tracebook */,
 			);
-			name = NewTracebook;
+			name = Tracebook;
 			packageProductDependencies = (
 			);
 			productName = NewTracebook;
-			productReference = 19ECC40A2EDFA5DA00B1ECEB /* NewTracebook.app */;
+			productReference = 19ECC40A2EDFA5DA00B1ECEB /* Tracebook.app */;
 			productType = "com.apple.product-type.application";
 		};
-		19ECC4162EDFA5DD00B1ECEB /* NewTracebookTests */ = {
+		19ECC4162EDFA5DD00B1ECEB /* TracebookTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 19ECC42E2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "NewTracebookTests" */;
+			buildConfigurationList = 19ECC42E2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "TracebookTests" */;
 			buildPhases = (
 				19ECC4132EDFA5DD00B1ECEB /* Sources */,
 				19ECC4142EDFA5DD00B1ECEB /* Frameworks */,
@@ -133,16 +133,16 @@
 			fileSystemSynchronizedGroups = (
 				19ECC41A2EDFA5DD00B1ECEB /* TracebookTests */,
 			);
-			name = NewTracebookTests;
+			name = TracebookTests;
 			packageProductDependencies = (
 			);
 			productName = NewTracebookTests;
-			productReference = 19ECC4172EDFA5DD00B1ECEB /* NewTracebookTests.xctest */;
+			productReference = 19ECC4172EDFA5DD00B1ECEB /* TracebookTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		19ECC4202EDFA5DD00B1ECEB /* NewTracebookUITests */ = {
+		19ECC4202EDFA5DD00B1ECEB /* TracebookUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 19ECC4312EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "NewTracebookUITests" */;
+			buildConfigurationList = 19ECC4312EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "TracebookUITests" */;
 			buildPhases = (
 				19ECC41D2EDFA5DD00B1ECEB /* Sources */,
 				19ECC41E2EDFA5DD00B1ECEB /* Frameworks */,
@@ -156,11 +156,11 @@
 			fileSystemSynchronizedGroups = (
 				19ECC4242EDFA5DD00B1ECEB /* TracebookUITests */,
 			);
-			name = NewTracebookUITests;
+			name = TracebookUITests;
 			packageProductDependencies = (
 			);
 			productName = NewTracebookUITests;
-			productReference = 19ECC4212EDFA5DD00B1ECEB /* NewTracebookUITests.xctest */;
+			productReference = 19ECC4212EDFA5DD00B1ECEB /* TracebookUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -200,9 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				19ECC4092EDFA5DA00B1ECEB /* NewTracebook */,
-				19ECC4162EDFA5DD00B1ECEB /* NewTracebookTests */,
-				19ECC4202EDFA5DD00B1ECEB /* NewTracebookUITests */,
+				19ECC4092EDFA5DA00B1ECEB /* Tracebook */,
+				19ECC4162EDFA5DD00B1ECEB /* TracebookTests */,
+				19ECC4202EDFA5DD00B1ECEB /* TracebookUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		19ECC4192EDFA5DD00B1ECEB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 19ECC4092EDFA5DA00B1ECEB /* NewTracebook */;
+			target = 19ECC4092EDFA5DA00B1ECEB /* Tracebook */;
 			targetProxy = 19ECC4182EDFA5DD00B1ECEB /* PBXContainerItemProxy */;
 		};
 		19ECC4232EDFA5DD00B1ECEB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 19ECC4092EDFA5DA00B1ECEB /* NewTracebook */;
+			target = 19ECC4092EDFA5DA00B1ECEB /* Tracebook */;
 			targetProxy = 19ECC4222EDFA5DD00B1ECEB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -410,7 +410,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.NewTracebook;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -442,7 +442,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.NewTracebook;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marcuspainter.Tracebook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -550,7 +550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		19ECC42B2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "NewTracebook" */ = {
+		19ECC42B2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "Tracebook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				19ECC42C2EDFA5DD00B1ECEB /* Debug */,
@@ -559,7 +559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		19ECC42E2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "NewTracebookTests" */ = {
+		19ECC42E2EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "TracebookTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				19ECC42F2EDFA5DD00B1ECEB /* Debug */,
@@ -568,7 +568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		19ECC4312EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "NewTracebookUITests" */ = {
+		19ECC4312EDFA5DD00B1ECEB /* Build configuration list for PBXNativeTarget "TracebookUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				19ECC4322EDFA5DD00B1ECEB /* Debug */,
