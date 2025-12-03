@@ -29,9 +29,22 @@
 		19ECC4212EDFA5DD00B1ECEB /* TracebookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TracebookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		19DFA3312EDFC96F00332942 /* Exceptions for "Tracebook" folder in "Tracebook" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 19ECC4092EDFA5DA00B1ECEB /* Tracebook */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		19ECC40C2EDFA5DA00B1ECEB /* Tracebook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				19DFA3312EDFC96F00332942 /* Exceptions for "Tracebook" folder in "Tracebook" target */,
+			);
 			path = Tracebook;
 			sourceTree = "<group>";
 		};
