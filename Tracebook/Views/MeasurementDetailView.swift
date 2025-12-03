@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct MeasurementDetailView: View {
     //@Environment(\.modelContext) private var modelContext
     @Bindable var measurement: MeasurementItem
