@@ -6,7 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-		191C76DF2B214CAB00406EAD /* TracebookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191C76DE2B214CAB00406EAD /* TracebookTests.swift */; };
 /* Begin PBXContainerItemProxy section */
 		19ECC4182EDFA5DD00B1ECEB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
