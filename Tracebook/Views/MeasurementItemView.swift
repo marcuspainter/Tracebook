@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 struct MeasurementItemView: View {
-    @ObservedObject var measurement: MeasurementModel
+    var measurement: MeasurementItem
 
     var body: some View {
         HStack {
             VStack {
-                AsyncImage(url: URL(string: "https:\(measurement.thumbnailImage ?? "")"), content: asyncImageContent)
+                AsyncImage(url: URL(string: "https:\(measurement.thumbnailImage)"), content: AsyncImageContent.content)
                     .padding(.top, 0)
                     .frame(width: 75, height: 75, alignment: .center)
                 Spacer()
@@ -24,24 +24,24 @@ struct MeasurementItemView: View {
                     Text(measurement.title)
                     HStack {
                         Text("PRESET:").font(.caption)
-                        Text(measurement.dspPreset).font(.caption)
+                        Text(measurement.content?.dspPreset ?? "").font(.caption)
                     }
                 }.frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
                 HStack {
-                    TraceBadge(text: "TF", color: .red, isEnabled: measurement.fileTFCSV != "")
-                    TraceBadge(text: "IR", color: .yellow, isEnabled: measurement.fileIRWAV != "")
-                    TraceBadge(text: "WAV", color: .green, isEnabled: measurement.fileIRWAV != "")
+                    TraceBadge(text: "TF", color: .red, isEnabled: measurement.content?.fileTFCSV != "")
+                    TraceBadge(text: "IR", color: .yellow, isEnabled: measurement.content?.fileIRWAV != "")
+                    TraceBadge(text: "WAV", color: .green, isEnabled: measurement.content?.fileIRWAV != "")
                     TraceBadge(text: "SPL", color: .blue, isEnabled: false)
                     TraceSymbol(symbol: "trophy.fill", colors: [Color(.systemGray), .gray, .yellow],
-                                index: measurement.medal == "Gold" ? 2 : measurement.medal == "Silver" ? 1 : 0)
+                                index: measurement.content?.medal == "Gold" ? 2 : measurement.content?.medal == "Silver" ? 1 : 0)
                     TraceSymbol(symbol: "checkmark.circle.fill", colors: [.blue, Color(.systemGray3)],
-                                index: measurement.approved == "Approved" ? 0 : 1)
+                                index: measurement.approved ? 0 : 1)
                 }.font(.caption)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
                 HStack {
-                    Text(measurement.commentCreator ?? "")
+                    Text(measurement.commentCreator)
                         .font(.caption)
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                         .lineLimit(2)
@@ -54,8 +54,8 @@ struct MeasurementItemView: View {
 }
 
 #Preview {
-    let measurement = MeasurementModel()
-    return MeasurementItemView(measurement: measurement)
+    @Previewable var measurement = MeasurementItem(id: UUID().uuidString)
+    MeasurementItemView(measurement: measurement)
 }
 
 struct TraceBadge: View {
