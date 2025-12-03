@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct NewTracebookApp: App {
+struct TracebookApp: App {
     @State var tracebookService  = TracebookService()
     
     var body: some Scene {
