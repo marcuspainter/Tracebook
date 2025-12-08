@@ -50,6 +50,13 @@ struct MeasurementDetailView: View {
                     )
                     
                     HStack {
+                        if let url = URL(string: measurement.slug) {
+                            Link("View on Tracebook", destination: url)
+                                .font(.footnote)
+                        }
+                    }
+                    
+                    HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)
                         
                             .frame(width: 130, alignment: .leading)
@@ -141,6 +148,15 @@ struct MeasurementDetailView: View {
                     Divider()
                     
                     TextLine(text: "Comments:", value: measurement.commentCreator)
+            
+                    VStack {
+                        if let photoURL = URL(string: "https:\(content?.photoSetup ?? "")" ) {
+                            Text("Setup").multilineTextAlignment(.leading)
+                            Divider()
+                            AsyncImage(url: photoURL, content: AsyncImageContent.content)
+                        }
+                    }
+                        
                 }
                 //.background(.red)
                 .padding(20)
