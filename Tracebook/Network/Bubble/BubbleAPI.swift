@@ -8,65 +8,77 @@
 import Foundation
 import Network
 
+enum BubbleAPIError: Error {
+    case httpError(Int)
+    case jsonError(Error)
+}
+
 final class BubbleAPI: Sendable {
 
     // Get an item response
-    func getItemResponse<T: BubbleItemResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async -> T? {
+    func getItemResponse<T: BubbleItemResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async throws -> T? {
         do {
             let urlRequest = request.urlRequest()
             let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
-
+            
             // Cast to HTTPURLResponse to get status code
-            guard let httpResponse = urlResponse as? HTTPURLResponse else {
-                print("Invalid response type")
-                return nil
+            if let httpResponse = urlResponse as? HTTPURLResponse {
+                let status = httpResponse.statusCode
+                if status != 200 {
+                    throw BubbleAPIError.httpError(status)
+                }
             }
-
-            if httpResponse.statusCode != 200 {
+            
+            let response: T
+            do {
+                response = try JSONDecoder().decode(type, from: jsonData)
+            } catch {
+                throw BubbleAPIError.jsonError(error)
             }
-
-            let response = try JSONDecoder().decode(type, from: jsonData)
 
             return response
         } catch {
-            print("Request error: \(error)")
+            throw error
         }
-        return nil
     }
 
     // Get a list response
-    func getListResponse<T: BubbleListResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async -> T? {
+    func getListResponse<T: BubbleListResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async throws -> T? {
         do {
             let urlRequest = request.urlRequest()
             let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
 
             // Cast to HTTPURLResponse to get status code
-            guard let httpResponse = urlResponse as? HTTPURLResponse else {
-                print("Invalid response type")
-                return nil
-
+            if let httpResponse = urlResponse as? HTTPURLResponse {
+                let status = httpResponse.statusCode
+                if status != 200 {
+                    throw BubbleAPIError.httpError(status)
+                }
             }
-            //print("StatusCode: \(httpResponse.statusCode)")
 
-            let response = try JSONDecoder().decode(type, from: jsonData)
+            let response: T
+            do {
+                response = try JSONDecoder().decode(type, from: jsonData)
+            } catch {
+                throw BubbleAPIError.jsonError(error)
+            }
 
             return response
         } catch {
-            print("Request error: \(error)")
+            throw error
         }
-        return nil
     }
 
     func getListResponseLong<T: BubbleListResponseProtocol>(
         _ type: T.Type,
         for initialRequest: BubbleRequest,
         pageSize: Int = 100
-    ) async -> [T] {
+    ) async throws -> [T] {
         var responses: [T] = []
         let request = initialRequest
 
         while true {
-            guard let response = await getListResponse(type, for: request) else {
+            guard let response = try await getListResponse(type, for: request) else {
                 break
             }
 

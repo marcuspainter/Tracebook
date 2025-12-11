@@ -23,12 +23,12 @@ final class TracebookService: Sendable {
         return item?.createdDate
     }
 
-    private func getFirstMeasurementDate() async -> Date? {
-        guard let body = await api.getLastMeasurement() else { return nil }
+    private func getFirstMeasurementDate() async throws -> Date? {
+        guard let body = try await api.getLastMeasurement() else { return nil }
         return MeasurementItemMapper.toModel(body: body).createdDate
     }
 
-    func synchronizeMeasurementItems() async {
+    func synchronizeMeasurementItems() async throws {
         var list = [MeasurementItem]()
         
         var fromDate: String = "2010-01-01T00:00:00Z"
@@ -39,7 +39,7 @@ final class TracebookService: Sendable {
         }
         print(fromDate)
 
-        let measurements = await api.getMeasurementLong(from: nil)
+        let measurements = try await api.getMeasurementLong(from: nil)
         for measurement in measurements {
 
             let model = MeasurementItemMapper.toModel(body: measurement)
@@ -56,13 +56,13 @@ final class TracebookService: Sendable {
         return
     }
 
-    func synchronizeMeasurementContent() async {
+    func synchronizeMeasurementContent() async throws {
         
         async let microphones = getMicrophones()
         async let analyzers   = getAnalyzers()
         async let interfaces  = getInterfaces()
 
-        let (m, a, i) = await (microphones, analyzers, interfaces)
+        let (m, a, i) = try await (microphones, analyzers, interfaces)
         
         let items = try! store.fetchMeasurementItems()
         for item in items {
@@ -70,7 +70,7 @@ final class TracebookService: Sendable {
             if item.content != nil { continue }
             print(item.title, item.additionalContent)
 
-            if let contentBody = await api.getMeasurementContent(id: item.additionalContent) {
+            if let contentBody = try await api.getMeasurementContent(id: item.additionalContent) {
                 if let content = MeasurementContentMapper.toModel(body: contentBody) {
                     
                     content.microphoneText = m[content.microphone] ?? ""
@@ -89,27 +89,27 @@ final class TracebookService: Sendable {
         }
     }
     
-    func getMicrophones() async -> [String: String] {
+    func getMicrophones() async throws-> [String: String] {
         var dictionary = [String: String]()
-        let list = await api.getMicrophones()
+        let list = try await api.getMicrophones()
         for item in list {
             dictionary[item.id] = item.brandModel ?? ""
         }
         return dictionary
     }
     
-    func getAnalyzers() async -> [String: String] {
+    func getAnalyzers() async throws -> [String: String] {
         var dictionary = [String: String]()
-        let list = await api.getAnalyzers()
+        let list = try await api.getAnalyzers()
         for item in list {
             dictionary[item.id] = item.name ?? ""
         }
         return dictionary
     }
     
-    func getInterfaces() async -> [String: String] {
+    func getInterfaces() async throws -> [String: String] {
         var dictionary = [String: String]()
-        let list = await api.getInterfaces()
+        let list = try await api.getInterfaces()
         for item in list {
             dictionary[item.id] = item.brandModel ?? ""
         }

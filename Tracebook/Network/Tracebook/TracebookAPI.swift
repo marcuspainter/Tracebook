@@ -21,14 +21,14 @@ typealias UserListResponse = BubbleListResponse<UserBody>
 final class TracebookAPI: Sendable {
     private let bubbleAPI = BubbleAPI()
     
-    func getMeasurementContent(id: String) async -> MeasurementContentBody? {
+    func getMeasurementContent(id: String) async throws -> MeasurementContentBody? {
         let bubbleRequest = BubbleRequest(entity: "measurementcontent", id: id)
         
-        let response = await bubbleAPI.getItemResponse(MeasurementContentItemResponse.self, for: bubbleRequest)
+        let response = try await bubbleAPI.getItemResponse(MeasurementContentItemResponse.self, for: bubbleRequest)
         return response?.response
     }
     
-    func getMeasurementLong(from: String? = nil) async -> [MeasurementBody] {
+    func getMeasurementLong(from: String? = nil) async throws -> [MeasurementBody] {
         let bubbleRequest = BubbleRequest(entity: "measurement")
         
         let fromDate = from ?? "2000-01-01T00:00:00Z"
@@ -37,7 +37,7 @@ final class TracebookAPI: Sendable {
         bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
         
-        let responses = await bubbleAPI.getListResponseLong(MeasurementListResponse.self, for: bubbleRequest)
+        let responses = try await bubbleAPI.getListResponseLong(MeasurementListResponse.self, for: bubbleRequest)
         
         var items = [MeasurementBody]()
         for response in responses {
@@ -48,7 +48,7 @@ final class TracebookAPI: Sendable {
         return items
     }
     
-    func getLastMeasurement() async -> MeasurementBody? {
+    func getLastMeasurement() async throws -> MeasurementBody? {
         let bubbleRequest = BubbleRequest(entity: "measurement")
         let fromDate = "2010-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
@@ -56,19 +56,19 @@ final class TracebookAPI: Sendable {
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
         bubbleRequest.limit = 1
         
-        let response = await bubbleAPI.getListResponse(MeasurementListResponse.self, for: bubbleRequest)
+        let response = try await bubbleAPI.getListResponse(MeasurementListResponse.self, for: bubbleRequest)
         
         let items = response?.response.results ?? []
         return items.first
     }
     
-    func getMicrophones() async -> [MicrophoneBody] {
+    func getMicrophones() async throws -> [MicrophoneBody] {
         let bubbleRequest = BubbleRequest(entity: "microphone")
         let fromDate = "2000-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: MicrophoneBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MicrophoneBody.CodingKeys.createdDate.rawValue, order: .descending))
         
-        let responses = await bubbleAPI.getListResponseLong(MicrophoneListResponse.self, for: bubbleRequest)
+        let responses = try await bubbleAPI.getListResponseLong(MicrophoneListResponse.self, for: bubbleRequest)
         
         var items = [MicrophoneBody]()
         for response in responses {
@@ -79,13 +79,13 @@ final class TracebookAPI: Sendable {
         return items
     }
     
-    func getInterfaces() async -> [InterfaceBody] {
+    func getInterfaces() async throws -> [InterfaceBody] {
         let bubbleRequest = BubbleRequest(entity: "interface")
         let fromDate = "2000-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: InterfaceBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: InterfaceBody.CodingKeys.createdDate.rawValue, order: .descending))
         
-        let responses = await bubbleAPI.getListResponseLong(InterfaceListResponse.self, for: bubbleRequest)
+        let responses = try await bubbleAPI.getListResponseLong(InterfaceListResponse.self, for: bubbleRequest)
         
         var items = [InterfaceBody]()
         for response in responses {
@@ -96,13 +96,13 @@ final class TracebookAPI: Sendable {
         return items
     }
     
-    func getAnalyzers() async -> [AnalyzerBody] {
+    func getAnalyzers() async throws -> [AnalyzerBody] {
         let bubbleRequest = BubbleRequest(entity: "analyzer")
         let fromDate = "2000-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: InterfaceBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: InterfaceBody.CodingKeys.createdDate.rawValue, order: .descending))
         
-        let responses = await bubbleAPI.getListResponseLong(AnalyzerListResponse.self, for: bubbleRequest)
+        let responses = try await bubbleAPI.getListResponseLong(AnalyzerListResponse.self, for: bubbleRequest)
         
         var items = [AnalyzerBody]()
         for response in responses {
@@ -113,10 +113,10 @@ final class TracebookAPI: Sendable {
         return items
     }
     
-    func getUser(id: String) async -> UserBody? {
+    func getUser(id: String) async throws -> UserBody? {
         let bubbleRequest = BubbleRequest(entity: "user", id: id)
         
-        let response = await bubbleAPI.getItemResponse(UserItemResponse.self, for: bubbleRequest)
+        let response = try await bubbleAPI.getItemResponse(UserItemResponse.self, for: bubbleRequest)
         
         return response?.response
     }
