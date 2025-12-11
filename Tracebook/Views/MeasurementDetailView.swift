@@ -36,29 +36,29 @@ struct MeasurementDetailView: View {
         Group {
             ScrollView {
                 VStack {
-                    
+
                     MagnitudeChart(
                         frequency: dataProcessor.frequency,
                         magnitude: dataProcessor.magnitude,
                         coherence: dataProcessor.coherence
                     )
-                    
+
                     PhaseChart(
                         frequency: dataProcessor.frequency,
                         phase: dataProcessor.phase,
                         originalPhase: dataProcessor.originalPhase
                     )
-                    
+
                     HStack {
                         if let url = URL(string: measurement.slug) {
                             Link("View on Tracebook", destination: url)
                                 .font(.footnote)
                         }
                     }
-                    
+
                     HStack {
                         Toggle("Invert", isOn: $isPolarityInverted)
-                        
+
                             .frame(width: 130, alignment: .leading)
                         Button("Reset") {
                             resetChart()
@@ -74,7 +74,7 @@ struct MeasurementDetailView: View {
                         // Process phase
                         updateChart()
                     }
-                    
+
                     HStack {
                         Text("Delay").frame(maxWidth: .infinity, alignment: .leading)
                         Text("\(delay, specifier: "%.1f") ms")
@@ -82,14 +82,14 @@ struct MeasurementDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                         Color.clear.frame(maxWidth: .infinity)
                     }
-                    
+
                     Slider(
                         value: $delay,
                         in: -20...20,
                         step: 0.1,
-                        
+
                     ) {
-                        
+
                     } minimumValueLabel: {
                         Text("-20").font(.footnote)
                     } maximumValueLabel: {
@@ -98,7 +98,7 @@ struct MeasurementDetailView: View {
                     .onChange(of: delay) { _, _ in
                         updateChart()
                     }
-                    
+
                     HStack {
                         Text("Coherence").frame(maxWidth: .infinity, alignment: .leading)
                         Text("\(threshold, specifier: "%.0f")%")
@@ -106,7 +106,7 @@ struct MeasurementDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                         Color.clear.frame(maxWidth: .infinity)
                     }
-                    
+
                     Slider(
                         value: $threshold,
                         in: 0...100,
@@ -121,9 +121,9 @@ struct MeasurementDetailView: View {
                         // Update all
                         updateChart()
                     }
-                    
+
                     let content = measurement.content
-                    
+
                     TextLine(text: "Calibrator Reference:", value: content?.calibrator)
                     TextLine(text: "Microphone:", value: content?.microphoneText)
                     TextLine(text: "Distance:", value: valueUnit(content?.distance, content?.distanceUnits))
@@ -136,35 +136,35 @@ struct MeasurementDetailView: View {
                     TextLine(text: "Windscreen:", value: content?.windscreen)
                     TextLine(text: "Analyzer:", value: content?.analyzerText)
                     TextLine(text: "Coherence:", value: content?.coherenceScale)
-                    
+
                     Divider()
-                    
+
                     TextLine(text: "Preset:", value: content?.dspPreset)
                     TextLine(text: "Processing preset:", value: content?.category)
                     TextLine(text: "Preset version:", value: content?.presetVersion)
                     TextLine(text: "Firmware version:", value: content?.firmwareVersion)
                     TextLine(text: "User Definable Settings:", value: content?.notes)
-                    
+
                     Divider()
-                    
+
                     TextLine(text: "Comments:", value: measurement.commentCreator)
-            
+
                     VStack {
-                        if let photoURL = URL(string: "https:\(content?.photoSetup ?? "")" ) {
+                        if let photoURL = URL(string: "https:\(content?.photoSetup ?? "")") {
                             Text("Setup").multilineTextAlignment(.leading)
                             Divider()
                             AsyncImage(url: photoURL, content: AsyncImageContent.content)
                         }
                     }
-                        
+
                 }
                 //.background(.red)
                 .padding(20)
-                
+
                 .navigationTitle(measurement.title)
                 .navigationBarTitleDisplayMode(.inline)
             }
-            
+
         }
     }
 
