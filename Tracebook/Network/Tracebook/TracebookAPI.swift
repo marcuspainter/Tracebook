@@ -29,7 +29,7 @@ final class TracebookAPI: Sendable {
     }
     
     func getMeasurementLong(from: String? = nil) async throws -> [MeasurementBody] {
-        let bubbleRequest = BubbleRequest(entity: "measurement")
+        var bubbleRequest = BubbleRequest(entity: "measurement")
         
         let fromDate = from ?? "2000-01-01T00:00:00Z"
         
@@ -49,7 +49,7 @@ final class TracebookAPI: Sendable {
     }
     
     func getLastMeasurement() async throws -> MeasurementBody? {
-        let bubbleRequest = BubbleRequest(entity: "measurement")
+        var bubbleRequest = BubbleRequest(entity: "measurement")
         let fromDate = "2010-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
         bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
@@ -63,7 +63,7 @@ final class TracebookAPI: Sendable {
     }
     
     func getMicrophones() async throws -> [MicrophoneBody] {
-        let bubbleRequest = BubbleRequest(entity: "microphone")
+        var bubbleRequest = BubbleRequest(entity: "microphone")
         let fromDate = "2000-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: MicrophoneBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MicrophoneBody.CodingKeys.createdDate.rawValue, order: .descending))
@@ -80,7 +80,7 @@ final class TracebookAPI: Sendable {
     }
     
     func getInterfaces() async throws -> [InterfaceBody] {
-        let bubbleRequest = BubbleRequest(entity: "interface")
+        var bubbleRequest = BubbleRequest(entity: "interface")
         let fromDate = "2000-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: InterfaceBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: InterfaceBody.CodingKeys.createdDate.rawValue, order: .descending))
@@ -97,7 +97,7 @@ final class TracebookAPI: Sendable {
     }
     
     func getAnalyzers() async throws -> [AnalyzerBody] {
-        let bubbleRequest = BubbleRequest(entity: "analyzer")
+        var bubbleRequest = BubbleRequest(entity: "analyzer")
         let fromDate = "2000-01-01T00:00:00Z"
         bubbleRequest.constraints.append(BubbleConstraint(key: InterfaceBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: InterfaceBody.CodingKeys.createdDate.rawValue, order: .descending))

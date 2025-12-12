@@ -8,7 +8,7 @@
 import Foundation
 import Network
 
-class BubbleRequest {
+struct BubbleRequest {
     var entity: String
     var id: String?
     var cursor: Int?

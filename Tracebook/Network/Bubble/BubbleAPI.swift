@@ -14,58 +14,42 @@ enum BubbleAPIError: Error {
 }
 
 final class BubbleAPI: Sendable {
-
+    
     // Get an item response
     func getItemResponse<T: BubbleItemResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async throws -> T? {
-        do {
-            let urlRequest = request.urlRequest()
-            let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
-            
-            // Cast to HTTPURLResponse to get status code
-            if let httpResponse = urlResponse as? HTTPURLResponse {
-                let status = httpResponse.statusCode
-                if status != 200 {
-                    throw BubbleAPIError.httpError(status)
-                }
+        let urlRequest = request.urlRequest()
+        let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
+        
+        // Cast to HTTPURLResponse to get status code
+        if let httpResponse = urlResponse as? HTTPURLResponse {
+            guard (200...299).contains(httpResponse.statusCode) else {
+                throw BubbleAPIError.httpError(httpResponse.statusCode)
             }
-            
-            let response: T
-            do {
-                response = try JSONDecoder().decode(type, from: jsonData)
-            } catch {
-                throw BubbleAPIError.jsonError(error)
-            }
+        }
 
-            return response
+        do {
+            return try JSONDecoder().decode(type, from: jsonData)
         } catch {
-            throw error
+            throw BubbleAPIError.jsonError(error)
         }
     }
 
     // Get a list response
     func getListResponse<T: BubbleListResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async throws -> T? {
+        let urlRequest = request.urlRequest()
+        let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
+
+        // Cast to HTTPURLResponse to get status code
+        if let httpResponse = urlResponse as? HTTPURLResponse {
+            guard (200...299).contains(httpResponse.statusCode) else {
+                throw BubbleAPIError.httpError(httpResponse.statusCode)
+            }
+        }
+
         do {
-            let urlRequest = request.urlRequest()
-            let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
-
-            // Cast to HTTPURLResponse to get status code
-            if let httpResponse = urlResponse as? HTTPURLResponse {
-                let status = httpResponse.statusCode
-                if status != 200 {
-                    throw BubbleAPIError.httpError(status)
-                }
-            }
-
-            let response: T
-            do {
-                response = try JSONDecoder().decode(type, from: jsonData)
-            } catch {
-                throw BubbleAPIError.jsonError(error)
-            }
-
-            return response
+            return try JSONDecoder().decode(type, from: jsonData)
         } catch {
-            throw error
+            throw BubbleAPIError.jsonError(error)
         }
     }
 
@@ -75,7 +59,7 @@ final class BubbleAPI: Sendable {
         pageSize: Int = 100
     ) async throws -> [T] {
         var responses: [T] = []
-        let request = initialRequest
+        var request = initialRequest
 
         while true {
             guard let response = try await getListResponse(type, for: request) else {
