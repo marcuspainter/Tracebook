@@ -19,6 +19,5 @@ struct TracebookApp: App {
             //    .modelContainer(for: [MeasurementItem.self, MeasurementContent.self])
         }
         .environment(self.tracebookService)
-        
     }
 }

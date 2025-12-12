@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class DataProcessor {
+class MeasurementProcessor {
     
     var frequency: [Double] = []
     var magnitude: [Double] = []

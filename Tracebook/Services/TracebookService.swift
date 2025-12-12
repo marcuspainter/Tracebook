@@ -12,6 +12,10 @@ import Foundation
 final class TracebookService: Sendable {
     private(set) var api: TracebookAPI
     private(set) var store: TracebookStore
+    
+    private var microphones: [String:String] = [:]
+    private var analyzers: [String:String] = [:]
+    private var interfaces: [String:String] = [:]
 
     init() {
         self.api = TracebookAPI()
@@ -30,7 +34,7 @@ final class TracebookService: Sendable {
 
     func synchronizeMeasurementItems() async throws {
         var list = [MeasurementItem]()
-        
+
         var fromDate: String = "2010-01-01T00:00:00Z"
         if let date1 = fetchFirstMeasurementDate() {
             let formatter = ISO8601DateFormatter()
@@ -39,14 +43,19 @@ final class TracebookService: Sendable {
         }
         print(fromDate)
 
-        let measurements = try await api.getMeasurementLong(from: nil)
+        let measurements = try await api.getMeasurementLong()
         for measurement in measurements {
 
-            let model = MeasurementItemMapper.toModel(body: measurement)
-
-            print(model.title)
-
             do {
+
+                if try store.fetchMeasurementItem(id: measurement.id) != nil {
+                    print("Skip \(measurement.title ?? "")")
+                    continue
+                }
+
+                let model = MeasurementItemMapper.toModel(body: measurement)
+                print(model.title)
+
                 try store.insertMeasurementItem(measurement: model)
                 list.append(model)
             } catch {
@@ -56,40 +65,49 @@ final class TracebookService: Sendable {
         return
     }
 
-    func synchronizeMeasurementContent() async throws {
-        
-        async let microphones = getMicrophones()
-        async let analyzers   = getAnalyzers()
-        async let interfaces  = getInterfaces()
+    func synchronizeDetails() async throws {
+        async let newMicrophones = getMicrophones()
+        async let newAnalyzers = getAnalyzers()
+        async let newInterfaces = getInterfaces()
 
-        let (m, a, i) = try await (microphones, analyzers, interfaces)
-        
-        let items = try! store.fetchMeasurementItems()
-        for item in items {
+        (microphones, analyzers, interfaces) = try await (newMicrophones, newAnalyzers, newInterfaces)
+    }
+    
+    func synchronizeMeasurementContents() async throws {
+        do {
+            
+            try await synchronizeDetails()
+            
+            let items = try store.fetchMeasurementItems()
+            for item in items {
 
-            if item.content != nil { continue }
-            print(item.title, item.additionalContent)
-
-            if let contentBody = try await api.getMeasurementContent(id: item.additionalContent) {
-                if let content = MeasurementContentMapper.toModel(body: contentBody) {
-                    
-                    content.microphoneText = m[content.microphone] ?? ""
-                    content.analyzerText = a[content.analyzer] ?? ""
-                    content.interfaceText = i[content.interface] ?? ""
-                    
-                    item.content = content
-                    
-                    do {
-                        try store.save()
-                    } catch {
-                        print("Error saving content: \(error)")
-                    }
+                if item.content != nil {
+                    print("Skip \(item.title)")
+                    continue
                 }
+                print(item.title, item.additionalContent)
+                
+                try await synchronizeMeasurementItemContent(item: item)
             }
         }
     }
     
-    func getMicrophones() async throws-> [String: String] {
+    func synchronizeMeasurementItemContent(item: MeasurementItem) async throws {
+        if let contentBody = try await api.getMeasurementContent(id: item.additionalContent) {
+            if let content = MeasurementContentMapper.toModel(body: contentBody) {
+
+                content.microphoneText = microphones[content.microphone] ?? ""
+                content.analyzerText = analyzers[content.analyzer] ?? ""
+                content.interfaceText = interfaces[content.interface] ?? ""
+
+                item.content = content
+
+                try store.save()
+            }
+        }
+    }
+    
+    func getMicrophones() async throws -> [String: String] {
         var dictionary = [String: String]()
         let list = try await api.getMicrophones()
         for item in list {
@@ -97,7 +115,7 @@ final class TracebookService: Sendable {
         }
         return dictionary
     }
-    
+
     func getAnalyzers() async throws -> [String: String] {
         var dictionary = [String: String]()
         let list = try await api.getAnalyzers()
@@ -106,7 +124,7 @@ final class TracebookService: Sendable {
         }
         return dictionary
     }
-    
+
     func getInterfaces() async throws -> [String: String] {
         var dictionary = [String: String]()
         let list = try await api.getInterfaces()
@@ -115,12 +133,17 @@ final class TracebookService: Sendable {
         }
         return dictionary
     }
-    
-    func deleteAllMeasurements() {
+
+    func deleteAllMeasurementItems() {
         do {
             try store.deleteAllMeasurementItems()
         } catch {
             print("Error deleting measurements: \(error)")
         }
+    }
+    
+    func refreshMeasurementItems() async throws {
+        deleteAllMeasurementItems()
+        try await synchronizeMeasurementItems()
     }
 }

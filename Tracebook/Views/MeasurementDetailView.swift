@@ -16,14 +16,14 @@ struct MeasurementDetailView: View {
     @State var delay: Double = 0.0
     @State var threshold: Double = 0.0
 
-    let dataProcessor: DataProcessor
+    let dataProcessor: MeasurementProcessor
 
     init(measurement: MeasurementItem) {
         let frequency = measurement.content?.tfFrequency ?? []
         let magnitude = measurement.content?.tfMagnitude ?? []
         let phase = measurement.content?.tfPhase ?? []
         let coherence = measurement.content?.tfCoherence ?? []
-        self.dataProcessor = DataProcessor(
+        self.dataProcessor = MeasurementProcessor(
             frequency: frequency,
             magnitude: magnitude,
             phase: phase,

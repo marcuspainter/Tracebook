@@ -24,7 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		19DFA3322EDFCAEB00332942 /* Tracebook.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tracebook.xctestplan; sourceTree = "<group>"; };
+		19DFA3322EDFCAEB00332942 /* Tracebook.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Tracebook.xctestplan; sourceTree = "<group>"; };
 		19ECC40A2EDFA5DA00B1ECEB /* Tracebook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracebook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19ECC4172EDFA5DD00B1ECEB /* TracebookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TracebookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19ECC4212EDFA5DD00B1ECEB /* TracebookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TracebookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };

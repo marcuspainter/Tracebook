@@ -42,7 +42,7 @@ struct MainView: View {
 // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
                         print("Pull")
                         await Task {
-                            sync()
+                            synchronize()
                         }.value
                         print("Done")
                     }
@@ -70,7 +70,7 @@ struct MainView: View {
         }
     }
     
-    func sync() {
+    func synchronize() {
         Task {
             await viewModel.synchronize()
         }

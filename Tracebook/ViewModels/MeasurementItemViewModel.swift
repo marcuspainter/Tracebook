@@ -45,7 +45,6 @@ class MeasurementItemViewModel {
     func synchronize() async {
         guard let service else { return }
         do {
-            deleteAll()
 
             try await Task.detached {
                 print("Start items...")
@@ -57,15 +56,24 @@ class MeasurementItemViewModel {
             
             try await Task.detached {
                 print("Start content...")
-                try await service.synchronizeMeasurementContent()
+                try await service.synchronizeMeasurementContents()
                 print("Done")
             }.value
             
             fetchAll()
-            print("Done")
         } catch {
-            
+            print(error)
         }
+    }
+    
+    func refresh() async {
+        guard let service else { return }
+        do {
+            try await service.refreshMeasurementItems()
+        } catch {
+            print(error)
+        }
+        fetchAll()
     }
     
     func fetchAll() {
@@ -78,9 +86,10 @@ class MeasurementItemViewModel {
         }
     }
     
-    func deleteAll() {
+    func deleteAll() async {
         guard let service else { return }
         try? service.store.deleteAll()
         items = []
     }
+    
 }
