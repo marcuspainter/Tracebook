@@ -83,12 +83,15 @@ struct MeasurementDetailView: View {
                         Color.clear.frame(maxWidth: .infinity)
                     }
 
-                    Slider(
-                        value: $delay,
-                        in: -20...20,
-                        step: 0.1,
-
-                    ) {
+                    // Remove iOS26 step ticks
+                    Slider(value: Binding(get: { delay },
+                                          set: { newValue in
+                                                    let step = 1
+                                                    let base: Int = Int(newValue.rounded())
+                                                    let modulo: Int = base % step
+                                                    delay = Double(base - modulo)
+                                                }),
+                                          in: -20...20) {
 
                     } minimumValueLabel: {
                         Text("-20").font(.footnote)
@@ -106,12 +109,16 @@ struct MeasurementDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                         Color.clear.frame(maxWidth: .infinity)
                     }
-
-                    Slider(
-                        value: $threshold,
-                        in: 0...100,
-                        step: 1
-                    ) {
+                    
+                    // Remove iOS26 step ticks
+                    Slider(value: Binding(get: { threshold },
+                                          set: { newValue in
+                                                    let step = 1
+                                                    let base: Int = Int(newValue.rounded())
+                                                    let modulo: Int = base % step
+                                                    threshold = Double(base - modulo)
+                                                }),
+                                          in: 0...100) {
                     } minimumValueLabel: {
                         Text("0").font(.footnote)
                     } maximumValueLabel: {
@@ -121,6 +128,7 @@ struct MeasurementDetailView: View {
                         // Update all
                         updateChart()
                     }
+                    
 
                     let content = measurement.content
 
