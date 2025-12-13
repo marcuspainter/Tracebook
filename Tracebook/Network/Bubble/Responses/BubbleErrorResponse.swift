@@ -1,6 +1,6 @@
 //
 //  BubbleErrorResponse.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 10/02/2024.
 //

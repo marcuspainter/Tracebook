@@ -1,6 +1,6 @@
 //
 //  BubbleAPI.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 12/07/2025.
 //

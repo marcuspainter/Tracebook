@@ -1,6 +1,6 @@
 //
 //  BubbleListResultsResponse.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 08/07/2025.
 //

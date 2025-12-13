@@ -1,6 +1,6 @@
 //
-//  MeasurementView.swift
-//  TracebookDB
+//  MeasurementDetailView.swift
+//  Tracebook
 //
 //  Created by Marcus Painter on 07/07/2025.
 //
