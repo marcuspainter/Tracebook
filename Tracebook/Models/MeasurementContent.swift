@@ -1,6 +1,6 @@
 //
 //  MeasurementContent.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 12/07/2025.
 //
@@ -56,7 +56,7 @@ final class MeasurementContent {
     var presetVersionNA: Bool
     var firmwareVersionNA: Bool
     var inputMeter: Double?
-    
+
     // Lookup
     var microphoneText: String
     var analyzerText: String
@@ -65,58 +65,59 @@ final class MeasurementContent {
     // Relations
     @Relationship var item: MeasurementItem?
 
-    init(id: String,
-         firmwareVersion: String = "",
-         loudspeakerBrand: String = "",
-         category: String = "",
-         delayLocator: Double? = nil,
-         distance: Double? = nil,
-         dspPreset: String = "",
-         photoSetup: String = "",
-         fileAdditional: [String] = [],
-         fileTFCSV: String = "",
-         notes: String = "",
-         createdDate: Date? = nil,
-         createdBy: String = "",
-         modifiedDate: Date? = nil,
-         distanceUnits: String = "",
-         crestFactorM: Double? = nil,
-         crestFactorPink: Double? = nil,
-         loudspeakerModel: String = "",
-         calibrator: String = "",
-         measurementType: String = "",
-         presetVersion: String = "",
-         temperature: Double? = nil,
-         tempUnits: String = "",
-         responseLoudspeakerBrand: String = "",
-         coherenceScale: String = "",
-         analyzer: String = "",
-         fileTFNative: String = "",
-         splGroundPlane: Bool = false,
-         responseLoudspeakerModel: String = "",
-         systemLatency: Double? = nil,
-         microphone: String = "",
-         measurement: String = "",
-         interface: String = "",
-         interfaceBrandModel: String = "",
-         micCorrectionCurve: String = "",
-         tfFrequency: [Double] = [],
-         tfMagnitude: [Double] = [],
-         tfPhase: [Double] = [],
-         tfCoherence: [Double] = [],
-         medal: String = "",
-         fileIRWAV: String = "",
-         windscreen: String = "",
-         presetNA: Bool = false,
-         presetVersionNA: Bool = false,
-         firmwareVersionNA: Bool = false,
-         inputMeter: Double? = nil,
-         
-         microphoneText: String = "",
-         analyzerText: String = "",
-         interfaceText: String = "",
-         
-         item: MeasurementItem? = nil
+    init(
+        id: String,
+        firmwareVersion: String = "",
+        loudspeakerBrand: String = "",
+        category: String = "",
+        delayLocator: Double? = nil,
+        distance: Double? = nil,
+        dspPreset: String = "",
+        photoSetup: String = "",
+        fileAdditional: [String] = [],
+        fileTFCSV: String = "",
+        notes: String = "",
+        createdDate: Date? = nil,
+        createdBy: String = "",
+        modifiedDate: Date? = nil,
+        distanceUnits: String = "",
+        crestFactorM: Double? = nil,
+        crestFactorPink: Double? = nil,
+        loudspeakerModel: String = "",
+        calibrator: String = "",
+        measurementType: String = "",
+        presetVersion: String = "",
+        temperature: Double? = nil,
+        tempUnits: String = "",
+        responseLoudspeakerBrand: String = "",
+        coherenceScale: String = "",
+        analyzer: String = "",
+        fileTFNative: String = "",
+        splGroundPlane: Bool = false,
+        responseLoudspeakerModel: String = "",
+        systemLatency: Double? = nil,
+        microphone: String = "",
+        measurement: String = "",
+        interface: String = "",
+        interfaceBrandModel: String = "",
+        micCorrectionCurve: String = "",
+        tfFrequency: [Double] = [],
+        tfMagnitude: [Double] = [],
+        tfPhase: [Double] = [],
+        tfCoherence: [Double] = [],
+        medal: String = "",
+        fileIRWAV: String = "",
+        windscreen: String = "",
+        presetNA: Bool = false,
+        presetVersionNA: Bool = false,
+        firmwareVersionNA: Bool = false,
+        inputMeter: Double? = nil,
+
+        microphoneText: String = "",
+        analyzerText: String = "",
+        interfaceText: String = "",
+
+        item: MeasurementItem? = nil
     ) {
         self.id = id
         self.firmwareVersion = firmwareVersion
@@ -164,12 +165,12 @@ final class MeasurementContent {
         self.presetVersionNA = presetVersionNA
         self.firmwareVersionNA = firmwareVersionNA
         self.inputMeter = inputMeter
-        
+
         self.microphoneText = microphoneText
         self.analyzerText = analyzerText
         self.interfaceText = interfaceText
-        
+
         self.item = item
     }
-    
+
 }

@@ -1,6 +1,6 @@
 //
-//  MagnitudeView.swift
-//  TracebookDB
+//  MagnitudeChart.swift
+//  Tracebook
 //
 //  Created by Marcus Painter on 24/07/2025.
 //

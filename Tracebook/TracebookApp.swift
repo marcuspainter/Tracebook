@@ -1,6 +1,6 @@
 //
-//  TracebookDBApp.swift
-//  TracebookDB
+//  TracebookApp.swift
+//  Tracebook
 //
 //  Created by Marcus Painter on 07/07/2025.
 //
@@ -19,6 +19,5 @@ struct TracebookApp: App {
             //    .modelContainer(for: [MeasurementItem.self, MeasurementContent.self])
         }
         .environment(self.tracebookService)
-        
     }
 }

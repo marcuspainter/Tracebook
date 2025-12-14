@@ -1,6 +1,6 @@
 //
 //  MeasurementViewModel.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 07/07/2025.
 //
@@ -44,16 +44,36 @@ class MeasurementItemViewModel {
     
     func synchronize() async {
         guard let service else { return }
-        service.deleteAllMeasurements()
+        do {
+
+            try await Task.detached {
+                print("Start items...")
+                try await service.synchronizeMeasurementItems()
+                print("Done")
+            }.value
+
+            fetchAll()
+            
+            try await Task.detached {
+                print("Start content...")
+                try await service.synchronizeMeasurementContents()
+                print("Done")
+            }.value
+            
+            fetchAll()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func refresh() async {
+        guard let service else { return }
+        do {
+            try await service.refreshMeasurementItems()
+        } catch {
+            print(error)
+        }
         fetchAll()
-        print("Start items...")
-        await service.synchronizeMeasurementItems()
-        print("Done")
-        fetchAll()
-        print("Start content...")
-        await service.synchronizeMeasurementContent()
-        fetchAll()
-        print("Done")
     }
     
     func fetchAll() {
@@ -66,9 +86,10 @@ class MeasurementItemViewModel {
         }
     }
     
-    func deleteAll() {
+    func deleteAll() async {
         guard let service else { return }
         try? service.store.deleteAll()
         items = []
     }
+    
 }

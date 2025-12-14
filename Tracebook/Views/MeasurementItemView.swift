@@ -1,5 +1,5 @@
 //
-//  TraceView.swift
+//  MeasurementItemView.swift
 //  Tracebook
 //
 //  Created by Marcus Painter on 07/12/2023.
@@ -29,14 +29,14 @@ struct MeasurementItemView: View {
                 }.frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
                 HStack {
-                    TraceBadge(text: "TF", color: .red, isEnabled: measurement.content?.fileTFCSV != "")
-                    TraceBadge(text: "IR", color: .yellow, isEnabled: measurement.content?.fileIRWAV != "")
-                    TraceBadge(text: "WAV", color: .green, isEnabled: measurement.content?.fileIRWAV != "")
+                    TraceBadge(text: "TF", color: .red, isEnabled: isBadgeEnabled(measurement.content?.fileTFCSV) )
+                    TraceBadge(text: "IR", color: .yellow, isEnabled: isBadgeEnabled(measurement.content?.fileIRWAV) )
+                    TraceBadge(text: "WAV", color: .green, isEnabled: isBadgeEnabled(measurement.content?.fileIRWAV) )
                     TraceBadge(text: "SPL", color: .blue, isEnabled: false)
                     TraceSymbol(symbol: "trophy.fill", colors: [Color(.systemGray), .gray, .yellow],
-                                index: measurement.content?.medal == "Gold" ? 2 : measurement.content?.medal == "Silver" ? 1 : 0)
+                                index: getTrophyColorIndex(measurement.content?.medal))
                     TraceSymbol(symbol: "checkmark.circle.fill", colors: [.blue, Color(.systemGray3)],
-                                index: measurement.approved ? 0 : 1)
+                                index: getApprovedColorIndex(measurement.approved) )
                 }.font(.caption)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
@@ -50,6 +50,25 @@ struct MeasurementItemView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+    
+    func isBadgeEnabled(_ badge: String?) -> Bool {
+        guard let badge else { return false }
+        return badge != ""
+    }
+    
+    func getTrophyColorIndex(_ medal: String?) -> Int {
+        guard let medal else { return 0 }
+        switch medal {
+            case "Silver": return 1
+            case "Gold": return 2
+            default: return 0
+        }
+    }
+    
+    func getApprovedColorIndex(_ approved: Bool?) -> Int {
+        guard let approved else { return 0 }
+        return approved ? 0 : 1
     }
 }
 

@@ -1,6 +1,6 @@
 //
 //  MeasurementItemMapper.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 30/07/2025.
 //
@@ -20,7 +20,7 @@ class MeasurementItemMapper {
             createdDate: DataMapperHelper.parseISODate(body.createdDate),
             createdBy: body.createdBy ?? "",
             modifiedDate: DataMapperHelper.parseISODate(body.modifiedDate),
-            slug: body.slug ?? "",
+            slug:  "https://trace-book.org/measurement/\(body.slug ?? "")",
             moderator1: body.moderator1 ?? "",
             isPublic: body.isPublic ?? false,
             title: body.title ?? "",
@@ -32,6 +32,7 @@ class MeasurementItemMapper {
             emailSent: body.emailSent ?? false,
                  
             content: nil
+         
         )
 
         return model

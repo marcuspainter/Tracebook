@@ -1,6 +1,6 @@
 //
 //  DataProcessor.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 23/07/2025.
 //
@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class DataProcessor {
+class MeasurementProcessor {
     
     var frequency: [Double] = []
     var magnitude: [Double] = []

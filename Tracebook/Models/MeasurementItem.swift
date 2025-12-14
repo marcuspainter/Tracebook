@@ -1,6 +1,6 @@
 //
 //  MeasurementItem.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 07/07/2025.
 //
@@ -33,28 +33,29 @@ final class MeasurementItem {
     var loudspeakerTags: String
     var emailSent: Bool
 
-    init(id: String,
-         additionalContent: String = "",
-         approved: Bool = false,
-         commentCreator: String = "",
-         productLaunchDateText: String = "",
-         thumbnailImage: String = "",
-         upvotes: String = "",
-         createdDate: Date? = nil,
-         createdBy: String = "",
-         modifiedDate: Date? = nil,
-         slug: String = "",
-         moderator1: String = "",
-         isPublic: Bool = false,
-         title: String = "",
-         publishDate: Date? = nil,
-         admin1Approved: Bool = false,
-         moderator2: String = "",
-         admin2Approved: Bool = false,
-         loudspeakerTags: String = "",
-         emailSent: Bool = false,
+    init(
+        id: String,
+        additionalContent: String = "",
+        approved: Bool = false,
+        commentCreator: String = "",
+        productLaunchDateText: String = "",
+        thumbnailImage: String = "",
+        upvotes: String = "",
+        createdDate: Date? = nil,
+        createdBy: String = "",
+        modifiedDate: Date? = nil,
+        slug: String = "",
+        moderator1: String = "",
+        isPublic: Bool = false,
+        title: String = "",
+        publishDate: Date? = nil,
+        admin1Approved: Bool = false,
+        moderator2: String = "",
+        admin2Approved: Bool = false,
+        loudspeakerTags: String = "",
+        emailSent: Bool = false,
 
-         content: MeasurementContent? = nil
+        content: MeasurementContent? = nil
     ) {
         self.id = id
         self.additionalContent = additionalContent

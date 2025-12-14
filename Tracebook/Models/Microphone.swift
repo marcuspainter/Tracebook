@@ -1,6 +1,6 @@
 //
 //  Microphone.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 25/11/2025.
 //
@@ -15,12 +15,13 @@ final class Microphone {
     var createdBy: String?
     var createdDate: Date?
     var modifiedDate: Date?
-    
-    init(id: String,
-         brandModel: String? = nil,
-         createdBy: String? = nil,
-         createdDate: Date? = nil,
-         modifiedDate: Date? = nil
+
+    init(
+        id: String,
+        brandModel: String? = nil,
+        createdBy: String? = nil,
+        createdDate: Date? = nil,
+        modifiedDate: Date? = nil
     ) {
         self.id = id
         self.brandModel = brandModel

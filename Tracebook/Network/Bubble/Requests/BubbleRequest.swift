@@ -1,6 +1,6 @@
 //
 //  BubbleRequest.swift
-//  TracebookDB
+//  Tracebook
 //
 //  Created by Marcus Painter on 11/02/2024.
 //
@@ -8,7 +8,7 @@
 import Foundation
 import Network
 
-class BubbleRequest {
+struct BubbleRequest {
     var entity: String
     var id: String?
     var cursor: Int?

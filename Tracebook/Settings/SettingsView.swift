@@ -92,6 +92,38 @@ struct SettingsView: View {
             }
         }
     }
+    
+    func getSettingsPList() -> [String: AnyObject] {
+        // Property List file name = regions.plist
+        let pListFileURL = Bundle.main.url(forResource: "Settings", withExtension: "plist", subdirectory: "")
+        if let pListPath = pListFileURL?.path,
+           let pListData = FileManager.default.contents(atPath: pListPath) {
+            do {
+                let pListObject = try PropertyListSerialization.propertyList(
+                    from: pListData,
+                    options: PropertyListSerialization.ReadOptions(),
+                    format: nil)
+
+                // Cast pListObject - If expected data type is Dictionary
+                guard let pListDictionary = pListObject as? [String: AnyObject] else {
+                    return [:]
+                }
+
+                return pListDictionary
+
+                // Cast pListObject - If expected data type is Array of Dict
+                // guard let pListArray = pListObject as? [Dictionary<String, AnyObject>] else {
+                //    return
+                // }
+
+                // Perform actions on pListDict
+            } catch {
+                print("Error reading settings plist file: \(error)")
+                return [:]
+            }
+        }
+        return [:]
+    }
 }
 
 #Preview {
@@ -101,34 +133,4 @@ struct SettingsView: View {
     }
 }
 
-func getSettingsPList() -> [String: AnyObject] {
-    // Property List file name = regions.plist
-    let pListFileURL = Bundle.main.url(forResource: "Settings", withExtension: "plist", subdirectory: "")
-    if let pListPath = pListFileURL?.path,
-       let pListData = FileManager.default.contents(atPath: pListPath) {
-        do {
-            let pListObject = try PropertyListSerialization.propertyList(
-                from: pListData,
-                options: PropertyListSerialization.ReadOptions(),
-                format: nil)
 
-            // Cast pListObject - If expected data type is Dictionary
-            guard let pListDictionary = pListObject as? [String: AnyObject] else {
-                return [:]
-            }
-
-            return pListDictionary
-
-            // Cast pListObject - If expected data type is Array of Dict
-            // guard let pListArray = pListObject as? [Dictionary<String, AnyObject>] else {
-            //    return
-            // }
-
-            // Perform actions on pListDict
-        } catch {
-            print("Error reading settings plist file: \(error)")
-            return [:]
-        }
-    }
-    return [:]
-}
