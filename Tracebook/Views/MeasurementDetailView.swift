@@ -5,6 +5,8 @@
 //  Created by Marcus Painter on 07/07/2025.
 //
 
+// https://stackoverflow.com/questions/70745632/how-to-remove-steps-in-slider-swiftui
+
 import SwiftUI
 
 @MainActor
