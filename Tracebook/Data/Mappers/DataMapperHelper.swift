@@ -6,16 +6,16 @@
 //
 
 import Foundation
-import SwiftData
-
 struct DataMapperHelper {
     
-    static func parseISODate(_ dateString: String?) -> Date {
-        let isoString = dateString ?? ""
+    static func parseISODate(_ dateString: String?) -> Date? {
+        guard let isoString = dateString, !isoString.isEmpty else {
+            return nil
+        }
+
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        let date = formatter.date(from: isoString) ?? Date()
-        return date
+        return formatter.date(from: isoString)
     }
 
     static func parseDoubleArray(_ arrayString: String) -> [Double] {

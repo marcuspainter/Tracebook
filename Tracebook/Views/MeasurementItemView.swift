@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct MeasurementItemView: View {
-    var measurement: MeasurementItem
+    @Bindable var measurement: MeasurementItem
 
     var body: some View {
         HStack {

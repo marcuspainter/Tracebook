@@ -15,6 +15,7 @@ class MeasurementItemViewModel {
 
     private(set) var items: [MeasurementItem] = []
     var service: TracebookService?
+    private var hasRunInitialSync = false
     
     var searchText: String = "" {
            didSet {
@@ -44,36 +45,20 @@ class MeasurementItemViewModel {
     
     func synchronize() async {
         guard let service else { return }
-        do {
-
-            try await Task.detached {
-                print("Start items...")
-                try await service.synchronizeMeasurementItems()
-                print("Done")
-            }.value
-
-            fetchAll()
-            
-            try await Task.detached {
-                print("Start content...")
-                try await service.synchronizeMeasurementContents()
-                print("Done")
-            }.value
-            
-            fetchAll()
-        } catch {
-            print(error)
+        await service.synchronize {
+            self.fetchAll()
         }
-    }
-    
-    func refresh() async {
-        guard let service else { return }
-        do {
-            try await service.refreshMeasurementItems()
-        } catch {
-            print(error)
-        }
+
         fetchAll()
+    }
+
+    func synchronizeIfNeeded() async {
+        fetchAll()
+
+        guard !hasRunInitialSync else { return }
+        hasRunInitialSync = true
+
+        await synchronize()
     }
     
     func fetchAll() {
@@ -85,11 +70,4 @@ class MeasurementItemViewModel {
             items = []
         }
     }
-    
-    func deleteAll() async {
-        guard let service else { return }
-        try? service.store.deleteAll()
-        items = []
-    }
-    
 }

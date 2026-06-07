@@ -73,8 +73,7 @@ struct MeasurementDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                     .onChange(of: isPolarityInverted) { _, _ in
-                        // Process phase
-                        updateChart()
+                        updatePhaseChart()
                     }
 
                     HStack {
@@ -101,7 +100,7 @@ struct MeasurementDetailView: View {
                         Text("20").font(.footnote)
                     }
                     .onChange(of: delay) { _, _ in
-                        updateChart()
+                        updatePhaseChart()
                     }
 
                     HStack {
@@ -128,7 +127,7 @@ struct MeasurementDetailView: View {
                     }
                     .onChange(of: threshold) { _, _ in
                         // Update all
-                        updateChart()
+                        updateAllCharts()
                     }
                     
 
@@ -173,13 +172,21 @@ struct MeasurementDetailView: View {
 
                 .navigationTitle(measurement.title)
                 .navigationBarTitleDisplayMode(.inline)
+                .task(id: measurement.content?.id) {
+                    updateProcessorSource()
+                    updateAllCharts()
+                }
             }
 
         }
     }
 
-    func updateChart() {
+    func updateAllCharts() {
         dataProcessor.processAll(delay: delay, threshold: threshold / 100.0, isPolarityInverted: isPolarityInverted)
+    }
+
+    func updatePhaseChart() {
+        dataProcessor.processPhase(delay: delay, threshold: threshold / 100.0, isPolarityInverted: isPolarityInverted)
     }
 
     func resetChart() {
@@ -187,6 +194,16 @@ struct MeasurementDetailView: View {
         threshold = 0.0
         isPolarityInverted = false
         dataProcessor.reset()
+    }
+
+    func updateProcessorSource() {
+        guard let content = measurement.content else { return }
+        dataProcessor.updateSource(
+            frequency: content.tfFrequency,
+            magnitude: content.tfMagnitude,
+            phase: content.tfPhase,
+            coherence: content.tfCoherence
+        )
     }
 }
 

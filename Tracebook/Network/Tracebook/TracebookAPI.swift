@@ -28,24 +28,48 @@ final class TracebookAPI: Sendable {
         return response?.response
     }
     
-    func getMeasurementLong(from: String? = nil) async throws -> [MeasurementBody] {
+    func getMeasurementLong(from: String? = nil, before: String? = nil) async throws -> [MeasurementBody] {
+        var items = [MeasurementBody]()
+
+        try await forEachMeasurementPage(from: from, before: before) { page in
+            items += page
+        }
+
+        return items
+    }
+
+    func forEachMeasurementPage(
+        from: String? = nil,
+        before: String? = nil,
+        _ handlePage: ([MeasurementBody]) throws -> Void
+    ) async throws {
         var bubbleRequest = BubbleRequest(entity: "measurement")
         
-        let fromDate = from ?? "2000-01-01T00:00:00Z"
-        
-        bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: fromDate))
+        if let from {
+            bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: from))
+        }
+        if let before {
+            bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .lessThan, value: before))
+        }
         bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
         bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
-        
-        let responses = try await bubbleAPI.getListResponseLong(MeasurementListResponse.self, for: bubbleRequest)
-        
-        var items = [MeasurementBody]()
-        for response in responses {
+
+        while true {
+            guard let response = try await bubbleAPI.getListResponse(MeasurementListResponse.self, for: bubbleRequest) else {
+                break
+            }
+
             let results: [MeasurementBody] = response.response.results
-            items += results
-            //print(results.first?.title)
+            try handlePage(results)
+
+            print("Count: \(response.response.count) Remaining: \(response.response.remaining)")
+
+            if response.response.remaining > 0 && response.response.count > 0 {
+                bubbleRequest.cursor = response.response.cursor + response.response.count
+            } else {
+                break
+            }
         }
-        return items
     }
     
     func getLastMeasurement() async throws -> MeasurementBody? {

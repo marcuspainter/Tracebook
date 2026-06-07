@@ -16,6 +16,8 @@ final class TracebookService: Sendable {
     private var microphones: [String:String] = [:]
     private var analyzers: [String:String] = [:]
     private var interfaces: [String:String] = [:]
+    private var synchronizationTask: Task<Void, Never>?
+    private(set) var isSynchronizing = false
 
     init() {
         self.api = TracebookAPI()
@@ -23,7 +25,12 @@ final class TracebookService: Sendable {
     }
 
     private func fetchFirstMeasurementDate() -> Date? {
-        let item = try! store.fetchFirstMeasurementItem()
+        let item = try? store.fetchFirstMeasurementItem()
+        return item?.createdDate
+    }
+
+    private func fetchLastMeasurementDate() -> Date? {
+        let item = try? store.fetchLastMeasurementItem()
         return item?.createdDate
     }
 
@@ -32,9 +39,39 @@ final class TracebookService: Sendable {
         return MeasurementItemMapper.toModel(body: body).createdDate
     }
 
-    func synchronizeMeasurementItems() async throws {
-        var list = [MeasurementItem]()
+    func synchronize(onPageInserted: (() -> Void)? = nil) async {
+        if let synchronizationTask {
+            await synchronizationTask.value
+            return
+        }
 
+        let task = Task { @MainActor in
+            isSynchronizing = true
+            defer {
+                isSynchronizing = false
+                synchronizationTask = nil
+            }
+
+            do {
+                print("Start items...")
+                try await synchronizeMeasurementItems(onPageInserted: onPageInserted)
+                print("Done")
+
+                onPageInserted?()
+
+                print("Start content...")
+                try await synchronizeMeasurementContents()
+                print("Done")
+            } catch {
+                print(error)
+            }
+        }
+
+        synchronizationTask = task
+        await task.value
+    }
+
+    func synchronizeMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
         var fromDate: String = "2010-01-01T00:00:00Z"
         if let date1 = fetchFirstMeasurementDate() {
             let formatter = ISO8601DateFormatter()
@@ -43,7 +80,28 @@ final class TracebookService: Sendable {
         }
         print(fromDate)
 
-        let measurements = try await api.getMeasurementLong()
+        try await api.forEachMeasurementPage(from: fromDate) { measurements in
+            try insertMeasurementItems(measurements)
+            onPageInserted?()
+        }
+        try await backfillMeasurementItems(onPageInserted: onPageInserted)
+    }
+
+    private func backfillMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
+        guard let date = fetchLastMeasurementDate() else { return }
+
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let beforeDate = formatter.string(from: date)
+        print("Backfill before \(beforeDate)")
+
+        try await api.forEachMeasurementPage(before: beforeDate) { measurements in
+            try insertMeasurementItems(measurements)
+            onPageInserted?()
+        }
+    }
+
+    private func insertMeasurementItems(_ measurements: [MeasurementBody]) throws {
         for measurement in measurements {
 
             do {
@@ -57,7 +115,6 @@ final class TracebookService: Sendable {
                 print(model.title)
 
                 try store.insertMeasurementItem(measurement: model)
-                list.append(model)
             } catch {
                 print("Error: \(error)")
             }
@@ -78,13 +135,8 @@ final class TracebookService: Sendable {
             
             try await synchronizeDetails()
             
-            let items = try store.fetchMeasurementItems()
+            let items = try store.fetchNoContent()
             for item in items {
-
-                if item.content != nil {
-                    print("Skip \(item.title)")
-                    continue
-                }
                 print(item.title, item.additionalContent)
                 
                 try await synchronizeMeasurementItemContent(item: item)
@@ -132,18 +184,5 @@ final class TracebookService: Sendable {
             dictionary[item.id] = item.brandModel ?? ""
         }
         return dictionary
-    }
-
-    func deleteAllMeasurementItems() {
-        do {
-            try store.deleteAllMeasurementItems()
-        } catch {
-            print("Error deleting measurements: \(error)")
-        }
-    }
-    
-    func refreshMeasurementItems() async throws {
-        deleteAllMeasurementItems()
-        try await synchronizeMeasurementItems()
     }
 }

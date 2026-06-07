@@ -41,9 +41,7 @@ struct MainView: View {
                     .refreshable {
 // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
                         print("Pull")
-                        await Task {
-                            synchronize()
-                        }.value
+                        await synchronize()
                         print("Done")
                     }
             }
@@ -63,17 +61,14 @@ struct MainView: View {
             }
             .task {
                 viewModel.service = self.tracebookService
-                viewModel.fetchAll()
-                //await viewModel.synchronize()
+                await viewModel.synchronizeIfNeeded()
             }
             .searchable(text: $viewModel.searchText)
         }
     }
     
-    func synchronize() {
-        Task {
-            await viewModel.synchronize()
-        }
+    func synchronize() async {
+        await viewModel.synchronize()
     }
 }
 

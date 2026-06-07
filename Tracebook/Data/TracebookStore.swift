@@ -70,6 +70,12 @@ class TracebookStore {
         return try context.fetch(descriptor).first
     }
 
+    func fetchLastMeasurementItem() throws -> MeasurementItem? {
+        var descriptor = FetchDescriptor<MeasurementItem>(sortBy: [.init(\.createdDate, order: .forward)])
+        descriptor.fetchLimit = 1
+        return try context.fetch(descriptor).first
+    }
+
     // MARK: List
 
     func fetchMeasurementItems() throws -> [MeasurementItem] {
@@ -92,17 +98,5 @@ class TracebookStore {
             context.delete(model)
             try context.save()
         }
-    }
-
-    func deleteAllMeasurementItems() throws {
-        let models = try fetchMeasurementItems()
-        for model in models {
-            context.delete(model)
-        }
-        try context.save()
-    }
-
-    func deleteAll() throws {
-        try deleteAllMeasurementItems()
     }
 }

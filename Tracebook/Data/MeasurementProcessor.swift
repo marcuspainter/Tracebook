@@ -22,6 +22,10 @@ class MeasurementProcessor {
     private var tfCoherence: [Double] = []
     
     init(frequency: [Double], magnitude: [Double], phase: [Double], coherence: [Double]) {
+        updateSource(frequency: frequency, magnitude: magnitude, phase: phase, coherence: coherence)
+    }
+
+    func updateSource(frequency: [Double], magnitude: [Double], phase: [Double], coherence: [Double]) {
         self.tfFrequency = frequency
         self.tfMagnitude = magnitude
         self.tfPhase = phase
@@ -31,12 +35,38 @@ class MeasurementProcessor {
     }
     
     func processInvert(delay: Double, threshold: Double, isPolarityInverted: Bool) {
+        processPhase(delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
     }
     
     func processThreshold(delay: Double, threshold: Double, isPolarityInverted: Bool) {
+        processAll(delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
     }
     
     func processDelay(delay: Double, threshold: Double, isPolarityInverted: Bool) {
+        processPhase(delay: delay, threshold: threshold, isPolarityInverted: isPolarityInverted)
+    }
+
+    func processPhase(delay: Double, threshold: Double, isPolarityInverted: Bool) {
+        let count = tfFrequency.count
+        var newPhase = [Double](repeating: 0, count: count)
+
+        for index in 0..<count {
+            guard isAboveThreshold(index: index, threshold: threshold) else {
+                newPhase[index] = Double.nan
+                continue
+            }
+
+            let frequency = tfFrequency[index]
+            let phase = index < tfPhase.count ? tfPhase[index] : Double.nan
+            newPhase[index] = applyDelayAndPolarity(
+                phase: phase,
+                frequency: frequency,
+                delayMilliseconds: delay,
+                isPolarityInverted: isPolarityInverted
+            )
+        }
+
+        self.phase = newPhase
     }
     
     func processAll(delay: Double, threshold: Double, isPolarityInverted: Bool) {
@@ -46,30 +76,28 @@ class MeasurementProcessor {
         var newPhase = [Double](repeating: 0, count: count)
         var newOriginalPhase = [Double](repeating: 0, count:count)
 
-        for index in 0..<frequency.count {
+        for index in 0..<count {
             newCoherence[index] = index < tfCoherence.count ? tfCoherence[index] : Double.nan
             newMagnitude[index] = index < tfMagnitude.count ? tfMagnitude[index] : Double.nan
             newPhase[index] =  index < tfPhase.count ? tfPhase[index] : Double.nan
             newOriginalPhase[index] = index < tfPhase.count ? tfPhase[index] : Double.nan
 
-            if index < tfCoherence.count {
-                let coherence = tfCoherence[index]
-                
-                if coherence < threshold {
-                    newCoherence[index] = Double.nan
-                    newMagnitude[index] =  Double.nan
-                    newPhase[index] = Double.nan
-                    newOriginalPhase[index] = Double.nan
-                } else {
-                    let frequency = index < tfFrequency.count ? tfFrequency[index] : Double.nan
-                    var phase = index < tfPhase.count ? tfPhase[index] : Double.nan
-                    phase += (frequency * 360.0 * (delay * -1.0 / 1000.0))
-                    if isPolarityInverted {
-                        phase += 180.0
-                    }
-                    newPhase[index] = wrapTo180(phase)
-                }
-           }
+            if !isAboveThreshold(index: index, threshold: threshold) {
+                newCoherence[index] = Double.nan
+                newMagnitude[index] =  Double.nan
+                newPhase[index] = Double.nan
+                newOriginalPhase[index] = Double.nan
+                continue
+            }
+
+            let frequency = index < tfFrequency.count ? tfFrequency[index] : Double.nan
+            let phase = index < tfPhase.count ? tfPhase[index] : Double.nan
+            newPhase[index] = applyDelayAndPolarity(
+                phase: phase,
+                frequency: frequency,
+                delayMilliseconds: delay,
+                isPolarityInverted: isPolarityInverted
+            )
         }
         self.magnitude = newMagnitude
         self.phase = newPhase
@@ -84,6 +112,25 @@ class MeasurementProcessor {
         self.phase = tfPhase
         self.coherence = tfCoherence
         self.originalPhase = tfPhase
+    }
+
+    private func isAboveThreshold(index: Int, threshold: Double) -> Bool {
+        guard index < tfCoherence.count else { return true }
+        return tfCoherence[index] >= threshold
+    }
+
+    private func applyDelayAndPolarity(
+        phase: Double,
+        frequency: Double,
+        delayMilliseconds: Double,
+        isPolarityInverted: Bool
+    ) -> Double {
+        let delaySeconds = delayMilliseconds / 1000.0
+        var delayedPhase = phase - (360.0 * frequency * delaySeconds)
+        if isPolarityInverted {
+            delayedPhase += 180.0
+        }
+        return wrapTo180(delayedPhase)
     }
     
     private func wrapTo180(_ phase: Double) -> Double {
