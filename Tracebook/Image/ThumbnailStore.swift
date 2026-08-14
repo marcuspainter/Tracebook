@@ -19,9 +19,11 @@ actor ThumbnailStore {
     private let memoryCache = NSCache<NSString, UIImage>()
     private let maximumPixelSize = 225
     private let jpegQuality = 0.78
+    private var generation = 0
 
     func image(for measurementID: String, remotePath: String) async -> UIImage? {
         guard let remoteURL = Self.remoteURL(from: remotePath) else { return nil }
+        let requestGeneration = generation
 
         let cacheKey = Self.cacheKey(measurementID: measurementID, remoteURL: remoteURL)
         if let cachedImage = memoryCache.object(forKey: cacheKey as NSString) {
@@ -43,6 +45,7 @@ actor ThumbnailStore {
                   let jpegData = thumbnail.jpegData(compressionQuality: jpegQuality) else {
                 return nil
             }
+            guard requestGeneration == generation else { return nil }
 
             try removeObsoleteThumbnails(for: measurementID, keeping: fileURL)
             try jpegData.write(to: fileURL, options: .atomic)
@@ -76,6 +79,20 @@ actor ThumbnailStore {
                     )
                 }
             }
+        }
+    }
+
+    func removeAll() throws {
+        generation += 1
+        memoryCache.removeAllObjects()
+
+        let directory = try thumbnailDirectory()
+        let files = try FileManager.default.contentsOfDirectory(
+            at: directory,
+            includingPropertiesForKeys: nil
+        )
+        for fileURL in files {
+            try FileManager.default.removeItem(at: fileURL)
         }
     }
 

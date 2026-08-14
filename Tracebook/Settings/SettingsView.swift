@@ -10,8 +10,13 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(TracebookService.self) private var tracebookService
     @Environment(\.appVersion) var appVersion
     @Environment(\.appBuild) var appBuild
+
+    @State private var isShowingResetConfirmation = false
+    @State private var isResettingOfflineData = false
+    @State private var resetResultMessage: String?
 
     var supportURL: String = ""
     var privacyPolicyURL: String = ""
@@ -43,6 +48,25 @@ struct SettingsView: View {
             Form {
                 Section(header: Text("Appearance")) {
                     ColorSchemePicker()
+                }
+
+                Section {
+                    Button("Clear Database and Cache", role: .destructive) {
+                        isShowingResetConfirmation = true
+                    }
+                    .disabled(isResettingOfflineData)
+
+                    if isResettingOfflineData {
+                        ProgressView("Clearing offline data…")
+                    } else if let resetResultMessage {
+                        Text(resetResultMessage)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                } header: {
+                    Text("Testing")
+                } footer: {
+                    Text("Returns local data to a clean first-launch state. Website data is not affected.")
                 }
 
                 Section(header: Text("About")) {
@@ -87,9 +111,36 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .confirmationDialog(
+                "Clear Database and Cache?",
+                isPresented: $isShowingResetConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Clear Database and Cache", role: .destructive) {
+                    resetOfflineData()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Downloaded measurements and thumbnails will be removed from this device. You can download them again by synchronizing.")
+            }
             .toolbar {
                 // DismissButton()
             }
+        }
+    }
+
+    private func resetOfflineData() {
+        isResettingOfflineData = true
+        resetResultMessage = nil
+
+        Task {
+            do {
+                try await tracebookService.resetOfflineData()
+                resetResultMessage = "Offline data cleared. Pull to refresh the measurement list to download it again."
+            } catch {
+                resetResultMessage = "Could not clear offline data: \(error.localizedDescription)"
+            }
+            isResettingOfflineData = false
         }
     }
     
@@ -131,6 +182,5 @@ struct SettingsView: View {
         SettingsView()
             .navigationBarTitleDisplayMode(.inline)
     }
+    .environment(TracebookService())
 }
-
-

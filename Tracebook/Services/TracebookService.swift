@@ -17,8 +17,10 @@ final class TracebookService: Sendable {
     private var analyzers: [String:String] = [:]
     private var interfaces: [String:String] = [:]
     private var synchronizationTask: Task<Void, Never>?
+    private var thumbnailPrefetchTask: Task<Void, Never>?
     private var contentSynchronizationTasks: [String: Task<Void, Error>] = [:]
     private(set) var isSynchronizing = false
+    private(set) var offlineDataRevision = 0
 
     init() {
         self.api = TracebookAPI()
@@ -80,7 +82,8 @@ final class TracebookService: Sendable {
             ThumbnailRequest(measurementID: $0.id, remotePath: $0.thumbnailImage)
         }
 
-        Task {
+        thumbnailPrefetchTask?.cancel()
+        thumbnailPrefetchTask = Task {
             await ThumbnailStore.shared.prefetch(requests)
         }
     }
@@ -99,6 +102,29 @@ final class TracebookService: Sendable {
             onPageInserted?()
         }
         try await backfillMeasurementItems(onPageInserted: onPageInserted)
+    }
+
+    func resetOfflineData() async throws {
+        let activeSynchronizationTask = synchronizationTask
+        activeSynchronizationTask?.cancel()
+
+        let activeContentTasks = Array(contentSynchronizationTasks.values)
+        activeContentTasks.forEach { $0.cancel() }
+
+        let activeThumbnailPrefetchTask = thumbnailPrefetchTask
+        activeThumbnailPrefetchTask?.cancel()
+
+        await activeSynchronizationTask?.value
+        for task in activeContentTasks {
+            _ = try? await task.value
+        }
+        await activeThumbnailPrefetchTask?.value
+        contentSynchronizationTasks.removeAll()
+        thumbnailPrefetchTask = nil
+
+        try store.deleteAllOfflineData()
+        try await ThumbnailStore.shared.removeAll()
+        offlineDataRevision += 1
     }
 
     private func backfillMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
@@ -144,6 +170,7 @@ final class TracebookService: Sendable {
             
             let items = try store.fetchNoContent()
             for item in items {
+                try Task.checkCancellation()
                 print(item.title, item.additionalContent)
                 
                 try await synchronizeMeasurementItemContent(item: item)

@@ -63,6 +63,9 @@ struct MainView: View {
                 viewModel.service = self.tracebookService
                 await viewModel.synchronizeIfNeeded()
             }
+            .onChange(of: tracebookService.offlineDataRevision) {
+                viewModel.fetchAll()
+            }
             .searchable(text: $viewModel.searchText)
         }
     }

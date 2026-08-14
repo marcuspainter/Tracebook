@@ -99,6 +99,12 @@ class TracebookStore {
         try context.save()
     }
 
+    func deleteAllOfflineData() throws {
+        try context.delete(model: MeasurementItem.self)
+        try context.delete(model: MeasurementContent.self)
+        try context.save()
+    }
+
     // MARK: Delete
 
     func deleteMeasurementItem(id: String) throws {
