@@ -17,6 +17,7 @@ final class TracebookService: Sendable {
     private var analyzers: [String:String] = [:]
     private var interfaces: [String:String] = [:]
     private var synchronizationTask: Task<Void, Never>?
+    private var contentSynchronizationTasks: [String: Task<Void, Error>] = [:]
     private(set) var isSynchronizing = false
 
     init() {
@@ -57,6 +58,8 @@ final class TracebookService: Sendable {
                 try await synchronizeMeasurementItems(onPageInserted: onPageInserted)
                 print("Done")
 
+                scheduleThumbnailPrefetch()
+
                 onPageInserted?()
 
                 print("Start content...")
@@ -69,6 +72,17 @@ final class TracebookService: Sendable {
 
         synchronizationTask = task
         await task.value
+    }
+
+    private func scheduleThumbnailPrefetch() {
+        guard let measurements = try? store.fetchMeasurementItems() else { return }
+        let requests = measurements.map {
+            ThumbnailRequest(measurementID: $0.id, remotePath: $0.thumbnailImage)
+        }
+
+        Task {
+            await ThumbnailStore.shared.prefetch(requests)
+        }
     }
 
     func synchronizeMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
@@ -138,6 +152,31 @@ final class TracebookService: Sendable {
     }
     
     func synchronizeMeasurementItemContent(item: MeasurementItem) async throws {
+        guard item.content == nil, !item.additionalContent.isEmpty else { return }
+
+        if let existingTask = contentSynchronizationTasks[item.id] {
+            try await existingTask.value
+            return
+        }
+
+        let task = Task { @MainActor in
+            if microphones.isEmpty || analyzers.isEmpty || interfaces.isEmpty {
+                try await synchronizeDetails()
+            }
+            try await downloadMeasurementItemContent(item: item)
+        }
+        contentSynchronizationTasks[item.id] = task
+
+        do {
+            try await task.value
+            contentSynchronizationTasks[item.id] = nil
+        } catch {
+            contentSynchronizationTasks[item.id] = nil
+            throw error
+        }
+    }
+
+    private func downloadMeasurementItemContent(item: MeasurementItem) async throws {
         if let contentBody = try await api.getMeasurementContent(id: item.additionalContent) {
             if let content = MeasurementContentMapper.toModel(body: contentBody) {
 

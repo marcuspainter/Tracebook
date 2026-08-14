@@ -14,7 +14,10 @@ struct MeasurementItemView: View {
     var body: some View {
         HStack {
             VStack {
-                AsyncImage(url: URL(string: "https:\(measurement.thumbnailImage)"), content: AsyncImageContent.content)
+                CachedThumbnailView(
+                    measurementID: measurement.id,
+                    remotePath: measurement.thumbnailImage
+                )
                     .padding(.top, 0)
                     .frame(width: 75, height: 75, alignment: .center)
                 Spacer()

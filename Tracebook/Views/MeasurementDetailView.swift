@@ -11,12 +11,14 @@ import SwiftUI
 
 @MainActor
 struct MeasurementDetailView: View {
-    //@Environment(\.modelContext) private var modelContext
+    @Environment(TracebookService.self) private var tracebookService
     @Bindable var measurement: MeasurementItem
 
     @State var isPolarityInverted: Bool = false
     @State var delay: Double = 0.0
     @State var threshold: Double = 0.0
+    @State private var isLoadingContent = false
+    @State private var contentError: String?
 
     let dataProcessor: MeasurementProcessor
 
@@ -50,6 +52,20 @@ struct MeasurementDetailView: View {
                         phase: dataProcessor.phase,
                         originalPhase: dataProcessor.originalPhase
                     )
+
+                    if isLoadingContent {
+                        HStack {
+                            ProgressView()
+                            Text("Downloading transfer-function data…")
+                        }
+                        .font(.footnote)
+                    } else if let contentError {
+                        ContentUnavailableView(
+                            "Transfer Function Unavailable",
+                            systemImage: "waveform.path.ecg",
+                            description: Text(contentError)
+                        )
+                    }
 
                     HStack {
                         if let url = URL(string: measurement.slug) {
@@ -173,6 +189,16 @@ struct MeasurementDetailView: View {
                 .navigationTitle(measurement.title)
                 .navigationBarTitleDisplayMode(.inline)
                 .task(id: measurement.content?.id) {
+                    if measurement.content == nil {
+                        isLoadingContent = true
+                        contentError = nil
+                        do {
+                            try await tracebookService.synchronizeMeasurementItemContent(item: measurement)
+                        } catch {
+                            contentError = error.localizedDescription
+                        }
+                        isLoadingContent = false
+                    }
                     updateProcessorSource()
                     updateAllCharts()
                 }
@@ -210,6 +236,7 @@ struct MeasurementDetailView: View {
 #Preview {
     @Previewable var measurement = MeasurementItem(id: UUID().uuidString)
     MeasurementDetailView(measurement: measurement)
+        .environment(TracebookService())
 }
 
 struct TextLine: View {
