@@ -9,6 +9,7 @@ import Testing
 @testable import Tracebook
 
 @Suite
+@MainActor
 struct MeasurementProcessorTests {
 
     @Test

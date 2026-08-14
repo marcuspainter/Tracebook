@@ -7,6 +7,7 @@
 
 import XCTest
 
+@MainActor
 final class TracebookUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {

@@ -5,6 +5,6 @@
 //  Created by Marcus Painter on 08/07/2025.
 //
 
-struct BubbleListResponse<T: Codable>: BubbleListResponseProtocol {
+struct BubbleListResponse<T: Codable>: @MainActor BubbleListResponseProtocol {
     let response: BubbleListResultsResponse<T>
 }
