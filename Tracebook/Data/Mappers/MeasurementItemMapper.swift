@@ -37,4 +37,32 @@ class MeasurementItemMapper {
 
         return model
     }
+
+    static func update(model: MeasurementItem, from body: MeasurementBody) {
+        let contentReferenceChanged = model.additionalContent != (body.additionalContent ?? "")
+
+        model.additionalContent = body.additionalContent ?? ""
+        model.approved = body.approved == "Approved"
+        model.commentCreator = body.commentCreator ?? ""
+        model.productLaunchDateText = body.productLaunchDateText ?? ""
+        model.thumbnailImage = body.thumbnailImage ?? ""
+        model.upvotes = body.upvotes?.joined(separator: ",") ?? ""
+        model.createdDate = DataMapperHelper.parseISODate(body.createdDate)
+        model.createdBy = body.createdBy ?? ""
+        model.modifiedDate = DataMapperHelper.parseISODate(body.modifiedDate)
+        model.slug = "https://trace-book.org/measurement/\(body.slug ?? "")"
+        model.moderator1 = body.moderator1 ?? ""
+        model.isPublic = body.isPublic ?? false
+        model.title = body.title ?? ""
+        model.publishDate = DataMapperHelper.parseISODate(body.publishDate)
+        model.admin1Approved = body.admin1Approved == "Approved"
+        model.moderator2 = body.moderator2 ?? ""
+        model.admin2Approved = body.admin2Approved == "Approved"
+        model.loudspeakerTags = body.loudspeakerTags?.joined(separator: ",") ?? ""
+        model.emailSent = body.emailSent ?? false
+
+        if contentReferenceChanged {
+            model.content = nil
+        }
+    }
 }

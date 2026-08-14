@@ -21,7 +21,7 @@ struct MagnitudeChart: View {
         Group {
             Text("Magnitude")
             Chart {
-                ForEach(frequency.indices, id: \.self) { index in
+                ForEach(0..<min(frequency.count, coherence.count), id: \.self) { index in
                     LineMark(
                         x: .value("Frequency", frequency[index]),
                         y: .value("Coherence", coherence[index] * 30),
@@ -31,7 +31,7 @@ struct MagnitudeChart: View {
                     .lineStyle(StrokeStyle(lineWidth: 1))
                 }
 
-                ForEach(frequency.indices, id: \.self) { index in
+                ForEach(0..<min(frequency.count, magnitude.count), id: \.self) { index in
                     LineMark(
                         x: .value("Frequency", frequency[index]),
                         y: .value("Magnitude", magnitude[index]),
@@ -81,4 +81,3 @@ struct MagnitudeChart: View {
 #Preview {
     MagnitudeChart(frequency: [20,20000], magnitude: [0,10], coherence: [100,100])
 }
-

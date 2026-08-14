@@ -15,33 +15,25 @@ struct PhaseChart: View {
 
     private let frequencyXAxisValues = [15, 31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     private let phaseYAxisValues = [-180, -135, -90, -45, 0, 45, 90, 135, 180]
-    private var phasePoints: [(frequency: Double, phase: Double)] {
-        zip(frequency, phase).map { ($0, $1) }
-    }
-    private var originalPhasePoints: [(frequency: Double, phase: Double)] {
-        zip(frequency, originalPhase).map { ($0, $1) }
-    }
 
     var body: some View {
         Group {
             Text("Phase")
             Chart {
-                ForEach(originalPhasePoints.indices, id: \.self) { index in
-                    let point = originalPhasePoints[index]
+                ForEach(0..<min(frequency.count, originalPhase.count), id: \.self) { index in
                     LineMark(
-                        x: .value("x", point.frequency),
-                        y: .value("y", point.phase),
+                        x: .value("x", frequency[index]),
+                        y: .value("y", originalPhase[index]),
                         series: .value("Weight1", "A")
                     )
                     .foregroundStyle(.gray)
                     .lineStyle(StrokeStyle(lineWidth: 1))
                 }
 
-                ForEach(phasePoints.indices, id: \.self) { index in
-                    let point = phasePoints[index]
+                ForEach(0..<min(frequency.count, phase.count), id: \.self) { index in
                     LineMark(
-                        x: .value("x", point.frequency),
-                        y: .value("y", point.phase),
+                        x: .value("x", frequency[index]),
+                        y: .value("y", phase[index]),
                         series: .value("Weight2", "B")
                     )
                     .foregroundStyle(.blue)

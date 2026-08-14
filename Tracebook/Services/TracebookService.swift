@@ -24,9 +24,9 @@ final class TracebookService: Sendable {
         self.store = TracebookStore()
     }
 
-    private func fetchFirstMeasurementDate() -> Date? {
-        let item = try? store.fetchFirstMeasurementItem()
-        return item?.createdDate
+    private func fetchMostRecentModificationDate() -> Date? {
+        let item = try? store.fetchMostRecentlyModifiedMeasurementItem()
+        return item?.modifiedDate
     }
 
     private func fetchLastMeasurementDate() -> Date? {
@@ -73,15 +73,15 @@ final class TracebookService: Sendable {
 
     func synchronizeMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
         var fromDate: String = "2010-01-01T00:00:00Z"
-        if let date1 = fetchFirstMeasurementDate() {
+        if let date1 = fetchMostRecentModificationDate() {
             let formatter = ISO8601DateFormatter()
             formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
             fromDate = formatter.string(from: date1)
         }
         print(fromDate)
 
-        try await api.forEachMeasurementPage(from: fromDate) { measurements in
-            try insertMeasurementItems(measurements)
+        try await api.forEachMeasurementPage(modifiedAfter: fromDate) { measurements in
+            try upsertMeasurementItems(measurements)
             onPageInserted?()
         }
         try await backfillMeasurementItems(onPageInserted: onPageInserted)
@@ -95,31 +95,24 @@ final class TracebookService: Sendable {
         let beforeDate = formatter.string(from: date)
         print("Backfill before \(beforeDate)")
 
-        try await api.forEachMeasurementPage(before: beforeDate) { measurements in
-            try insertMeasurementItems(measurements)
+        try await api.forEachMeasurementPage(createdBefore: beforeDate) { measurements in
+            try upsertMeasurementItems(measurements)
             onPageInserted?()
         }
     }
 
-    private func insertMeasurementItems(_ measurements: [MeasurementBody]) throws {
+    private func upsertMeasurementItems(_ measurements: [MeasurementBody]) throws {
         for measurement in measurements {
-
-            do {
-
-                if try store.fetchMeasurementItem(id: measurement.id) != nil {
-                    print("Skip \(measurement.title ?? "")")
-                    continue
-                }
-
+            if let existingModel = try store.fetchMeasurementItem(id: measurement.id) {
+                MeasurementItemMapper.update(model: existingModel, from: measurement)
+                try store.save()
+                print("Update \(existingModel.title)")
+            } else {
                 let model = MeasurementItemMapper.toModel(body: measurement)
                 print(model.title)
-
                 try store.insertMeasurementItem(measurement: model)
-            } catch {
-                print("Error: \(error)")
             }
         }
-        return
     }
 
     func synchronizeDetails() async throws {

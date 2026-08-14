@@ -31,7 +31,7 @@ final class TracebookAPI: Sendable {
     func getMeasurementLong(from: String? = nil, before: String? = nil) async throws -> [MeasurementBody] {
         var items = [MeasurementBody]()
 
-        try await forEachMeasurementPage(from: from, before: before) { page in
+        try await forEachMeasurementPage(modifiedAfter: from, createdBefore: before) { page in
             items += page
         }
 
@@ -39,20 +39,24 @@ final class TracebookAPI: Sendable {
     }
 
     func forEachMeasurementPage(
-        from: String? = nil,
-        before: String? = nil,
+        modifiedAfter: String? = nil,
+        createdBefore: String? = nil,
         _ handlePage: ([MeasurementBody]) throws -> Void
     ) async throws {
         var bubbleRequest = BubbleRequest(entity: "measurement")
         
-        if let from {
-            bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .greaterThan, value: from))
+        if let modifiedAfter {
+            bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.modifiedDate.rawValue, type: .greaterThan, value: modifiedAfter))
         }
-        if let before {
-            bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .lessThan, value: before))
+        if let createdBefore {
+            bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.createdDate.rawValue, type: .lessThan, value: createdBefore))
         }
         bubbleRequest.constraints.append(BubbleConstraint(key: MeasurementBody.CodingKeys.isPublic.rawValue, type: .equals, value: "true"))
-        bubbleRequest.sortKeys.append(BubbleSortKey(sortField: MeasurementBody.CodingKeys.createdDate.rawValue, order: .descending))
+        let sortField = modifiedAfter == nil
+            ? MeasurementBody.CodingKeys.createdDate.rawValue
+            : MeasurementBody.CodingKeys.modifiedDate.rawValue
+        let sortOrder: BubbleSortKeyOrder = modifiedAfter == nil ? .descending : .ascending
+        bubbleRequest.sortKeys.append(BubbleSortKey(sortField: sortField, order: sortOrder))
 
         while true {
             guard let response = try await bubbleAPI.getListResponse(MeasurementListResponse.self, for: bubbleRequest) else {

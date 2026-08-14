@@ -60,6 +60,7 @@ final class BubbleAPI: Sendable {
     ) async throws -> [T] {
         var responses: [T] = []
         var request = initialRequest
+        request.limit = pageSize
 
         while true {
             guard let response = try await getListResponse(type, for: request) else {
@@ -69,8 +70,8 @@ final class BubbleAPI: Sendable {
             responses.append(response)
             print("Count: \(response.response.count) Remaining: \(response.response.remaining)")
 
-            if response.response.remaining > 0 {
-                let newCursor: Int? = response.response.cursor + pageSize
+            if response.response.remaining > 0 && response.response.count > 0 {
+                let newCursor: Int? = response.response.cursor + response.response.count
                 request.cursor = newCursor
             } else {
                 break

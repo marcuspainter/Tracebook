@@ -70,6 +70,15 @@ class TracebookStore {
         return try context.fetch(descriptor).first
     }
 
+    func fetchMostRecentlyModifiedMeasurementItem() throws -> MeasurementItem? {
+        var descriptor = FetchDescriptor<MeasurementItem>(
+            predicate: #Predicate { $0.modifiedDate != nil },
+            sortBy: [.init(\.modifiedDate, order: .reverse)]
+        )
+        descriptor.fetchLimit = 1
+        return try context.fetch(descriptor).first
+    }
+
     func fetchLastMeasurementItem() throws -> MeasurementItem? {
         var descriptor = FetchDescriptor<MeasurementItem>(sortBy: [.init(\.createdDate, order: .forward)])
         descriptor.fetchLimit = 1
