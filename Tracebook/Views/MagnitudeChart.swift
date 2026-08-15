@@ -74,6 +74,12 @@ struct MagnitudeChart: View {
             .chartYScale(domain: -35 ... 35, type: .linear)
             .clipped()
             .frame(height: 200)
+            .overlay {
+                if frequency.isEmpty || magnitude.isEmpty {
+                    Text("No Data")
+                        .foregroundStyle(.secondary)
+                }
+            }
         }
     }
 }

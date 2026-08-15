@@ -73,6 +73,12 @@ struct PhaseChart: View {
             )
             .clipped()
             .frame(height: 200)
+            .overlay {
+                if frequency.isEmpty || phase.isEmpty {
+                    Text("No Data")
+                        .foregroundStyle(.secondary)
+                }
+            }
         }
     }
 }

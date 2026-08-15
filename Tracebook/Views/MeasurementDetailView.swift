@@ -54,29 +54,17 @@ struct MeasurementDetailView: View {
                         }
                     }
 
-                    ZStack {
-                        MagnitudeChart(
-                            frequency: dataProcessor.frequency,
-                            magnitude: dataProcessor.magnitude,
-                            coherence: dataProcessor.coherence
-                        )
-                        if dataProcessor.frequency.isEmpty || dataProcessor.magnitude.isEmpty {
-                            Text("No Data")
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+                    MagnitudeChart(
+                        frequency: dataProcessor.frequency,
+                        magnitude: dataProcessor.magnitude,
+                        coherence: dataProcessor.coherence
+                    )
 
-                    ZStack {
-                        PhaseChart(
-                            frequency: dataProcessor.frequency,
-                            phase: dataProcessor.phase,
-                            originalPhase: dataProcessor.originalPhase
-                        )
-                        if dataProcessor.frequency.isEmpty || dataProcessor.phase.isEmpty {
-                            Text("No Data")
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+                    PhaseChart(
+                        frequency: dataProcessor.frequency,
+                        phase: dataProcessor.phase,
+                        originalPhase: dataProcessor.originalPhase
+                    )
 
                     HStack {
                         if let url = URL(string: measurement.slug) {
