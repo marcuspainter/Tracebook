@@ -248,10 +248,16 @@ struct TextLine: View {
     var value: String?
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(text).font(.footnote)
+        HStack(alignment: .firstTextBaseline, spacing: 16) {
+            Text(text)
+                .font(.footnote)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
             Text(value ?? "")
-        }.frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.trailing)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
