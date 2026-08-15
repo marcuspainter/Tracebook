@@ -40,9 +40,7 @@ struct MainView: View {
                     }
                     .refreshable {
 // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
-                        print("Pull")
                         await synchronize()
-                        print("Done")
                     }
             }
             .navigationTitle("Tracebook")

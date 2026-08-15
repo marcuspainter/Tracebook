@@ -36,11 +36,9 @@ struct MeasurementListView: View {
         .listStyle(.plain)
         .refreshable {
             // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
-            print("Pull")
             await Task {
                 try? await Task.sleep(for: .seconds(5))
              }.value
-            print("Done")
         }
         
         .overlay {
@@ -56,4 +54,3 @@ struct MeasurementListView: View {
 #Preview {
    // MeasurementListView(sort: SortDescriptor(\MeasurementItem.createdDate, order: .reverse), searchText: "")
 }
-

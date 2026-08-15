@@ -73,7 +73,6 @@ final class BubbleAPI: Sendable {
             }
 
             responses.append(response)
-            print("Count: \(response.response.count) Remaining: \(response.response.remaining)")
 
             if response.response.remaining > 0 && response.response.count > 0 {
                 let newCursor: Int? = response.response.cursor + response.response.count

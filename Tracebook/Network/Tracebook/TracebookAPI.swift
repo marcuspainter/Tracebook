@@ -84,8 +84,6 @@ final class TracebookAPI: TracebookAPIClient, Sendable {
             let results: [MeasurementBody] = response.response.results
             try handlePage(results)
 
-            print("Count: \(response.response.count) Remaining: \(response.response.remaining)")
-
             if response.response.remaining > 0 && response.response.count > 0 {
                 bubbleRequest.cursor = response.response.cursor + response.response.count
             } else {
@@ -120,7 +118,6 @@ final class TracebookAPI: TracebookAPIClient, Sendable {
         for response in responses {
             let results: [MicrophoneBody] = response.response.results
             items += results
-            //print(results.first?.micBrandModel)
         }
         return items
     }
@@ -137,7 +134,6 @@ final class TracebookAPI: TracebookAPIClient, Sendable {
         for response in responses {
             let results: [InterfaceBody] = response.response.results
             items += results
-            //print(results.first?.brandModel)
         }
         return items
     }
@@ -154,7 +150,6 @@ final class TracebookAPI: TracebookAPIClient, Sendable {
         for response in responses {
             let results: [AnalyzerBody] = response.response.results
             items += results
-            //print(results.first?.brandModel)
         }
         return items
     }

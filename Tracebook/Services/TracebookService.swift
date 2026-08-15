@@ -59,17 +59,13 @@ final class TracebookService: Sendable {
             }
 
             do {
-                print("Start items...")
                 try await synchronizeMeasurementItems(onPageInserted: onPageInserted)
-                print("Done")
 
                 scheduleThumbnailPrefetch()
 
                 onPageInserted?()
 
-                print("Start content...")
                 try await synchronizeMeasurementContents()
-                print("Done")
             } catch {
                 print(error)
             }
@@ -98,7 +94,6 @@ final class TracebookService: Sendable {
             formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
             fromDate = formatter.string(from: date1)
         }
-        print(fromDate)
 
         try await api.forEachMeasurementPage(modifiedAfter: fromDate, createdBefore: nil) { measurements in
             try upsertMeasurementItems(measurements)
@@ -136,7 +131,6 @@ final class TracebookService: Sendable {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let beforeDate = formatter.string(from: date)
-        print("Backfill before \(beforeDate)")
 
         try await api.forEachMeasurementPage(modifiedAfter: nil, createdBefore: beforeDate) { measurements in
             try upsertMeasurementItems(measurements)
@@ -149,10 +143,8 @@ final class TracebookService: Sendable {
             if let existingModel = try store.fetchMeasurementItem(id: measurement.id) {
                 MeasurementItemMapper.update(model: existingModel, from: measurement)
                 try store.save()
-                print("Update \(existingModel.title)")
             } else {
                 let model = MeasurementItemMapper.toModel(body: measurement)
-                print(model.title)
                 try store.insertMeasurementItem(measurement: model)
             }
         }
@@ -174,8 +166,6 @@ final class TracebookService: Sendable {
             let items = try store.fetchNoContent()
             for item in items {
                 try Task.checkCancellation()
-                print(item.title, item.additionalContent)
-                
                 try await synchronizeMeasurementItemContent(item: item)
             }
         }
