@@ -155,7 +155,12 @@ struct MeasurementDetailView: View {
 
                     Divider()
 
-                    TextLine(text: "Comments:", value: measurement.commentCreator)
+                    VStack(alignment: .leading) {
+                        Text("Comments:")
+                            .font(.footnote)
+                        Text(measurement.commentCreator)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
                     VStack {
                         if let photoURL = URL(string: "https:\(content?.photoSetup ?? "")") {
