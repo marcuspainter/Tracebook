@@ -22,6 +22,7 @@ struct SettingsView: View {
     var privacyPolicyURL: String = ""
     var tracebookURL: String = ""
     var facebookGroupURL: String = ""
+    private let reviewURL = URL(string: "https://apps.apple.com/app/id6474818065?action=write-review")!
 
     init() {
         let pList = getSettingsPList()
@@ -50,25 +51,6 @@ struct SettingsView: View {
                     ColorSchemePicker()
                 }
 
-                Section {
-                    Button("Clear Database and Cache", role: .destructive) {
-                        isShowingResetConfirmation = true
-                    }
-                    .disabled(isResettingOfflineData)
-
-                    if isResettingOfflineData {
-                        ProgressView("Clearing offline data…")
-                    } else if let resetResultMessage {
-                        Text(resetResultMessage)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-                } header: {
-                    Text("Testing")
-                } footer: {
-                    Text("Returns local data to a clean first-launch state. Website data is not affected.")
-                }
-
                 Section(header: Text("About")) {
                     LabeledContent {
                         Text("\(appVersion) (\(appBuild))")
@@ -88,6 +70,7 @@ struct SettingsView: View {
                             Link("Privacy Policy", destination: url)
                         }
                     }
+                    Link("Write a Review", destination: reviewURL)
                 }
 
                 Section(header: Text("Tracebook"),
@@ -109,14 +92,34 @@ struct SettingsView: View {
                         }
                     }
                 }
+
+                Section {
+                    Button("Clear Data", role: .destructive) {
+                        isShowingResetConfirmation = true
+                    }
+                    .disabled(isResettingOfflineData)
+
+                    Text("Remove downloaded measurements and images from this device. Website data is not affected.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+
+                    if isResettingOfflineData {
+                        ProgressView("Clearing offline data…")
+                    } else if let resetResultMessage {
+                        Text(resetResultMessage)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                } header: {
+                    Text("Database")
+                }
             }
             .navigationTitle("Settings")
-            .confirmationDialog(
-                "Clear Database and Cache?",
-                isPresented: $isShowingResetConfirmation,
-                titleVisibility: .visible
+            .alert(
+                "Clear Data?",
+                isPresented: $isShowingResetConfirmation
             ) {
-                Button("Clear Database and Cache", role: .destructive) {
+                Button("Clear Data", role: .destructive) {
                     resetOfflineData()
                 }
                 Button("Cancel", role: .cancel) {}
@@ -136,7 +139,6 @@ struct SettingsView: View {
         Task {
             do {
                 try await tracebookService.resetOfflineData()
-                resetResultMessage = "Offline data cleared. Pull to refresh the measurement list to download it again."
             } catch {
                 resetResultMessage = "Could not clear offline data: \(error.localizedDescription)"
             }
