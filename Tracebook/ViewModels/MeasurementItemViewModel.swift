@@ -46,10 +46,7 @@ class MeasurementItemViewModel {
     
     func synchronize() async {
         guard let service else { return }
-        await service.synchronize {
-            self.fetchAll()
-        }
-
+        await service.synchronize()
         fetchAll()
     }
 

@@ -27,7 +27,9 @@ struct MeasurementItemView: View {
                     Text(measurement.title)
                     HStack {
                         Text("PRESET:").font(.caption)
-                        Text(measurement.content?.dspPreset ?? "").font(.caption)
+                        Text(measurement.content?.dspPreset ?? "")
+                            .font(.caption)
+                            .lineLimit(1)
                     }
                 }.frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 

@@ -46,7 +46,7 @@ final class TracebookService: Sendable {
         return MeasurementItemMapper.toModel(body: body).createdDate
     }
 
-    func synchronize(onPageInserted: (() -> Void)? = nil) async {
+    func synchronize() async {
         if let synchronizationTask {
             await synchronizationTask.value
             return
@@ -60,9 +60,7 @@ final class TracebookService: Sendable {
             }
 
             do {
-                try await synchronizeMeasurementItems(onPageInserted: onPageInserted)
-
-                onPageInserted?()
+                try await synchronizeMeasurementItems()
                 scheduleOfflineCaching()
             } catch {
                 print(error)
@@ -100,7 +98,7 @@ final class TracebookService: Sendable {
         }
     }
 
-    func synchronizeMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
+    func synchronizeMeasurementItems() async throws {
         var knownItems = Dictionary(
             uniqueKeysWithValues: try store.fetchMeasurementItems().map { ($0.id, $0) }
         )
@@ -113,9 +111,8 @@ final class TracebookService: Sendable {
 
         try await api.forEachMeasurementPage(modifiedAfter: fromDate, createdBefore: nil) { measurements in
             try upsertMeasurementItems(measurements, knownItems: &knownItems)
-            onPageInserted?()
         }
-        try await backfillMeasurementItems(knownItems: &knownItems, onPageInserted: onPageInserted)
+        try await backfillMeasurementItems(knownItems: &knownItems)
     }
 
     func resetOfflineData() async throws {
@@ -147,8 +144,7 @@ final class TracebookService: Sendable {
     }
 
     private func backfillMeasurementItems(
-        knownItems: inout [String: MeasurementItem],
-        onPageInserted: (() -> Void)? = nil
+        knownItems: inout [String: MeasurementItem]
     ) async throws {
         guard let date = fetchLastMeasurementDate() else { return }
 
@@ -158,7 +154,6 @@ final class TracebookService: Sendable {
 
         try await api.forEachMeasurementPage(modifiedAfter: nil, createdBefore: beforeDate) { measurements in
             try upsertMeasurementItems(measurements, knownItems: &knownItems)
-            onPageInserted?()
         }
     }
 
