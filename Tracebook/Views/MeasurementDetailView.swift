@@ -87,11 +87,7 @@ struct MeasurementDetailView: View {
                         Button("Reset") {
                             resetChart()
                         }
-                        .padding(5)
-                        .overlay(  // Apply a rounded border
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(.tint, lineWidth: 1)
-                        )
+                        .buttonStyle(.glass)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                     .onChange(of: isPolarityInverted) { _, _ in
