@@ -59,11 +59,9 @@ struct MainView: View {
                 }
             }
             .safeAreaInset(edge: .top, spacing: 0) {
-                if viewModel.isOffline {
-                    OfflineNotice {
-                        Task {
-                            await synchronize()
-                        }
+                OfflineNotice(isPresented: viewModel.isOffline) {
+                    Task {
+                        await synchronize()
                     }
                 }
             }

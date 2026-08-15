@@ -174,11 +174,9 @@ struct MeasurementDetailView: View {
                 }
             }
             .safeAreaInset(edge: .top, spacing: 0) {
-                if isOffline {
-                    OfflineNotice {
-                        Task {
-                            await loadContent()
-                        }
+                OfflineNotice(isPresented: isOffline) {
+                    Task {
+                        await loadContent()
                     }
                 }
             }
