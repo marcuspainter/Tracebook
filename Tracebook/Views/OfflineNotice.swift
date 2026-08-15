@@ -22,12 +22,12 @@ struct OfflineNotice: View {
                     Button(action: retry) {
                         Group {
                             if isRetrying {
-                                LoadingLabel()
+                                LoadingLabel(layout: .horizontal)
                             } else {
                                 Text("Try Again")
                             }
                         }
-                        .frame(minWidth: 70)
+                        .frame(width: 100)
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(isRetrying)
