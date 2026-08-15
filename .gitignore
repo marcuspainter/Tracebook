@@ -7,5 +7,6 @@ xcuserdata/
 
 # Local build output
 .DerivedData/
+.DerivedData*/
 DerivedData/
 build/

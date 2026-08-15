@@ -13,9 +13,14 @@ class TracebookStore {
     let container: ModelContainer
     let context: ModelContext
 
-    init() {
+    init(configuration: ModelConfiguration? = nil) {
         do {
-            container = try ModelContainer(for: MeasurementItem.self, MeasurementContent.self)
+            let schema = Schema([MeasurementItem.self, MeasurementContent.self])
+            if let configuration {
+                container = try ModelContainer(for: schema, configurations: [configuration])
+            } else {
+                container = try ModelContainer(for: schema)
+            }
             context = ModelContext(container)
         } catch {
             print(error)

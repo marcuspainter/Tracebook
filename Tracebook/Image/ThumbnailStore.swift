@@ -19,7 +19,14 @@ actor ThumbnailStore {
     private let memoryCache = NSCache<NSString, UIImage>()
     private let maximumPixelSize = 225
     private let jpegQuality = 0.78
+    private let session: URLSession
+    private let directoryURL: URL?
     private var generation = 0
+
+    init(session: URLSession = .shared, directoryURL: URL? = nil) {
+        self.session = session
+        self.directoryURL = directoryURL
+    }
 
     func image(for measurementID: String, remotePath: String) async -> UIImage? {
         guard let remoteURL = Self.remoteURL(from: remotePath) else { return nil }
@@ -37,7 +44,7 @@ actor ThumbnailStore {
         }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: remoteURL)
+            let (data, response) = try await session.data(from: remoteURL)
             if let httpResponse = response as? HTTPURLResponse {
                 guard (200...299).contains(httpResponse.statusCode) else { return nil }
             }
@@ -102,6 +109,13 @@ actor ThumbnailStore {
     }
 
     private func thumbnailDirectory() throws -> URL {
+        if let directoryURL {
+            if !FileManager.default.fileExists(atPath: directoryURL.path) {
+                try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true)
+            }
+            return directoryURL
+        }
+
         let applicationSupport = try FileManager.default.url(
             for: .applicationSupportDirectory,
             in: .userDomainMask,

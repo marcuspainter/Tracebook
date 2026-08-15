@@ -10,7 +10,7 @@ import Foundation
 @Observable
 @MainActor
 final class TracebookService: Sendable {
-    private(set) var api: TracebookAPI
+    private(set) var api: any TracebookAPIClient
     private(set) var store: TracebookStore
     
     private var microphones: [String:String] = [:]
@@ -22,9 +22,12 @@ final class TracebookService: Sendable {
     private(set) var isSynchronizing = false
     private(set) var offlineDataRevision = 0
 
-    init() {
-        self.api = TracebookAPI()
-        self.store = TracebookStore()
+    init(
+        api: any TracebookAPIClient = TracebookAPI(),
+        store: TracebookStore = TracebookStore()
+    ) {
+        self.api = api
+        self.store = store
     }
 
     private func fetchMostRecentModificationDate() -> Date? {
@@ -97,7 +100,7 @@ final class TracebookService: Sendable {
         }
         print(fromDate)
 
-        try await api.forEachMeasurementPage(modifiedAfter: fromDate) { measurements in
+        try await api.forEachMeasurementPage(modifiedAfter: fromDate, createdBefore: nil) { measurements in
             try upsertMeasurementItems(measurements)
             onPageInserted?()
         }
@@ -135,7 +138,7 @@ final class TracebookService: Sendable {
         let beforeDate = formatter.string(from: date)
         print("Backfill before \(beforeDate)")
 
-        try await api.forEachMeasurementPage(createdBefore: beforeDate) { measurements in
+        try await api.forEachMeasurementPage(modifiedAfter: nil, createdBefore: beforeDate) { measurements in
             try upsertMeasurementItems(measurements)
             onPageInserted?()
         }

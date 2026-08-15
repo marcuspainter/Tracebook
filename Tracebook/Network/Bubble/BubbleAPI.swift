@@ -14,11 +14,16 @@ enum BubbleAPIError: Error {
 }
 
 final class BubbleAPI: Sendable {
+    private let session: URLSession
+
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
     
     // Get an item response
     func getItemResponse<T: BubbleItemResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async throws -> T? {
         let urlRequest = request.urlRequest()
-        let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
+        let (jsonData, urlResponse) = try await session.data(for: urlRequest)
         
         // Cast to HTTPURLResponse to get status code
         if let httpResponse = urlResponse as? HTTPURLResponse {
@@ -37,7 +42,7 @@ final class BubbleAPI: Sendable {
     // Get a list response
     func getListResponse<T: BubbleListResponseProtocol>(_ type: T.Type, for request: BubbleRequest) async throws -> T? {
         let urlRequest = request.urlRequest()
-        let (jsonData, urlResponse) = try await URLSession.shared.data(for: urlRequest)
+        let (jsonData, urlResponse) = try await session.data(for: urlRequest)
 
         // Cast to HTTPURLResponse to get status code
         if let httpResponse = urlResponse as? HTTPURLResponse {

@@ -18,8 +18,26 @@ typealias InterfaceListResponse = BubbleListResponse<InterfaceBody>
 typealias UserItemResponse = BubbleItemResponse<UserBody>
 typealias UserListResponse = BubbleListResponse<UserBody>
 
-final class TracebookAPI: Sendable {
-    private let bubbleAPI = BubbleAPI()
+@MainActor
+protocol TracebookAPIClient: Sendable {
+    func getMeasurementContent(id: String) async throws -> MeasurementContentBody?
+    func forEachMeasurementPage(
+        modifiedAfter: String?,
+        createdBefore: String?,
+        _ handlePage: ([MeasurementBody]) throws -> Void
+    ) async throws
+    func getLastMeasurement() async throws -> MeasurementBody?
+    func getMicrophones() async throws -> [MicrophoneBody]
+    func getInterfaces() async throws -> [InterfaceBody]
+    func getAnalyzers() async throws -> [AnalyzerBody]
+}
+
+final class TracebookAPI: TracebookAPIClient, Sendable {
+    private let bubbleAPI: BubbleAPI
+
+    init(bubbleAPI: BubbleAPI = BubbleAPI()) {
+        self.bubbleAPI = bubbleAPI
+    }
     
     func getMeasurementContent(id: String) async throws -> MeasurementContentBody? {
         let bubbleRequest = BubbleRequest(entity: "measurementcontent", id: id)
