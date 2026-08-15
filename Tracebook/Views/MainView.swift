@@ -58,6 +58,15 @@ struct MainView: View {
                     }
                 }
             }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                if viewModel.isOffline {
+                    OfflineNotice {
+                        Task {
+                            await synchronize()
+                        }
+                    }
+                }
+            }
             .navigationTitle("Tracebook")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: MeasurementItem.self, destination: MeasurementDetailView.init)

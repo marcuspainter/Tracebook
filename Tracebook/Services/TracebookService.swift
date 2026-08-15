@@ -16,7 +16,7 @@ final class TracebookService: Sendable {
     private var microphones: [String:String] = [:]
     private var analyzers: [String:String] = [:]
     private var interfaces: [String:String] = [:]
-    private var synchronizationTask: Task<Void, Never>?
+    private var synchronizationTask: Task<Void, Error>?
     private var offlineCachingTask: Task<Void, Never>?
     private var thumbnailPrefetchTask: Task<Void, Never>?
     private var contentSynchronizationTasks: [String: Task<Void, Error>] = [:]
@@ -46,9 +46,9 @@ final class TracebookService: Sendable {
         return MeasurementItemMapper.toModel(body: body).createdDate
     }
 
-    func synchronize() async {
+    func synchronize() async throws {
         if let synchronizationTask {
-            await synchronizationTask.value
+            try await synchronizationTask.value
             return
         }
 
@@ -59,16 +59,12 @@ final class TracebookService: Sendable {
                 synchronizationTask = nil
             }
 
-            do {
-                try await synchronizeMeasurementItems()
-                scheduleOfflineCaching()
-            } catch {
-                print(error)
-            }
+            try await synchronizeMeasurementItems()
+            scheduleOfflineCaching()
         }
 
         synchronizationTask = task
-        await task.value
+        try await task.value
     }
 
     private func scheduleThumbnailPrefetch() {
@@ -128,7 +124,7 @@ final class TracebookService: Sendable {
         let activeThumbnailPrefetchTask = thumbnailPrefetchTask
         activeThumbnailPrefetchTask?.cancel()
 
-        await activeSynchronizationTask?.value
+        _ = try? await activeSynchronizationTask?.value
         await activeOfflineCachingTask?.value
         for task in activeContentTasks {
             _ = try? await task.value

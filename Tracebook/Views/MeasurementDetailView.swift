@@ -18,7 +18,7 @@ struct MeasurementDetailView: View {
     @State var delay: Double = 0.0
     @State var threshold: Double = 0.0
     @State private var isLoadingContent = false
-    @State private var isContentUnavailable = false
+    @State private var isOffline = false
 
     let dataProcessor: MeasurementProcessor
 
@@ -40,20 +40,6 @@ struct MeasurementDetailView: View {
         Group {
             ScrollView {
                 VStack {
-                    if isContentUnavailable {
-                        HStack {
-                            Label("Trace Unavailable", systemImage: "waveform.path.ecg")
-                                .font(.footnote)
-                            Spacer()
-                            Button("Try Again") {
-                                Task {
-                                    await loadContent()
-                                }
-                            }
-                            .buttonStyle(.borderedProminent)
-                        }
-                    }
-
                     MagnitudeChart(
                         frequency: dataProcessor.frequency,
                         magnitude: dataProcessor.magnitude,
@@ -187,6 +173,15 @@ struct MeasurementDetailView: View {
                     await loadContent()
                 }
             }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                if isOffline {
+                    OfflineNotice {
+                        Task {
+                            await loadContent()
+                        }
+                    }
+                }
+            }
 
         }
     }
@@ -195,7 +190,7 @@ struct MeasurementDetailView: View {
         guard !isLoadingContent else { return }
 
         if measurement.content != nil {
-            isContentUnavailable = false
+            isOffline = false
             updateProcessorSource()
             updateAllCharts()
             return
@@ -205,12 +200,12 @@ struct MeasurementDetailView: View {
 
         do {
             try await tracebookService.synchronizeMeasurementItemContent(item: measurement)
-            isContentUnavailable = measurement.content == nil
+            isOffline = false
         } catch is CancellationError {
             isLoadingContent = false
             return
         } catch {
-            isContentUnavailable = true
+            isOffline = error.isOfflineConnectivityFailure
         }
 
         isLoadingContent = false

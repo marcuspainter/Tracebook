@@ -17,7 +17,7 @@ struct TracebookServiceTests {
         let store = makeStore()
         let service = TracebookService(api: api, store: store)
 
-        await service.synchronize()
+        try await service.synchronize()
 
         let items = try store.fetchMeasurementItems()
         #expect(Set(items.map(\.id)) == ["one", "two", "three"])

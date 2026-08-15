@@ -17,6 +17,7 @@ class MeasurementItemViewModel {
     var service: TracebookService?
     private var hasRunInitialSync = false
     private(set) var isLoadingInitialData = true
+    private(set) var isOffline = false
     
     var searchText: String = "" {
            didSet {
@@ -44,9 +45,14 @@ class MeasurementItemViewModel {
          }
      }
     
-    func synchronize() async {
+    func synchronize(reportOfflineFailure: Bool = true) async {
         guard let service else { return }
-        await service.synchronize()
+        do {
+            try await service.synchronize()
+            isOffline = false
+        } catch {
+            isOffline = reportOfflineFailure && error.isOfflineConnectivityFailure
+        }
         fetchAll()
     }
 
@@ -58,7 +64,7 @@ class MeasurementItemViewModel {
 
         isLoadingInitialData = items.isEmpty
         defer { isLoadingInitialData = false }
-        await synchronize()
+        await synchronize(reportOfflineFailure: false)
     }
     
     func fetchAll() {

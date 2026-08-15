@@ -7,6 +7,14 @@ import UIKit
 @MainActor
 struct NetworkAndThumbnailTests {
     @Test
+    func offlineClassifierOnlyRecognizesConnectivityFailures() {
+        #expect(URLError(.notConnectedToInternet).isOfflineConnectivityFailure)
+        #expect(URLError(.networkConnectionLost).isOfflineConnectivityFailure)
+        #expect(!URLError(.badServerResponse).isOfflineConnectivityFailure)
+        #expect(!StubNetworkError.invalidData.isOfflineConnectivityFailure)
+    }
+
+    @Test
     func measurementPaginationAdvancesCursorUntilComplete() async throws {
         URLProtocolStub.requestCount = 0
         URLProtocolStub.requestedCursors = []
@@ -146,6 +154,10 @@ struct NetworkAndThumbnailTests {
             context.fill(CGRect(x: 0, y: 0, width: 20, height: 20))
         }.pngData()
     }
+}
+
+private enum StubNetworkError: Error {
+    case invalidData
 }
 
 private final class URLProtocolStub: URLProtocol, @unchecked Sendable {
