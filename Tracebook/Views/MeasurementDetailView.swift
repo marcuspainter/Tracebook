@@ -18,7 +18,7 @@ struct MeasurementDetailView: View {
     @State var delay: Double = 0.0
     @State var threshold: Double = 0.0
     @State private var isLoadingContent = false
-    @State private var contentError: String?
+    @State private var isContentUnavailable = false
 
     let dataProcessor: MeasurementProcessor
 
@@ -40,18 +40,11 @@ struct MeasurementDetailView: View {
         Group {
             ScrollView {
                 VStack {
-                    if isLoadingContent {
+                    if isContentUnavailable {
                         HStack {
-                            ProgressView()
-                            Text("Downloading transfer-function data…")
-                        }
-                        .font(.footnote)
-                    } else if let contentError {
-                        ContentUnavailableView {
                             Label("Trace Unavailable", systemImage: "waveform.path.ecg")
-                        } description: {
-                            Text(contentError)
-                        } actions: {
+                                .font(.footnote)
+                            Spacer()
                             Button("Try Again") {
                                 Task {
                                     await loadContent()
@@ -61,17 +54,29 @@ struct MeasurementDetailView: View {
                         }
                     }
 
-                    MagnitudeChart(
-                        frequency: dataProcessor.frequency,
-                        magnitude: dataProcessor.magnitude,
-                        coherence: dataProcessor.coherence
-                    )
+                    ZStack {
+                        MagnitudeChart(
+                            frequency: dataProcessor.frequency,
+                            magnitude: dataProcessor.magnitude,
+                            coherence: dataProcessor.coherence
+                        )
+                        if dataProcessor.frequency.isEmpty || dataProcessor.magnitude.isEmpty {
+                            Text("No Data")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
 
-                    PhaseChart(
-                        frequency: dataProcessor.frequency,
-                        phase: dataProcessor.phase,
-                        originalPhase: dataProcessor.originalPhase
-                    )
+                    ZStack {
+                        PhaseChart(
+                            frequency: dataProcessor.frequency,
+                            phase: dataProcessor.phase,
+                            originalPhase: dataProcessor.originalPhase
+                        )
+                        if dataProcessor.frequency.isEmpty || dataProcessor.phase.isEmpty {
+                            Text("No Data")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
 
                     HStack {
                         if let url = URL(string: measurement.slug) {
@@ -202,25 +207,22 @@ struct MeasurementDetailView: View {
         guard !isLoadingContent else { return }
 
         if measurement.content != nil {
-            contentError = nil
+            isContentUnavailable = false
             updateProcessorSource()
             updateAllCharts()
             return
         }
 
         isLoadingContent = true
-        contentError = nil
 
         do {
             try await tracebookService.synchronizeMeasurementItemContent(item: measurement)
-            if measurement.content == nil {
-                contentError = "This trace has not been downloaded.\nCheck your connection and try again."
-            }
+            isContentUnavailable = measurement.content == nil
         } catch is CancellationError {
             isLoadingContent = false
             return
         } catch {
-            contentError = "This trace has not been downloaded.\nCheck your connection and try again."
+            isContentUnavailable = true
         }
 
         isLoadingContent = false
