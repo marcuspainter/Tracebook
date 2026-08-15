@@ -26,7 +26,7 @@ private struct AppBootstrapView: View {
                 MainView()
                     .environment(tracebookService)
             } else {
-                ProgressView("Loading…")
+                LoadingLabel()
                     .task {
                         try? await Task.sleep(for: .milliseconds(100))
                         guard !Task.isCancelled else { return }

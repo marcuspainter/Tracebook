@@ -20,7 +20,7 @@ struct MainView: View {
         NavigationStack {
             VStack {
                 if viewModel.items.isEmpty && viewModel.searchText.isEmpty && viewModel.isLoadingInitialData {
-                    ProgressView("Loading…")
+                    LoadingLabel()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.items.isEmpty {
                     GeometryReader { geometry in

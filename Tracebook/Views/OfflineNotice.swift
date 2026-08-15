@@ -20,8 +20,14 @@ struct OfflineNotice: View {
                     Spacer()
 
                     Button(action: retry) {
-                        Text(isRetrying ? "Loading…" : "Try Again")
-                            .frame(minWidth: 70)
+                        Group {
+                            if isRetrying {
+                                LoadingLabel()
+                            } else {
+                                Text("Try Again")
+                            }
+                        }
+                        .frame(minWidth: 70)
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(isRetrying)
