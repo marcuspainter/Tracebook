@@ -23,28 +23,30 @@ struct MainView: View {
                     ProgressView("Loading…")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
-                    List {
-                        ForEach(viewModel.items) { measurement in
-                            NavigationLink(value: measurement) {
-                                MeasurementItemView(measurement: measurement)
-                            }
-                        }.listRowBackground(Color.clear)
-                    }
-                    .listStyle(.plain)
-                    .overlay {
+                    ZStack {
+                        List {
+                            ForEach(viewModel.items) { measurement in
+                                NavigationLink(value: measurement) {
+                                    MeasurementItemView(measurement: measurement)
+                                }
+                            }.listRowBackground(Color.clear)
+                        }
+                        .listStyle(.plain)
+                        .refreshable {
+// https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
+                            await synchronize()
+                        }
+
                         if viewModel.items.isEmpty && !viewModel.searchText.isEmpty {
-                            /// In case there aren't any search results, we can
-                            /// show the new content unavailable view.
                             ContentUnavailableView.search
+                                .allowsHitTesting(false)
                         } else if viewModel.items.isEmpty {
                             ContentUnavailableView(
                                 "No Traces",
-                                systemImage: "doc.text")
+                                systemImage: "doc.text"
+                            )
+                            .allowsHitTesting(false)
                         }
-                    }
-                    .refreshable {
-// https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
-                        await synchronize()
                     }
                 }
             }
