@@ -16,7 +16,6 @@ struct SettingsView: View {
 
     @State private var isShowingResetConfirmation = false
     @State private var isResettingOfflineData = false
-    @State private var resetResultMessage: String?
 
     var supportURL: String = ""
     var privacyPolicyURL: String = ""
@@ -102,14 +101,6 @@ struct SettingsView: View {
                     Text("Remove downloaded measurements and images from this device. Website data is not affected.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
-
-                    if isResettingOfflineData {
-                        ProgressView("Clearing offline data…")
-                    } else if let resetResultMessage {
-                        Text(resetResultMessage)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
                 } header: {
                     Text("Database")
                 }
@@ -134,14 +125,8 @@ struct SettingsView: View {
 
     private func resetOfflineData() {
         isResettingOfflineData = true
-        resetResultMessage = nil
-
         Task {
-            do {
-                try await tracebookService.resetOfflineData()
-            } catch {
-                resetResultMessage = "Could not clear offline data: \(error.localizedDescription)"
-            }
+            try? await tracebookService.resetOfflineData()
             isResettingOfflineData = false
         }
     }
