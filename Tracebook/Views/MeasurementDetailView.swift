@@ -40,6 +40,26 @@ struct MeasurementDetailView: View {
         Group {
             ScrollView {
                 VStack {
+                    if isLoadingContent {
+                        HStack {
+                            ProgressView()
+                            Text("Downloading transfer-function data…")
+                        }
+                        .font(.footnote)
+                    } else if let contentError {
+                        ContentUnavailableView {
+                            Label("Transfer Function Unavailable", systemImage: "waveform.path.ecg")
+                        } description: {
+                            Text(contentError)
+                        } actions: {
+                            Button("Try Again") {
+                                Task {
+                                    await loadContent()
+                                }
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                    }
 
                     MagnitudeChart(
                         frequency: dataProcessor.frequency,
@@ -52,20 +72,6 @@ struct MeasurementDetailView: View {
                         phase: dataProcessor.phase,
                         originalPhase: dataProcessor.originalPhase
                     )
-
-                    if isLoadingContent {
-                        HStack {
-                            ProgressView()
-                            Text("Downloading transfer-function data…")
-                        }
-                        .font(.footnote)
-                    } else if let contentError {
-                        ContentUnavailableView(
-                            "Transfer Function Unavailable",
-                            systemImage: "waveform.path.ecg",
-                            description: Text(contentError)
-                        )
-                    }
 
                     HStack {
                         if let url = URL(string: measurement.slug) {
@@ -189,22 +195,41 @@ struct MeasurementDetailView: View {
                 .navigationTitle(measurement.title)
                 .navigationBarTitleDisplayMode(.inline)
                 .task(id: measurement.content?.id) {
-                    if measurement.content == nil {
-                        isLoadingContent = true
-                        contentError = nil
-                        do {
-                            try await tracebookService.synchronizeMeasurementItemContent(item: measurement)
-                        } catch {
-                            contentError = error.localizedDescription
-                        }
-                        isLoadingContent = false
-                    }
-                    updateProcessorSource()
-                    updateAllCharts()
+                    await loadContent()
                 }
             }
 
         }
+    }
+
+    func loadContent() async {
+        guard !isLoadingContent else { return }
+
+        if measurement.content != nil {
+            contentError = nil
+            updateProcessorSource()
+            updateAllCharts()
+            return
+        }
+
+        isLoadingContent = true
+        contentError = nil
+
+        do {
+            try await tracebookService.synchronizeMeasurementItemContent(item: measurement)
+            if measurement.content == nil {
+                contentError = "This detail has not been downloaded. Check your connection and try again."
+            }
+        } catch is CancellationError {
+            isLoadingContent = false
+            return
+        } catch {
+            contentError = "This detail has not been downloaded. Check your connection and try again."
+        }
+
+        isLoadingContent = false
+        updateProcessorSource()
+        updateAllCharts()
     }
 
     func updateAllCharts() {
