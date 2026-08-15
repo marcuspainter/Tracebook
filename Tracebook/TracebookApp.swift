@@ -26,7 +26,7 @@ private struct AppBootstrapView: View {
                 MainView()
                     .environment(tracebookService)
             } else {
-                ProgressView("Opening Tracebook…")
+                ProgressView("Loading…")
                     .task {
                         await Task.yield()
                         tracebookService = TracebookService()

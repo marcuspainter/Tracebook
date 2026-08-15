@@ -33,7 +33,7 @@ struct MainView: View {
                             /// show the new content unavailable view.
                             ContentUnavailableView.search
                         } else if viewModel.isLoadingInitialData {
-                            ProgressView("Downloading measurements…")
+                            ProgressView("Loading…")
                         } else if viewModel.items.isEmpty {
                             ContentUnavailableView(
                                 "No Traces",
