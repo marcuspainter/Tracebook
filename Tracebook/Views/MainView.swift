@@ -19,6 +19,10 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                if viewModel.items.isEmpty && viewModel.searchText.isEmpty && viewModel.isLoadingInitialData {
+                    ProgressView("Loading…")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
                     List {
                         ForEach(viewModel.items) { measurement in
                             NavigationLink(value: measurement) {
@@ -32,8 +36,6 @@ struct MainView: View {
                             /// In case there aren't any search results, we can
                             /// show the new content unavailable view.
                             ContentUnavailableView.search
-                        } else if viewModel.isLoadingInitialData {
-                            ProgressView("Loading…")
                         } else if viewModel.items.isEmpty {
                             ContentUnavailableView(
                                 "No Traces",
@@ -44,6 +46,7 @@ struct MainView: View {
 // https://stackoverflow.com/questions/74977787/why-is-async-task-cancelled-in-a-refreshable-modifier-on-a-scrollview-ios-16
                         await synchronize()
                     }
+                }
             }
             .navigationTitle("Tracebook")
             .navigationBarTitleDisplayMode(.inline)

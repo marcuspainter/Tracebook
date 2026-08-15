@@ -28,7 +28,8 @@ private struct AppBootstrapView: View {
             } else {
                 ProgressView("Loading…")
                     .task {
-                        await Task.yield()
+                        try? await Task.sleep(for: .milliseconds(100))
+                        guard !Task.isCancelled else { return }
                         tracebookService = TracebookService()
                     }
             }
