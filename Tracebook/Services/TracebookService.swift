@@ -17,6 +17,7 @@ final class TracebookService: Sendable {
     private var analyzers: [String:String] = [:]
     private var interfaces: [String:String] = [:]
     private var synchronizationTask: Task<Void, Never>?
+    private var offlineCachingTask: Task<Void, Never>?
     private var thumbnailPrefetchTask: Task<Void, Never>?
     private var contentSynchronizationTasks: [String: Task<Void, Error>] = [:]
     private(set) var isSynchronizing = false
@@ -61,11 +62,8 @@ final class TracebookService: Sendable {
             do {
                 try await synchronizeMeasurementItems(onPageInserted: onPageInserted)
 
-                scheduleThumbnailPrefetch()
-
                 onPageInserted?()
-
-                try await synchronizeMeasurementContents()
+                scheduleOfflineCaching()
             } catch {
                 print(error)
             }
@@ -87,7 +85,25 @@ final class TracebookService: Sendable {
         }
     }
 
+    private func scheduleOfflineCaching() {
+        scheduleThumbnailPrefetch()
+
+        offlineCachingTask?.cancel()
+        offlineCachingTask = Task { @MainActor in
+            do {
+                try await synchronizeMeasurementContents()
+            } catch is CancellationError {
+                return
+            } catch {
+                print(error)
+            }
+        }
+    }
+
     func synchronizeMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
+        var knownItems = Dictionary(
+            uniqueKeysWithValues: try store.fetchMeasurementItems().map { ($0.id, $0) }
+        )
         var fromDate: String = "2010-01-01T00:00:00Z"
         if let date1 = fetchMostRecentModificationDate() {
             let formatter = ISO8601DateFormatter()
@@ -96,15 +112,18 @@ final class TracebookService: Sendable {
         }
 
         try await api.forEachMeasurementPage(modifiedAfter: fromDate, createdBefore: nil) { measurements in
-            try upsertMeasurementItems(measurements)
+            try upsertMeasurementItems(measurements, knownItems: &knownItems)
             onPageInserted?()
         }
-        try await backfillMeasurementItems(onPageInserted: onPageInserted)
+        try await backfillMeasurementItems(knownItems: &knownItems, onPageInserted: onPageInserted)
     }
 
     func resetOfflineData() async throws {
         let activeSynchronizationTask = synchronizationTask
         activeSynchronizationTask?.cancel()
+
+        let activeOfflineCachingTask = offlineCachingTask
+        activeOfflineCachingTask?.cancel()
 
         let activeContentTasks = Array(contentSynchronizationTasks.values)
         activeContentTasks.forEach { $0.cancel() }
@@ -113,11 +132,13 @@ final class TracebookService: Sendable {
         activeThumbnailPrefetchTask?.cancel()
 
         await activeSynchronizationTask?.value
+        await activeOfflineCachingTask?.value
         for task in activeContentTasks {
             _ = try? await task.value
         }
         await activeThumbnailPrefetchTask?.value
         contentSynchronizationTasks.removeAll()
+        offlineCachingTask = nil
         thumbnailPrefetchTask = nil
 
         try store.deleteAllOfflineData()
@@ -125,7 +146,10 @@ final class TracebookService: Sendable {
         offlineDataRevision += 1
     }
 
-    private func backfillMeasurementItems(onPageInserted: (() -> Void)? = nil) async throws {
+    private func backfillMeasurementItems(
+        knownItems: inout [String: MeasurementItem],
+        onPageInserted: (() -> Void)? = nil
+    ) async throws {
         guard let date = fetchLastMeasurementDate() else { return }
 
         let formatter = ISO8601DateFormatter()
@@ -133,21 +157,28 @@ final class TracebookService: Sendable {
         let beforeDate = formatter.string(from: date)
 
         try await api.forEachMeasurementPage(modifiedAfter: nil, createdBefore: beforeDate) { measurements in
-            try upsertMeasurementItems(measurements)
+            try upsertMeasurementItems(measurements, knownItems: &knownItems)
             onPageInserted?()
         }
     }
 
-    private func upsertMeasurementItems(_ measurements: [MeasurementBody]) throws {
+    private func upsertMeasurementItems(
+        _ measurements: [MeasurementBody],
+        knownItems: inout [String: MeasurementItem]
+    ) throws {
+        var newItems: [MeasurementItem] = []
+
         for measurement in measurements {
-            if let existingModel = try store.fetchMeasurementItem(id: measurement.id) {
+            if let existingModel = knownItems[measurement.id] {
                 MeasurementItemMapper.update(model: existingModel, from: measurement)
-                try store.save()
             } else {
-                let model = MeasurementItemMapper.toModel(body: measurement)
-                try store.insertMeasurementItem(measurement: model)
+                let newItem = MeasurementItemMapper.toModel(body: measurement)
+                knownItems[measurement.id] = newItem
+                newItems.append(newItem)
             }
         }
+
+        try store.insertMeasurementItems(newItems)
     }
 
     func synchronizeDetails() async throws {

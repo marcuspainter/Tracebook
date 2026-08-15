@@ -7,6 +7,24 @@ import Testing
 @MainActor
 struct TracebookServiceTests {
     @Test
+    func measurementPagesAreBatchedAndLaterPagesUpdateEarlierItems() async throws {
+        let firstVersion = measurementBody(id: "one", title: "Original")
+        let secondVersion = measurementBody(id: "one", title: "Updated")
+        let api = StubTracebookAPI(measurementPages: [
+            [firstVersion, measurementBody(id: "two", title: "Second")],
+            [secondVersion, measurementBody(id: "three", title: "Third")]
+        ])
+        let store = makeStore()
+        let service = TracebookService(api: api, store: store)
+
+        await service.synchronize()
+
+        let items = try store.fetchMeasurementItems()
+        #expect(Set(items.map(\.id)) == ["one", "two", "three"])
+        #expect(items.first(where: { $0.id == "one" })?.title == "Updated")
+    }
+
+    @Test
     func simultaneousContentRequestsShareOneAPICall() async throws {
         let api = StubTracebookAPI()
         let store = makeStore()
@@ -67,15 +85,25 @@ struct TracebookServiceTests {
             configuration: ModelConfiguration(UUID().uuidString, isStoredInMemoryOnly: true)
         )
     }
+
+    private func measurementBody(id: String, title: String) -> MeasurementBody {
+        let body = MeasurementBody()
+        body.id = id
+        body.title = title
+        body.isPublic = true
+        return body
+    }
 }
 
 @MainActor
 private final class StubTracebookAPI: TracebookAPIClient {
     private(set) var contentRequestCount = 0
     private var failuresRemaining: Int
+    private let measurementPages: [[MeasurementBody]]
 
-    init(failuresRemaining: Int = 0) {
+    init(failuresRemaining: Int = 0, measurementPages: [[MeasurementBody]] = []) {
         self.failuresRemaining = failuresRemaining
+        self.measurementPages = measurementPages
     }
 
     func getMeasurementContent(id: String) async throws -> MeasurementContentBody? {
@@ -94,7 +122,12 @@ private final class StubTracebookAPI: TracebookAPIClient {
         modifiedAfter: String?,
         createdBefore: String?,
         _ handlePage: ([MeasurementBody]) throws -> Void
-    ) async throws {}
+    ) async throws {
+        guard createdBefore == nil else { return }
+        for page in measurementPages {
+            try handlePage(page)
+        }
+    }
 
     func getLastMeasurement() async throws -> MeasurementBody? { nil }
     func getMicrophones() async throws -> [MicrophoneBody] { [] }

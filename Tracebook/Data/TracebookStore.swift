@@ -19,6 +19,7 @@ class TracebookStore {
             if let configuration {
                 container = try ModelContainer(for: schema, configurations: [configuration])
             } else {
+                try Self.preparePersistentStoreDirectory()
                 container = try ModelContainer(for: schema)
             }
             context = ModelContext(container)
@@ -104,6 +105,13 @@ class TracebookStore {
         try context.save()
     }
 
+    func insertMeasurementItems(_ measurements: [MeasurementItem]) throws {
+        for measurement in measurements {
+            context.insert(measurement)
+        }
+        try context.save()
+    }
+
     func deleteAllOfflineData() throws {
         try context.delete(model: MeasurementItem.self)
         try context.delete(model: MeasurementContent.self)
@@ -117,6 +125,20 @@ class TracebookStore {
         if let model {
             context.delete(model)
             try context.save()
+        }
+    }
+
+    private static func preparePersistentStoreDirectory() throws {
+        let fileManager = FileManager.default
+        let directory = try fileManager.url(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true
+        )
+
+        if !fileManager.fileExists(atPath: directory.path) {
+            try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
         }
     }
 }

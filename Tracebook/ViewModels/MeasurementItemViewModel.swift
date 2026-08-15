@@ -16,6 +16,7 @@ class MeasurementItemViewModel {
     private(set) var items: [MeasurementItem] = []
     var service: TracebookService?
     private var hasRunInitialSync = false
+    private(set) var isLoadingInitialData = true
     
     var searchText: String = "" {
            didSet {
@@ -58,6 +59,8 @@ class MeasurementItemViewModel {
         guard !hasRunInitialSync else { return }
         hasRunInitialSync = true
 
+        isLoadingInitialData = items.isEmpty
+        defer { isLoadingInitialData = false }
         await synchronize()
     }
     

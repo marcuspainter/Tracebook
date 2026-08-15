@@ -7,6 +7,19 @@ import Testing
 @MainActor
 struct TracebookStoreTests {
     @Test
+    func batchInsertPersistsEveryItemInOneOperation() throws {
+        let store = makeStore()
+
+        try store.insertMeasurementItems([
+            MeasurementItem(id: "one"),
+            MeasurementItem(id: "two"),
+            MeasurementItem(id: "three")
+        ])
+
+        #expect(Set(try store.fetchMeasurementItems().map(\.id)) == ["one", "two", "three"])
+    }
+
+    @Test
     func deleteAllOfflineDataRemovesItemsAndContentAndStoreRemainsUsable() throws {
         let store = makeStore()
         let item = MeasurementItem(id: "measurement", additionalContent: "content")

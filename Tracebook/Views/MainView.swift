@@ -32,6 +32,8 @@ struct MainView: View {
                             /// In case there aren't any search results, we can
                             /// show the new content unavailable view.
                             ContentUnavailableView.search
+                        } else if viewModel.isLoadingInitialData {
+                            ProgressView("Downloading measurements…")
                         } else if viewModel.items.isEmpty {
                             ContentUnavailableView(
                                 "No Traces",

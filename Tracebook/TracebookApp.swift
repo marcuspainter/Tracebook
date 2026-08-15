@@ -6,18 +6,32 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct TracebookApp: App {
-    @State var tracebookService  = TracebookService()
-    
     var body: some Scene {
         WindowGroup {
-            MainView()
-            //ContentView()
-            //    .modelContainer(for: [MeasurementItem.self, MeasurementContent.self])
+            AppBootstrapView()
         }
-        .environment(self.tracebookService)
+    }
+}
+
+@MainActor
+private struct AppBootstrapView: View {
+    @State private var tracebookService: TracebookService?
+
+    var body: some View {
+        Group {
+            if let tracebookService {
+                MainView()
+                    .environment(tracebookService)
+            } else {
+                ProgressView("Opening Tracebook…")
+                    .task {
+                        await Task.yield()
+                        tracebookService = TracebookService()
+                    }
+            }
+        }
     }
 }
