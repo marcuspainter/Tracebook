@@ -130,6 +130,8 @@ struct MeasurementDetailView: View {
 
                     let content = measurement.content
 
+                    Divider()
+
                     TextLine(text: "Calibrator Reference:", value: content?.calibrator)
                     TextLine(text: "Microphone:", value: content?.microphoneText)
                     TextLine(text: "Distance:", value: valueUnit(content?.distance, content?.distanceUnits))
