@@ -87,7 +87,7 @@ struct MeasurementDetailView: View {
                         Button("Reset") {
                             resetChart()
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(.borderedProminent)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                     .onChange(of: isPolarityInverted) { _, _ in
