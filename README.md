@@ -1,5 +1,7 @@
 # Tracebook iOS App
 
+Architecture and contributor guidance are documented in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [AGENTS.md](AGENTS.md).
+
 ![Tracebook Logo](https://c2b1d9fa5c3d26f2666647d298a3ed0a.cdn.bubble.io/f1607387294628x364723563952972000/Trace_logo_2.svg)
 
 The Tracebook website is hosted on Bubble, a no-code website builder platform. The website can expose a database using a simple REST API. 
