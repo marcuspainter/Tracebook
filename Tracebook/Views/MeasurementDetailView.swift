@@ -48,7 +48,7 @@ struct MeasurementDetailView: View {
                         .font(.footnote)
                     } else if let contentError {
                         ContentUnavailableView {
-                            Label("Transfer Function Unavailable", systemImage: "waveform.path.ecg")
+                            Label("Trace Unavailable", systemImage: "waveform.path.ecg")
                         } description: {
                             Text(contentError)
                         } actions: {
