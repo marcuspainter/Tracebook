@@ -218,13 +218,13 @@ struct MeasurementDetailView: View {
         do {
             try await tracebookService.synchronizeMeasurementItemContent(item: measurement)
             if measurement.content == nil {
-                contentError = "This detail has not been downloaded. Check your connection and try again."
+                contentError = "This trace has not been downloaded. Check your connection and try again."
             }
         } catch is CancellationError {
             isLoadingContent = false
             return
         } catch {
-            contentError = "This detail has not been downloaded. Check your connection and try again."
+            contentError = "This trace has not been downloaded. Check your connection and try again."
         }
 
         isLoadingContent = false
