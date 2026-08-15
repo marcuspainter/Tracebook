@@ -59,7 +59,10 @@ struct MainView: View {
                 }
             }
             .safeAreaInset(edge: .top, spacing: 0) {
-                OfflineNotice(isPresented: viewModel.isOffline) {
+                OfflineNotice(
+                    isPresented: viewModel.isOffline,
+                    isRetrying: tracebookService.isSynchronizing
+                ) {
                     Task {
                         await synchronize()
                     }
