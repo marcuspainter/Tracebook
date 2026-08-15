@@ -2,7 +2,6 @@ import SwiftUI
 
 struct OfflineNotice: View {
     let isPresented: Bool
-    var isRetrying = false
     let retry: () -> Void
 
     var body: some View {
@@ -19,18 +18,8 @@ struct OfflineNotice: View {
 
                     Spacer()
 
-                    Button(action: retry) {
-                        Group {
-                            if isRetrying {
-                                LoadingLabel(layout: .horizontal)
-                            } else {
-                                Text("Try Again")
-                            }
-                        }
-                        .frame(width: 100)
-                    }
+                    Button("Try Again", action: retry)
                     .buttonStyle(.borderedProminent)
-                    .disabled(isRetrying)
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 8)

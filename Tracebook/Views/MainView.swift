@@ -19,7 +19,10 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.items.isEmpty && viewModel.searchText.isEmpty && viewModel.isLoadingInitialData {
+                if viewModel.isOffline && tracebookService.isSynchronizing {
+                    LoadingLabel()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.items.isEmpty && viewModel.searchText.isEmpty && viewModel.isLoadingInitialData {
                     LoadingLabel()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.items.isEmpty {
@@ -60,8 +63,7 @@ struct MainView: View {
             }
             .safeAreaInset(edge: .top, spacing: 0) {
                 OfflineNotice(
-                    isPresented: viewModel.isOffline,
-                    isRetrying: tracebookService.isSynchronizing
+                    isPresented: viewModel.isOffline && !tracebookService.isSynchronizing
                 ) {
                     Task {
                         await synchronize()
